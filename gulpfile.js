@@ -9,21 +9,21 @@ var less = require("gulp-less");
 const EXPORT_DIST_DIR = path.join(__dirname, "dist");
 
 const watchPaths = [
-    "./src/scripts/**/*.js",
-    "./src/*.js",
-    "./src/scripts/**/*.jsx",
-    "./src/**/*.html",
-    "./src/**/*.css",
-    "./src/**/*.less",
+    "./ui/scripts/**/*.js",
+    "./ui/*.js",
+    "./ui/scripts/**/*.jsx",
+    "./ui/**/*.html",
+    "./ui/**/*.css",
+    "./ui/**/*.less",
 ];
 
 function generateJs() {
     return src([
-        "./src/app.config.js",
-        "./src/app.core-fns.js",
-        "./src/scripts/**/*.js",
-        "./src/scripts/**/*.jsx",
-        "./src/app.bootstrap.js",
+        "./ui/app.config.js",
+        "./ui/app.core-fns.js",
+        "./ui/scripts/**/*.js",
+        "./ui/scripts/**/*.jsx",
+        "./ui/app.bootstrap.js",
     ])
         .pipe(concat("ui.js"))
         .pipe(
@@ -37,7 +37,7 @@ function generateJs() {
 }
 
 function processLess() {
-    return src("./src/styles/**/*.less")
+    return src("./ui/styles/**/*.less")
         .pipe(
             less({
                 paths: [path.join(__dirname, "less", "includes")],
@@ -48,13 +48,13 @@ function processLess() {
 }
 
 function generateCss() {
-    return src(["./src/styles/**/*.css", "./dist/less.css"])
+    return src(["./ui/styles/**/*.css", "./dist/less.css"])
         .pipe(concat("ui.css"))
         .pipe(dest("./dist"));
 }
 
 function generateHtml() {
-    return src("./src/*.html")
+    return src("./ui/*.html")
         .pipe(inlinesource({ compress: true }))
         .pipe(dest("./dist"));
 }
