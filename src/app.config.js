@@ -4,4 +4,5 @@ window.GameManager = window.GameManager || {};
     app.config = {};
     app.components = {};
     app.helpers = {};
+    app.state = {};
 })(GameManager);

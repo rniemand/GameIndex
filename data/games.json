@@ -1,0 +1,12 @@
+[
+    {
+        "id":1,
+        "name":"Civilization VI",
+        "platform":"Switch",
+        "cover":"url",
+        "location": "home",
+        "protection": true,
+        "case": "01-C4",
+        "hasCase": "true"
+    }
+]

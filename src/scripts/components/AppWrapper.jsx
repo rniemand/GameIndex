@@ -5,7 +5,18 @@
         }
 
         render() {
-            return (<div>App</div>);
+            return (<React.Fragment>
+                <semanticUIReact.Container>
+                    <semanticUIReact.Menu>
+                        <semanticUIReact.Menu.Item>
+                            Item
+                        </semanticUIReact.Menu.Item>
+                        <semanticUIReact.Menu.Item>
+                            Item
+                        </semanticUIReact.Menu.Item>
+                    </semanticUIReact.Menu>
+                </semanticUIReact.Container>
+            </React.Fragment>);
         }
     }
 
