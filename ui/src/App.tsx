@@ -1,8 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { WeatherForecastClient } from './api';
+import { TestComponent } from './components/Test';
 
 function App() {
+  const client = new WeatherForecastClient();
+
+  client.get().then((response) => {
+    console.log(response);
+  });
+
   return (
     <div className="App">
       <header className="App-header">
@@ -10,6 +18,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+        <TestComponent />
         <a
           className="App-link"
           href="https://reactjs.org"
