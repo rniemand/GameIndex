@@ -21,7 +21,7 @@ public class GamesRepo : IGamesRepo
   public async Task<List<GameEntity>> GetAllAsync()
   {
     const string query = @"SELECT
-	    `GameId` AS `GameID`,
+	    `GameID`,
 	    `GameName`
     FROM `Games`";
     await using var connection = _connectionHelper.GetCoreConnection();
