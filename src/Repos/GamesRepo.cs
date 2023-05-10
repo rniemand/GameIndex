@@ -6,7 +6,7 @@ namespace GameIndex.Repos;
 
 public interface IGamesRepo
 {
-  Task<List<GameEntity>> GetAllAsync();
+  Task<List<GameEntity>> GetAllAsync(int platformId);
 }
 
 public class GamesRepo : IGamesRepo
@@ -18,13 +18,20 @@ public class GamesRepo : IGamesRepo
     _connectionHelper = connectionHelper;
   }
 
-  public async Task<List<GameEntity>> GetAllAsync()
+  public async Task<List<GameEntity>> GetAllAsync(int platformId)
   {
     const string query = @"SELECT
-	    `GameID`,
-	    `GameName`
-    FROM `Games`";
+	    g.GameID,
+	    g.GameName,
+	    g.PlatformID,
+	    g.LocationID,
+	    g.GameCase,
+	    g.HasCover,
+	    g.Rating
+    FROM `Games` g
+    WHERE g.PlatformID = @PlatformID
+    ORDER BY g.GameName";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return (await connection.QueryAsync<GameEntity>(query)).ToList();
+    return (await connection.QueryAsync<GameEntity>(query, new { PlatformID = platformId })).ToList();
   }
 }

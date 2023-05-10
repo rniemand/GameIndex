@@ -22,11 +22,11 @@ public class ImageController : ControllerBase
     _file = file;
   }
 
-  [Route("game/{gameId:long}")]
-  public async Task<ActionResult> GetImage([FromRoute] long gameId)
+  [Route("game/{platform}/{gameId:long}")]
+  public async Task<ActionResult> GetImage([FromRoute] string platform, [FromRoute] long gameId)
   {
     var gameCoverEntity = await _gameImagesRepo.GetGameCoverImageAsync(gameId);
-    var fallbackPath = _pathHelper.ResolveImagePath("covers/switch/placeholder.png");
+    var fallbackPath = _pathHelper.ResolveImagePath($"covers/{platform}/placeholder.png");
 
     if (!_file.Exists(fallbackPath))
       throw new Exception("Unable to resolve placeholder image");

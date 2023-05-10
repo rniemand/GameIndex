@@ -15,10 +15,6 @@ public class GamesController : ControllerBase
     _gamesRepo = gamesRepo;
   }
 
-  [HttpGet("")]
-  public async Task<List<GameEntity>> GetAllGames()
-  {
-    var games = await _gamesRepo.GetAllAsync();
-    return games;
-  }
+  [HttpGet("{platformId:int}")]
+  public async Task<List<GameEntity>> GetAllGames([FromRoute] int platformId) => await _gamesRepo.GetAllAsync(platformId);
 }

@@ -108,7 +108,7 @@ export class GameInfoClient implements IGameInfoClient {
 
 export interface IGamesClient {
 
-    getAllGames(): Promise<GameEntity[]>;
+    getAllGames(platformId: number): Promise<GameEntity[]>;
 }
 
 export class GamesClient implements IGamesClient {
@@ -121,8 +121,11 @@ export class GamesClient implements IGamesClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getAllGames(): Promise<GameEntity[]> {
-        let url_ = this.baseUrl + "/Games";
+    getAllGames(platformId: number): Promise<GameEntity[]> {
+        let url_ = this.baseUrl + "/Games/{platformId}";
+        if (platformId === undefined || platformId === null)
+            throw new Error("The parameter 'platformId' must be defined.");
+        url_ = url_.replace("{platformId}", encodeURIComponent("" + platformId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -165,7 +168,7 @@ export class GamesClient implements IGamesClient {
 
 export interface IImageClient {
 
-    getImage(gameId: number): Promise<FileResponse | null>;
+    getImage(platform: string, gameId: number): Promise<FileResponse | null>;
 }
 
 export class ImageClient implements IImageClient {
@@ -178,8 +181,11 @@ export class ImageClient implements IImageClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getImage(gameId: number): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/Image/game/{gameId}";
+    getImage(platform: string, gameId: number): Promise<FileResponse | null> {
+        let url_ = this.baseUrl + "/Image/game/{platform}/{gameId}";
+        if (platform === undefined || platform === null)
+            throw new Error("The parameter 'platform' must be defined.");
+        url_ = url_.replace("{platform}", encodeURIComponent("" + platform));
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
         url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
@@ -280,6 +286,11 @@ export class WeatherForecastClient implements IWeatherForecastClient {
 export class GameEntity implements IGameEntity {
     gameID!: number;
     gameName!: string;
+    platformID!: number;
+    locationID!: number;
+    gameCase!: string;
+    hasCover!: boolean;
+    rating!: number;
 
     constructor(data?: IGameEntity) {
         if (data) {
@@ -294,6 +305,11 @@ export class GameEntity implements IGameEntity {
         if (_data) {
             this.gameID = _data["gameID"];
             this.gameName = _data["gameName"];
+            this.platformID = _data["platformID"];
+            this.locationID = _data["locationID"];
+            this.gameCase = _data["gameCase"];
+            this.hasCover = _data["hasCover"];
+            this.rating = _data["rating"];
         }
     }
 
@@ -308,6 +324,11 @@ export class GameEntity implements IGameEntity {
         data = typeof data === 'object' ? data : {};
         data["gameID"] = this.gameID;
         data["gameName"] = this.gameName;
+        data["platformID"] = this.platformID;
+        data["locationID"] = this.locationID;
+        data["gameCase"] = this.gameCase;
+        data["hasCover"] = this.hasCover;
+        data["rating"] = this.rating;
         return data;
     }
 }
@@ -315,6 +336,11 @@ export class GameEntity implements IGameEntity {
 export interface IGameEntity {
     gameID: number;
     gameName: string;
+    platformID: number;
+    locationID: number;
+    gameCase: string;
+    hasCover: boolean;
+    rating: number;
 }
 
 export class WeatherForecast implements IWeatherForecast {
