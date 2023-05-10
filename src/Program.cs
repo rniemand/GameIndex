@@ -1,3 +1,5 @@
+using GameIndex.Extensions;
+
 namespace GameIndex;
 
 public class Program
@@ -9,6 +11,7 @@ public class Program
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddSwaggerDocument();
+    builder.Services.AddGameIndex();
     var app = builder.Build();
 
     app.UseOpenApi();

@@ -1,0 +1,17 @@
+version: '3.6'
+name: game-index
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_USER: gameindex
+      MARIADB_PASSWORD: password
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: GameIndex
+    
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+
+    ports:
+      - 3306:3306

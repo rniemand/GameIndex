@@ -106,6 +106,63 @@ export class GameInfoClient implements IGameInfoClient {
     }
 }
 
+export interface IGamesClient {
+
+    getAllGames(): Promise<GameEntity[]>;
+}
+
+export class GamesClient implements IGamesClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    getAllGames(): Promise<GameEntity[]> {
+        let url_ = this.baseUrl + "/Games";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAllGames(_response);
+        });
+    }
+
+    protected processGetAllGames(response: Response): Promise<GameEntity[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GameEntity.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GameEntity[]>(null as any);
+    }
+}
+
 export interface IWeatherForecastClient {
 
     get(): Promise<WeatherForecast[]>;
@@ -161,6 +218,46 @@ export class WeatherForecastClient implements IWeatherForecastClient {
         }
         return Promise.resolve<WeatherForecast[]>(null as any);
     }
+}
+
+export class GameEntity implements IGameEntity {
+    gameId!: number;
+    gameName!: string;
+
+    constructor(data?: IGameEntity) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.gameId = _data["gameId"];
+            this.gameName = _data["gameName"];
+        }
+    }
+
+    static fromJS(data: any): GameEntity {
+        data = typeof data === 'object' ? data : {};
+        let result = new GameEntity();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["gameId"] = this.gameId;
+        data["gameName"] = this.gameName;
+        return data;
+    }
+}
+
+export interface IGameEntity {
+    gameId: number;
+    gameName: string;
 }
 
 export class WeatherForecast implements IWeatherForecast {

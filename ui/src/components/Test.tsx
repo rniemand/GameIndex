@@ -1,23 +1,21 @@
 import React from "react";
-import { GameInfoClient, IGameInfoClient } from "../api";
+import { GamesClient } from "../api";
 
 
 export class TestComponent extends React.Component {
-  gameInfoClient: IGameInfoClient;
+  gamesClient: GamesClient;
 
   constructor(props: any) {
     super(props);
 
-    this.gameInfoClient = new GameInfoClient();
+    this.gamesClient = new GamesClient();
   }
 
 
   render(): React.ReactNode {
-    this.gameInfoClient.getGameNames().then((names) => {
-      console.log(names);
+    this.gamesClient.getAllGames().then(games => {
+      console.log(games);
     });
-
-    this.gameInfoClient.saveSomething("hello").then(response => console.log(response));
 
     return (<div>Hello</div>);
   }
