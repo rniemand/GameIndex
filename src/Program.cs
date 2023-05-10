@@ -11,7 +11,7 @@ public class Program
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddSwaggerDocument();
-    builder.Services.AddGameIndex();
+    builder.Services.AddGameIndex(builder.Configuration);
     var app = builder.Build();
 
     app.UseOpenApi();
