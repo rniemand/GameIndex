@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace GameIndex.Helpers;
 
@@ -33,8 +33,16 @@ public class ConnectionHelper : IConnectionHelper
 
     var connection = new MySqlConnection(_connectionStrings[name]);
 
-    if (connection.State != ConnectionState.Open)
-      connection.Open();
+    try
+    {
+      if (connection.State != ConnectionState.Open)
+        connection.Open();
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine(ex);
+      throw;
+    }
 
     return connection;
   }

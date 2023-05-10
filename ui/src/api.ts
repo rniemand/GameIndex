@@ -221,7 +221,7 @@ export class WeatherForecastClient implements IWeatherForecastClient {
 }
 
 export class GameEntity implements IGameEntity {
-    gameId!: number;
+    gameID!: number;
     gameName!: string;
 
     constructor(data?: IGameEntity) {
@@ -235,7 +235,7 @@ export class GameEntity implements IGameEntity {
 
     init(_data?: any) {
         if (_data) {
-            this.gameId = _data["gameId"];
+            this.gameID = _data["gameID"];
             this.gameName = _data["gameName"];
         }
     }
@@ -249,14 +249,14 @@ export class GameEntity implements IGameEntity {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["gameId"] = this.gameId;
+        data["gameID"] = this.gameID;
         data["gameName"] = this.gameName;
         return data;
     }
 }
 
 export interface IGameEntity {
-    gameId: number;
+    gameID: number;
     gameName: string;
 }
 

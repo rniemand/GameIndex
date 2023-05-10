@@ -5,12 +5,6 @@ import { WeatherForecastClient } from './api';
 import { TestComponent } from './components/Test';
 
 function App() {
-  const client = new WeatherForecastClient();
-
-  client.get().then((response) => {
-    console.log(response);
-  });
-
   return (
     <div className="App">
       <header className="App-header">

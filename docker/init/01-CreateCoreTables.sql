@@ -1,7 +1,5 @@
 CREATE TABLE `Games` (
-	`GameId` BIGINT(20) NOT NULL AUTO_INCREMENT,
+	`GameId` INT(11) NOT NULL AUTO_INCREMENT,
 	`GameName` VARCHAR(256) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`GameId`) USING BTREE
-)
-COLLATE='utf8mb4_general_ci'
-ENGINE=InnoDB;
+) COLLATE = 'utf8mb4_general_ci' ENGINE = InnoDB;

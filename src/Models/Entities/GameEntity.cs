@@ -2,6 +2,6 @@
 
 public class GameEntity
 {
-  public long GameId { get; set; }
+  public long GameID { get; set; }
   public string GameName { get; set; } = string.Empty;
 }
