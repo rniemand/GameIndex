@@ -24,7 +24,8 @@ static class ServiceCollectionExtensions
       // Repos
       .AddSingleton<IGamesRepo, GamesRepo>()
       .AddSingleton<IGameImagesRepo, GameImagesRepo>()
-      .AddSingleton<IGamePlatformsRepo, GamePlatformsRepo>();
+      .AddSingleton<IGamePlatformsRepo, GamePlatformsRepo>()
+      .AddSingleton<IGameLocationRepo, GameLocationRepo>();
   }
 
   private static GameIndexConfig BindGameIndexConfig(IConfiguration configuration)
