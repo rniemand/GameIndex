@@ -46,5 +46,4 @@ INSERT INTO `GameOrderInfo`
 VALUES
 	(1, FALSE, 'GameStop', '44867472', 24.99, '2022-10-13'),
     (2, FALSE, 'GameStop', '44869704', 24.99, '2022-10-14'),
-    (3, TRUE,  'GameStop', '46880684', 65.99, '2023-03-22'),
-    (4, FALSE, 'GameStop', '', 0, NULL);
+    (3, TRUE,  'GameStop', '46880684', 65.99, '2023-03-22');

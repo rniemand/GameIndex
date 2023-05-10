@@ -12,8 +12,8 @@ public class Program
     builder.Services.AddSwaggerGen();
     builder.Services.AddSwaggerDocument();
     builder.Services.AddGameIndex(builder.Configuration);
-    var app = builder.Build();
 
+    var app = builder.Build();
     app.UseOpenApi();
     app.UseSwaggerUi3();
     app.MapControllers();
