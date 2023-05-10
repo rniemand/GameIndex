@@ -13,6 +13,7 @@ public class ImageController : ControllerBase
   private readonly IAppPathHelper _pathHelper;
   private readonly IGameImagesRepo _gameImagesRepo;
   private readonly IFileAbstraction _file;
+  private readonly FileExtensionContentTypeProvider _provider = new();
 
   public ImageController(IAppPathHelper pathHelper, IGameImagesRepo gameImagesRepo, IFileAbstraction file)
   {
@@ -21,26 +22,34 @@ public class ImageController : ControllerBase
     _file = file;
   }
 
-  [Route("game/{gameId}")]
+  [Route("game/{gameId:long}")]
   public async Task<ActionResult> GetImage([FromRoute] long gameId)
   {
     var gameCoverEntity = await _gameImagesRepo.GetGameCoverImageAsync(gameId);
+    var fallbackPath = _pathHelper.ResolveImagePath("covers/switch/placeholder.png");
 
-    // todo: handle nulls
+    if (!_file.Exists(fallbackPath))
+      throw new Exception("Unable to resolve placeholder image");
+
     if (gameCoverEntity is null)
-      return NotFound();
+      return File(System.IO.File.OpenRead(fallbackPath), GetContentType(fallbackPath));
 
-    // todo: handle this better
     var resolveImagePath = _pathHelper.ResolveImagePath(gameCoverEntity.ImagePath);
-    if(!_file.Exists(resolveImagePath))
-      return NotFound();
 
-    var provider = new FileExtensionContentTypeProvider();
+    // todo: allow for system type
+    if (!_file.Exists(resolveImagePath))
+      return File(System.IO.File.OpenRead(fallbackPath), GetContentType(fallbackPath));
+
+    return File(System.IO.File.OpenRead(resolveImagePath), GetContentType(resolveImagePath));
+  }
+
+  private string GetContentType(string filePath)
+  {
     var contentType = "image/png";
-    if (provider.TryGetContentType(resolveImagePath, out var resolved))
+
+    if (_provider.TryGetContentType(filePath, out var resolved))
       contentType = resolved;
 
-    var fileStream = System.IO.File.OpenRead(resolveImagePath);
-    return File(fileStream, contentType);
+    return contentType;
   }
 }

@@ -34,9 +34,9 @@ INSERT INTO `GameImages`
     (`GameID`, `ImageOrder`, `ImageType`, `ImagePath`)
 VALUES
     (1, 1, 'cover', 'covers/switch/c/civ-vi.jpg'),
-    (2, 1, 'cover', 'covers/switch/h/hello-neighbor.png'),
-    (3, 1, 'cover', 'covers/switch/m/mario-bowser-fury.png'),
-    (4, 1, 'cover', 'covers/switch/l/lego-jurassic-world.png');
+    (2, 1, 'cover', 'covers/switch/h/hello-neighbor.jpg'),
+    (3, 1, 'cover', 'covers/switch/m/mario-bowser-fury.jpg'),
+    (4, 1, 'cover', 'covers/switch/l/lego-jurassic-world.jpg');
 
 -- =======================================================================================
 -- GameLocations
