@@ -1,14 +1,13 @@
 import React from 'react';
 import './App.css';
 import { TestComponent } from './components/Test';
-import { GameImage } from './components/GameImage';
+import { BasicGameInfoDto } from './api';
 
-function App() {
+function App(props: { games: BasicGameInfoDto[] }) {
   return (
     <div className="App">
       <header className="App-header">
-        <TestComponent />
-        <GameImage />
+        <TestComponent games={props.games} />
       </header>
     </div>
   );

@@ -24,7 +24,8 @@ VALUES
     (1, 1, TRUE, 0, '01-C4', 'Civilization VI'), -- 1
     (1, 1, TRUE, 0, '01-D5', 'Hello Neighbor'), -- 2
     (1, 1, TRUE, 0, '03-A2', 'Super Mario 3D World + Bowsers Fury'), -- 3
-    (1, 1, TRUE, 0, '01-D1', 'Lego Jurassic World') -- 4
+    (1, 1, TRUE, 0, '01-D1', 'Lego Jurassic World'), -- 4
+    (1, 1, TRUE, 0, '02-C2', 'Nickelodeon All-Star Brawl') -- 5
 ;
 
 -- =======================================================================================
@@ -36,7 +37,8 @@ VALUES
     (1, 1, 'cover', 'covers/switch/c/civ-vi.jpg'),
     (2, 1, 'cover', 'covers/switch/h/hello-neighbor.jpg'),
     (3, 1, 'cover', 'covers/switch/m/mario-bowser-fury.jpg'),
-    (4, 1, 'cover', 'covers/switch/l/lego-jurassic-world.jpg');
+    (4, 1, 'cover', 'covers/switch/l/lego-jurassic-world.jpg'),
+    (5, 1, 'cover', 'covers/switch/n/nic-allstar-brawl.jpg');
 
 -- =======================================================================================
 -- GameLocations
@@ -46,4 +48,5 @@ INSERT INTO `GameOrderInfo`
 VALUES
 	(1, FALSE, 'GameStop', '44867472', 24.99, '2022-10-13'),
     (2, FALSE, 'GameStop', '44869704', 24.99, '2022-10-14'),
-    (3, TRUE,  'GameStop', '46880684', 65.99, '2023-03-22');
+    (3, TRUE,  'GameStop', '46880684', 65.99, '2023-03-22'),
+    (5, TRUE, 'GameStop', '46821750', 33.99, '2023-03-16');

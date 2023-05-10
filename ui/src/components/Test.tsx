@@ -1,22 +1,27 @@
 import React from "react";
-import { GamesClient } from "../api";
+import { BasicGameInfoDto } from "../api";
+import { GameImage } from "./GameImage";
 
+interface ComponentProps {
+  games: BasicGameInfoDto[];
+}
 
-export class TestComponent extends React.Component {
-  gamesClient: GamesClient;
+interface MyState {
+}
+
+export class TestComponent extends React.Component<ComponentProps, MyState> {
 
   constructor(props: any) {
     super(props);
-
-    this.gamesClient = new GamesClient();
   }
 
-
   render(): React.ReactNode {
-    this.gamesClient.getAllGames().then(games => {
-      console.log(games);
-    });
+    const games = this.props.games;
 
-    return (<div>Hello</div>);
+    return (<div>
+      {games.map(game => {
+        return(<GameImage key={game.gameID} game={game} />);
+      })}
+    </div>);
   }
 }

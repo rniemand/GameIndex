@@ -6,16 +6,16 @@ namespace GameIndex.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GamOrderInfoController : ControllerBase
+public class GameOrderInfoController : ControllerBase
 {
   private readonly IGamOrderInfoRepo _gamOrderInfoRepo;
 
-  public GamOrderInfoController(IGamOrderInfoRepo gamOrderInfoRepo)
+  public GameOrderInfoController(IGamOrderInfoRepo gamOrderInfoRepo)
   {
     _gamOrderInfoRepo = gamOrderInfoRepo;
   }
 
   [Route("{gameId:long}")]
-  public async Task<GamOrderInfoEntity?> GetGameOrderInfo([FromRoute] long gameId) =>
+  public async Task<GameOrderInfoEntity?> GetGameOrderInfo([FromRoute] long gameId) =>
     await _gamOrderInfoRepo.GetOrderInfoAsync(gameId);
 }

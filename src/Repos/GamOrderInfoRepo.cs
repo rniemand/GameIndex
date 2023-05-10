@@ -6,7 +6,7 @@ namespace GameIndex.Repos;
 
 public interface IGamOrderInfoRepo
 {
-  Task<GamOrderInfoEntity?> GetOrderInfoAsync(long gameId);
+  Task<GameOrderInfoEntity?> GetOrderInfoAsync(long gameId);
 }
 
 public class GamOrderInfoRepo : IGamOrderInfoRepo
@@ -18,7 +18,7 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
     _connectionHelper = connectionHelper;
   }
 
-  public async Task<GamOrderInfoEntity?> GetOrderInfoAsync(long gameId)
+  public async Task<GameOrderInfoEntity?> GetOrderInfoAsync(long gameId)
   {
     const string query = @"SELECT
 	    o.GameID,
@@ -31,6 +31,6 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
     WHERE o.GameID = @GameID
     LIMIT 1";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.QuerySingleOrDefaultAsync<GamOrderInfoEntity>(query, new { GameID = gameId });
+    return await connection.QuerySingleOrDefaultAsync<GameOrderInfoEntity>(query, new { GameID = gameId });
   }
 }

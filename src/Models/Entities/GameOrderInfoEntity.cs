@@ -1,6 +1,6 @@
 ﻿namespace GameIndex.Models.Entities;
 
-public class GamOrderInfoEntity
+public class GameOrderInfoEntity
 {
   public long GameID { get; set; }
   public bool HasProtection { get; set; }

@@ -1,5 +1,5 @@
-﻿using GameIndex.Models.Entities;
-using GameIndex.Repos;
+﻿using GameIndex.Models.Dto;
+using GameIndex.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameIndex.Controllers;
@@ -8,13 +8,14 @@ namespace GameIndex.Controllers;
 [Route("[controller]")]
 public class GamesController : ControllerBase
 {
-  private readonly IGamesRepo _gamesRepo;
+  private readonly IGamesService _gamesService;
 
-  public GamesController(IGamesRepo gamesRepo)
+  public GamesController(IGamesService gamesService)
   {
-    _gamesRepo = gamesRepo;
+    _gamesService = gamesService;
   }
 
   [HttpGet("{platformId:int}")]
-  public async Task<List<GameEntity>> GetAllGames([FromRoute] int platformId) => await _gamesRepo.GetAllAsync(platformId);
+  public async Task<List<BasicGameInfoDto>> GetAllGames([FromRoute] int platformId) =>
+    await _gamesService.ListAllGamesAsync(platformId);
 }

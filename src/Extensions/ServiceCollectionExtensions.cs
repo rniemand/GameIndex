@@ -1,6 +1,7 @@
 ﻿using GameIndex.Helpers;
 using GameIndex.Models;
 using GameIndex.Repos;
+using GameIndex.Services;
 using RnCore.Abstractions;
 
 namespace GameIndex.Extensions;
@@ -20,6 +21,9 @@ static class ServiceCollectionExtensions
       // Helpers
       .AddSingleton<IAppPathHelper, AppPathHelper>()
       .AddSingleton<IConnectionHelper, ConnectionHelper>()
+
+      // Services
+      .AddSingleton<IGamesService, GamesService>()
       
       // Repos
       .AddSingleton<IGamesRepo, GamesRepo>()
