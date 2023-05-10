@@ -8,14 +8,12 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-export interface IGameInfoClient {
+export interface IGamePlatformsClient {
 
-    getGameNames(): Promise<string[]>;
-
-    saveSomething(data: string | undefined): Promise<string>;
+    getAll(): Promise<GamePlatformEntity[]>;
 }
 
-export class GameInfoClient implements IGameInfoClient {
+export class GamePlatformsClient implements IGamePlatformsClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -25,8 +23,8 @@ export class GameInfoClient implements IGameInfoClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getGameNames(): Promise<string[]> {
-        let url_ = this.baseUrl + "/GameInfo";
+    getAll(): Promise<GamePlatformEntity[]> {
+        let url_ = this.baseUrl + "/GamePlatforms";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -37,11 +35,11 @@ export class GameInfoClient implements IGameInfoClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetGameNames(_response);
+            return this.processGetAll(_response);
         });
     }
 
-    protected processGetGameNames(response: Response): Promise<string[]> {
+    protected processGetAll(response: Response): Promise<GamePlatformEntity[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -51,7 +49,7 @@ export class GameInfoClient implements IGameInfoClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(item);
+                    result200!.push(GamePlatformEntity.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -63,46 +61,7 @@ export class GameInfoClient implements IGameInfoClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string[]>(null as any);
-    }
-
-    saveSomething(data: string | undefined): Promise<string> {
-        let url_ = this.baseUrl + "/GameInfo?";
-        if (data === null)
-            throw new Error("The parameter 'data' cannot be null.");
-        else if (data !== undefined)
-            url_ += "data=" + encodeURIComponent("" + data) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "POST",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSaveSomething(_response);
-        });
-    }
-
-    protected processSaveSomething(response: Response): Promise<string> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<string>(null as any);
+        return Promise.resolve<GamePlatformEntity[]>(null as any);
     }
 }
 
@@ -226,61 +185,44 @@ export class ImageClient implements IImageClient {
     }
 }
 
-export interface IWeatherForecastClient {
+export class GamePlatformEntity implements IGamePlatformEntity {
+    platformID!: number;
+    platformName!: string;
 
-    get(): Promise<WeatherForecast[]>;
+    constructor(data?: IGamePlatformEntity) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.platformID = _data["platformID"];
+            this.platformName = _data["platformName"];
+        }
+    }
+
+    static fromJS(data: any): GamePlatformEntity {
+        data = typeof data === 'object' ? data : {};
+        let result = new GamePlatformEntity();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["platformID"] = this.platformID;
+        data["platformName"] = this.platformName;
+        return data;
+    }
 }
 
-export class WeatherForecastClient implements IWeatherForecastClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    get(): Promise<WeatherForecast[]> {
-        let url_ = this.baseUrl + "/WeatherForecast";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGet(_response);
-        });
-    }
-
-    protected processGet(response: Response): Promise<WeatherForecast[]> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(WeatherForecast.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<WeatherForecast[]>(null as any);
-    }
+export interface IGamePlatformEntity {
+    platformID: number;
+    platformName: string;
 }
 
 export class GameEntity implements IGameEntity {
@@ -341,54 +283,6 @@ export interface IGameEntity {
     gameCase: string;
     hasCover: boolean;
     rating: number;
-}
-
-export class WeatherForecast implements IWeatherForecast {
-    date!: Date;
-    temperatureC!: number;
-    temperatureF!: number;
-    summary?: string | undefined;
-
-    constructor(data?: IWeatherForecast) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.temperatureC = _data["temperatureC"];
-            this.temperatureF = _data["temperatureF"];
-            this.summary = _data["summary"];
-        }
-    }
-
-    static fromJS(data: any): WeatherForecast {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherForecast();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["temperatureC"] = this.temperatureC;
-        data["temperatureF"] = this.temperatureF;
-        data["summary"] = this.summary;
-        return data;
-    }
-}
-
-export interface IWeatherForecast {
-    date: Date;
-    temperatureC: number;
-    temperatureF: number;
-    summary?: string | undefined;
 }
 
 export interface FileResponse {
