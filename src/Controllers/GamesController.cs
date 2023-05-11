@@ -1,4 +1,4 @@
-﻿using GameIndex.Models.Dto;
+using GameIndex.Models.Dto;
 using GameIndex.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,4 +18,8 @@ public class GamesController : ControllerBase
   [HttpGet("{platformId:int}")]
   public async Task<List<BasicGameInfoDto>> GetAllGames([FromRoute] int platformId) =>
     await _gamesService.ListAllGamesAsync(platformId);
+
+  [HttpGet("order-info/{gameId:long}")]
+  public async Task<GameOrderInfoDto?> GetOrderInformation([FromRoute] long gameId) =>
+    await _gamesService.GetOrderInfoAsync(gameId);
 }

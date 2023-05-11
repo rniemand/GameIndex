@@ -68,59 +68,6 @@ export class GameLocationsClient implements IGameLocationsClient {
     }
 }
 
-export interface IGameOrderInfoClient {
-
-    getGameOrderInfo(gameId: number): Promise<GameOrderInfoEntity>;
-}
-
-export class GameOrderInfoClient implements IGameOrderInfoClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    getGameOrderInfo(gameId: number): Promise<GameOrderInfoEntity> {
-        let url_ = this.baseUrl + "/GameOrderInfo/{gameId}";
-        if (gameId === undefined || gameId === null)
-            throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetGameOrderInfo(_response);
-        });
-    }
-
-    protected processGetGameOrderInfo(response: Response): Promise<GameOrderInfoEntity> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameOrderInfoEntity.fromJS(resultData200);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<GameOrderInfoEntity>(null as any);
-    }
-}
-
 export interface IGamePlatformsClient {
 
     getAll(): Promise<GamePlatformEntity[]>;
@@ -181,6 +128,8 @@ export class GamePlatformsClient implements IGamePlatformsClient {
 export interface IGamesClient {
 
     getAllGames(platformId: number): Promise<BasicGameInfoDto[]>;
+
+    getOrderInformation(gameId: number): Promise<GameOrderInfoDto>;
 }
 
 export class GamesClient implements IGamesClient {
@@ -235,6 +184,43 @@ export class GamesClient implements IGamesClient {
             });
         }
         return Promise.resolve<BasicGameInfoDto[]>(null as any);
+    }
+
+    getOrderInformation(gameId: number): Promise<GameOrderInfoDto> {
+        let url_ = this.baseUrl + "/Games/order-info/{gameId}";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetOrderInformation(_response);
+        });
+    }
+
+    protected processGetOrderInformation(response: Response): Promise<GameOrderInfoDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GameOrderInfoDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GameOrderInfoDto>(null as any);
     }
 }
 
@@ -340,62 +326,6 @@ export interface IGameLocationEntity {
     locationID: number;
     platformID: number;
     locationName: string;
-}
-
-export class GameOrderInfoEntity implements IGameOrderInfoEntity {
-    gameID!: number;
-    hasProtection!: boolean;
-    seller!: string;
-    orderNumber!: string;
-    cost!: number;
-    purchaseDate!: Date;
-
-    constructor(data?: IGameOrderInfoEntity) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.gameID = _data["gameID"];
-            this.hasProtection = _data["hasProtection"];
-            this.seller = _data["seller"];
-            this.orderNumber = _data["orderNumber"];
-            this.cost = _data["cost"];
-            this.purchaseDate = _data["purchaseDate"] ? new Date(_data["purchaseDate"].toString()) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): GameOrderInfoEntity {
-        data = typeof data === 'object' ? data : {};
-        let result = new GameOrderInfoEntity();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["gameID"] = this.gameID;
-        data["hasProtection"] = this.hasProtection;
-        data["seller"] = this.seller;
-        data["orderNumber"] = this.orderNumber;
-        data["cost"] = this.cost;
-        data["purchaseDate"] = this.purchaseDate ? this.purchaseDate.toISOString() : <any>undefined;
-        return data;
-    }
-}
-
-export interface IGameOrderInfoEntity {
-    gameID: number;
-    hasProtection: boolean;
-    seller: string;
-    orderNumber: string;
-    cost: number;
-    purchaseDate: Date;
 }
 
 export class GamePlatformEntity implements IGamePlatformEntity {
@@ -528,6 +458,62 @@ export interface IBasicGameInfoDto {
     orderNumber: string;
     cost: number;
     purchaseDate?: Date | undefined;
+}
+
+export class GameOrderInfoDto implements IGameOrderInfoDto {
+    gameID!: number;
+    hasProtection!: boolean;
+    seller!: string;
+    orderNumber!: string;
+    cost!: number;
+    purchaseDate!: Date;
+
+    constructor(data?: IGameOrderInfoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.gameID = _data["gameID"];
+            this.hasProtection = _data["hasProtection"];
+            this.seller = _data["seller"];
+            this.orderNumber = _data["orderNumber"];
+            this.cost = _data["cost"];
+            this.purchaseDate = _data["purchaseDate"] ? new Date(_data["purchaseDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GameOrderInfoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GameOrderInfoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["gameID"] = this.gameID;
+        data["hasProtection"] = this.hasProtection;
+        data["seller"] = this.seller;
+        data["orderNumber"] = this.orderNumber;
+        data["cost"] = this.cost;
+        data["purchaseDate"] = this.purchaseDate ? this.purchaseDate.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IGameOrderInfoDto {
+    gameID: number;
+    hasProtection: boolean;
+    seller: string;
+    orderNumber: string;
+    cost: number;
+    purchaseDate: Date;
 }
 
 export interface FileResponse {

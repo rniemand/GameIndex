@@ -1,6 +1,8 @@
 import React from "react";
 import { BasicGameInfoDto } from "../api";
 import { Button, Icon, Modal, Tab } from "semantic-ui-react";
+import { GameInfoModalCoreInfo } from "./GameInfoModalCoreInfo";
+import { GameInfoModalOrderInfo } from "./GameInfoModalOrderInfo";
 
 interface GameInfoModalProps {
   game: BasicGameInfoDto;
@@ -29,11 +31,15 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
     const panes = [
       {
         menuItem: { key: '1', icon: 'info', content: 'Info' },
-        render: () => <Tab.Pane attached={true}>Tab 1 Content</Tab.Pane>,
+        render: () => <Tab.Pane attached={true}>
+          <GameInfoModalCoreInfo game={game} />
+        </Tab.Pane>,
       },
       {
         menuItem: { key: '2', icon: 'shopping basket', content: 'Purchase' },
-        render: () => <Tab.Pane attached={true}>Tab 1 Content</Tab.Pane>,
+        render: () => <Tab.Pane attached={true}>
+          <GameInfoModalOrderInfo game={game} />
+        </Tab.Pane>,
       },
       {
         menuItem: { key: '3', icon: 'picture', content: 'Media' },
