@@ -3,6 +3,7 @@ import { BasicGameInfoDto } from "../api";
 import { Button, Icon, Modal, Tab } from "semantic-ui-react";
 import { GameInfoModalCoreInfo } from "./GameInfoModalCoreInfo";
 import { GameInfoModalOrderInfo } from "./GameInfoModalOrderInfo";
+import { GameInfoModalImages } from "./GameInfoModalImages";
 
 interface GameInfoModalProps {
   game: BasicGameInfoDto;
@@ -43,7 +44,9 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
       },
       {
         menuItem: { key: '3', icon: 'picture', content: 'Media' },
-        render: () => <Tab.Pane attached={true}>Tab 1 Content</Tab.Pane>,
+        render: () => <Tab.Pane attached={true}>
+          <GameInfoModalImages game={game} />
+        </Tab.Pane>,
       }
     ];
 

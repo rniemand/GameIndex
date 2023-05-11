@@ -130,6 +130,8 @@ export interface IGamesClient {
     getAllGames(platformId: number): Promise<BasicGameInfoDto[]>;
 
     getOrderInformation(gameId: number): Promise<GameOrderInfoDto>;
+
+    getGameImages(gameId: number): Promise<GameImageDto[]>;
 }
 
 export class GamesClient implements IGamesClient {
@@ -221,6 +223,50 @@ export class GamesClient implements IGamesClient {
             });
         }
         return Promise.resolve<GameOrderInfoDto>(null as any);
+    }
+
+    getGameImages(gameId: number): Promise<GameImageDto[]> {
+        let url_ = this.baseUrl + "/Games/images/{gameId}";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetGameImages(_response);
+        });
+    }
+
+    protected processGetGameImages(response: Response): Promise<GameImageDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GameImageDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GameImageDto[]>(null as any);
     }
 }
 
@@ -514,6 +560,54 @@ export interface IGameOrderInfoDto {
     orderNumber: string;
     cost: number;
     purchaseDate: Date;
+}
+
+export class GameImageDto implements IGameImageDto {
+    gameID!: number;
+    imageType!: string;
+    imageOrder!: number;
+    imagePath!: string;
+
+    constructor(data?: IGameImageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.gameID = _data["gameID"];
+            this.imageType = _data["imageType"];
+            this.imageOrder = _data["imageOrder"];
+            this.imagePath = _data["imagePath"];
+        }
+    }
+
+    static fromJS(data: any): GameImageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GameImageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["gameID"] = this.gameID;
+        data["imageType"] = this.imageType;
+        data["imageOrder"] = this.imageOrder;
+        data["imagePath"] = this.imagePath;
+        return data;
+    }
+}
+
+export interface IGameImageDto {
+    gameID: number;
+    imageType: string;
+    imageOrder: number;
+    imagePath: string;
 }
 
 export interface FileResponse {

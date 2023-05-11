@@ -22,4 +22,8 @@ public class GamesController : ControllerBase
   [HttpGet("order-info/{gameId:long}")]
   public async Task<GameOrderInfoDto?> GetOrderInformation([FromRoute] long gameId) =>
     await _gamesService.GetOrderInfoAsync(gameId);
+
+  [HttpGet("images/{gameId:long}")]
+  public async Task<List<GameImageDto>> GetGameImages([FromRoute] long gameId) =>
+    await _gamesService.GetImagesAsync(gameId);
 }
