@@ -13,7 +13,6 @@ let games: BasicGameInfoDto[] = [];
 
 gamesClient.getAllGames(1).then(_games => {
   games = _games;
-  console.log('got games', games);
 
   root.render(
     <React.StrictMode>
