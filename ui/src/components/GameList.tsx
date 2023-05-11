@@ -1,7 +1,6 @@
 import React from "react";
 import { BasicGameInfoDto } from "../api";
-import { GameImage } from "./GameImage";
-import { Container } from "semantic-ui-react";
+import { Card, Container } from "semantic-ui-react";
 import { GameListEntry } from "./GameListEntry";
 
 interface GamesListProps {
@@ -10,7 +9,7 @@ interface GamesListProps {
 
 interface GamesListState { }
 
-export class GamesList extends React.Component<GamesListProps, GamesListState> {
+export class GameList extends React.Component<GamesListProps, GamesListState> {
   constructor(props: any) {
     super(props);
   }
@@ -19,9 +18,11 @@ export class GamesList extends React.Component<GamesListProps, GamesListState> {
     const games = this.props.games;
 
     return (<Container>
-      {games.map(game => {
-        return (<GameListEntry key={game.gameID} />);
-      })}
+      <Card.Group itemsPerRow={5}>
+        {games.map(game => {
+          return (<GameListEntry key={game.gameID} game={game} />);
+        })}
+      </Card.Group>
     </Container>);
   }
 }

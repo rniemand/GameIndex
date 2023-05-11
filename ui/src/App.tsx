@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { GamesList } from './components/GamesList';
+import { GameList } from './components/GameList';
 import { BasicGameInfoDto, GamePlatformEntity, GamesClient } from './api';
 import { GamePlatforms } from './components/GamePlatforms';
 import 'semantic-ui-css/semantic.min.css'
@@ -32,10 +32,8 @@ export default class App extends React.Component<AppProps, AppState> {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <GamePlatforms onPlatformSelected={this._platformSelected} selectedPlatform={selectedPlatform} />
-          <GamesList games={games} />
-        </header>
+        <GamePlatforms onPlatformSelected={this._platformSelected} selectedPlatform={selectedPlatform} />
+        <GameList games={games} />
       </div>
     );
   }

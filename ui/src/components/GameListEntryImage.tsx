@@ -1,11 +1,12 @@
 import React from "react";
 import { BasicGameInfoDto } from "../api";
+import { Image } from "semantic-ui-react";
 
 interface ComponentProps {
   game: BasicGameInfoDto;
 }
 
-export class GameImage extends React.Component<ComponentProps> {
+export class GameListEntryImage extends React.Component<ComponentProps> {
 
   constructor(props: any) {
     super(props);
@@ -14,6 +15,6 @@ export class GameImage extends React.Component<ComponentProps> {
   render(): React.ReactNode {
     const game = this.props.game;
     const imgUrl = `/Image/game/${game.platformName}/${game.gameID}`;
-    return (<img src={imgUrl} width={100} />);
+    return (<Image src={imgUrl} wrapped ui={false} />);
   }
 }
