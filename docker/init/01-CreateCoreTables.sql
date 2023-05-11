@@ -2,14 +2,18 @@ CREATE TABLE `GamePlatforms` (
 	`PlatformID` INT(11) NOT NULL AUTO_INCREMENT,
 	`PlatformName` VARCHAR(128) NOT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`PlatformID`) USING BTREE
-) COLLATE = 'utf8mb4_general_ci' ENGINE = InnoDB;
+)
+COLLATE = 'utf8mb4_general_ci'
+ENGINE = InnoDB;
 
 CREATE TABLE `GameImages` (
 	`GameID` BIGINT(20) NOT NULL,
 	`ImageType` VARCHAR(128) NOT NULL COLLATE 'utf8mb4_general_ci',
 	`ImageOrder` SMALLINT(6) NOT NULL DEFAULT '256',
 	`ImagePath` VARCHAR(512) NOT NULL COLLATE 'utf8mb4_general_ci'
-) COLLATE = 'utf8mb4_general_ci' ENGINE = InnoDB;
+)
+COLLATE = 'utf8mb4_general_ci'
+ENGINE = InnoDB;
 
 CREATE TABLE `GameLocations` (
 	`LocationID` INT(11) NOT NULL AUTO_INCREMENT,
@@ -17,7 +21,9 @@ CREATE TABLE `GameLocations` (
 	`LocationName` VARCHAR(256) NOT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`LocationID`) USING BTREE,
 	INDEX `PlatformID` (`PlatformID`) USING BTREE
-) COLLATE = 'utf8mb4_general_ci' ENGINE = InnoDB;
+)
+COLLATE = 'utf8mb4_general_ci'
+ENGINE = InnoDB;
 
 CREATE TABLE `GameOrderInfo` (
 	`GameID` BIGINT(20) NOT NULL DEFAULT '0',
@@ -36,10 +42,12 @@ CREATE TABLE `Games` (
 	`GameName` VARCHAR(256) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`PlatformID` INT(11) NOT NULL,
 	`LocationID` INT(11) NOT NULL,
+	`HasCover` BIT(1) NOT NULL DEFAULT b'0',
 	`GameCase` VARCHAR(32) NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
-	`HasCover` BIT(1) NOT NULL DEFAULT b '0',
 	`Rating` TINYINT(4) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`GameID`) USING BTREE,
 	INDEX `PlatformID` (`PlatformID`) USING BTREE,
 	INDEX `LocationID` (`LocationID`) USING BTREE
-) COLLATE = 'utf8mb4_general_ci' ENGINE = InnoDB;
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB;
