@@ -39,7 +39,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     return (<React.Fragment>
       <GameListControls itemsPerPage={itemsPerPage} onSetItemsPerPage={this._setItemsPerPage} />
       <br style={{ marginBottom: '6px' }} />
-      <Container>
+      <Container className="game-list">
         <Card.Group itemsPerRow={itemsPerPage as SemanticWIDTHSNUMBER}>
           {games.map(game => {
             return (<GameListEntry key={game.gameID} game={game} />);

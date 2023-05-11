@@ -15,10 +15,6 @@ interface AppState {
 }
 
 export default class App extends React.Component<AppProps, AppState> {
-  constructor(props: any) {
-    super(props);
-  }
-
   componentDidMount(): void {
     this.setState({
       selectedPlatform: undefined
@@ -31,7 +27,7 @@ export default class App extends React.Component<AppProps, AppState> {
     const games = this.state.games || [];
 
     return (
-      <div className="App">
+      <div className="App test">
         <GamePlatforms onPlatformSelected={this._platformSelected} selectedPlatform={selectedPlatform} />
         <GameList games={games} />
       </div>

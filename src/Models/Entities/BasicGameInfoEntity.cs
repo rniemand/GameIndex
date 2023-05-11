@@ -1,4 +1,4 @@
-﻿namespace GameIndex.Models.Entities;
+namespace GameIndex.Models.Entities;
 
 public class BasicGameInfoEntity
 {
@@ -12,4 +12,9 @@ public class BasicGameInfoEntity
   public string ImagePath { get; set; } = string.Empty;
   public string LocationName { get; set; } = string.Empty;
   public string PlatformName { get; set; } = string.Empty;
+  public bool HasProtection { get; set; }
+  public string Seller { get; set; } = string.Empty;
+  public string OrderNumber { get; set; } = string.Empty;
+  public double Cost { get; set; }
+  public DateTime? PurchaseDate { get; set; }
 }

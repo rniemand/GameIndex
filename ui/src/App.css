@@ -1,0 +1,17 @@
+.game-list .game-list-entry .extra .spacer {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.game-list .game-list-entry .extra .case {
+  font-weight: bold;
+  color: #000;
+}
+
+.game-list .game-list-entry .extra .location {
+  color: #2aab40;
+}
+
+.game-list .game-list-entry .extra .order-info i {
+  float: right;
+}

@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using GameIndex.Helpers;
 using GameIndex.Models.Entities;
 
@@ -30,11 +30,17 @@ public class GamesRepo : IGamesRepo
 	    g.Rating,
 	    l.LocationName,
 	    p.PlatformName,
-	    i.ImagePath
+	    i.ImagePath,
+      o.HasProtection,
+	    o.Seller,
+	    o.OrderNumber,
+	    o.Cost,
+	    o.PurchaseDate
     FROM `Games` g
 	    INNER JOIN `GamePlatforms` p ON p.PlatformID = g.PlatformID
 	    INNER JOIN `GameLocations` l ON l.LocationID = g.LocationID
 	    LEFT JOIN `GameImages` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
+      LEFT JOIN `GameOrderInfo` o ON o.GameID = g.GameID
     WHERE g.PlatformID = @PlatformID
     ORDER BY g.GameName";
     await using var connection = _connectionHelper.GetCoreConnection();

@@ -449,6 +449,11 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
     imagePath!: string;
     locationName!: string;
     platformName!: string;
+    hasProtection!: boolean;
+    seller!: string;
+    orderNumber!: string;
+    cost!: number;
+    purchaseDate?: Date | undefined;
 
     constructor(data?: IBasicGameInfoDto) {
         if (data) {
@@ -471,6 +476,11 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
             this.imagePath = _data["imagePath"];
             this.locationName = _data["locationName"];
             this.platformName = _data["platformName"];
+            this.hasProtection = _data["hasProtection"];
+            this.seller = _data["seller"];
+            this.orderNumber = _data["orderNumber"];
+            this.cost = _data["cost"];
+            this.purchaseDate = _data["purchaseDate"] ? new Date(_data["purchaseDate"].toString()) : <any>undefined;
         }
     }
 
@@ -493,6 +503,11 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
         data["imagePath"] = this.imagePath;
         data["locationName"] = this.locationName;
         data["platformName"] = this.platformName;
+        data["hasProtection"] = this.hasProtection;
+        data["seller"] = this.seller;
+        data["orderNumber"] = this.orderNumber;
+        data["cost"] = this.cost;
+        data["purchaseDate"] = this.purchaseDate ? this.purchaseDate.toISOString() : <any>undefined;
         return data;
     }
 }
@@ -508,6 +523,11 @@ export interface IBasicGameInfoDto {
     imagePath: string;
     locationName: string;
     platformName: string;
+    hasProtection: boolean;
+    seller: string;
+    orderNumber: string;
+    cost: number;
+    purchaseDate?: Date | undefined;
 }
 
 export interface FileResponse {
