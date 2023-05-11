@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import { GameList } from './components/GameList';
-import { BasicGameInfoDto, GamePlatformEntity, GamesClient } from './api';
+import { GamePlatformEntity, GamesClient } from './api';
 import { GamePlatforms } from './components/GamePlatforms';
 import 'semantic-ui-css/semantic.min.css'
+import ISearchableGame from './modals/ISearchableGame';
 
 const gamesClient = new GamesClient();
 
@@ -11,7 +12,7 @@ interface AppProps { }
 
 interface AppState {
   selectedPlatform?: GamePlatformEntity;
-  games: BasicGameInfoDto[];
+  games: ISearchableGame[];
 }
 
 export default class App extends React.Component<AppProps, AppState> {
@@ -46,7 +47,12 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     gamesClient.getAllGames(selectedPlatform.platformID).then(_games => {
-      this.setState({ games: _games });
+      this.setState({
+        games: _games.map(game => ({
+          game: game,
+          searchString: `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}`.toLowerCase()
+        }))
+      });
     });
   }
 }

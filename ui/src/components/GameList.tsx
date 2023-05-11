@@ -1,16 +1,18 @@
 import React from "react";
-import { BasicGameInfoDto } from "../api";
 import { Card, Container, SemanticWIDTHSNUMBER } from "semantic-ui-react";
 import { GameListEntry } from "./GameListEntry";
 import { GameListControls } from "./GameListControls";
 import { storageHelper } from "../helpers/StorageHelper";
+import ISearchableGame from "../modals/ISearchableGame";
+import { BasicGameInfoDto } from "../api";
 
 interface GamesListProps {
-  games: BasicGameInfoDto[];
+  games: ISearchableGame[];
 }
 
 interface GamesListState {
   itemsPerPage: number;
+  searchValue: string;
 }
 
 export class GameList extends React.Component<GamesListProps, GamesListState> {
@@ -20,13 +22,14 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
 
   componentDidMount(): void {
     this.setState({
-      itemsPerPage: storageHelper.getNumber('app.items.pp', 3)
+      itemsPerPage: storageHelper.getNumber('app.items.pp', 3),
+      searchValue: ''
     });
   }
 
   render(): React.ReactNode {
     if (!this.state) return null;
-    const games = this.props.games;
+    const games = this._getFilteredGames();
     const itemsPerPage = this.state.itemsPerPage || 3;
 
     if (games.length === 0) {
@@ -37,7 +40,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     }
 
     return (<React.Fragment>
-      <GameListControls itemsPerPage={itemsPerPage} onSetItemsPerPage={this._setItemsPerPage} />
+      <GameListControls itemsPerPage={itemsPerPage} onSetItemsPerPage={this._setItemsPerPage} onSearchChanged={this._onSearchChanged} />
       <br style={{ marginBottom: '6px' }} />
       <Container className="game-list">
         <Card.Group itemsPerRow={itemsPerPage as SemanticWIDTHSNUMBER}>
@@ -52,5 +55,19 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   _setItemsPerPage = (count: number) => {
     storageHelper.setNumber('app.items.pp', count);
     this.setState({ itemsPerPage: count });
+  }
+
+  _getFilteredGames = () => {
+    const searchTerm = this.state.searchValue || '';
+    const runSearch = searchTerm.length > 0;
+    return this.props.games.reduce((pv: BasicGameInfoDto[], cv) => {
+      if(runSearch && cv.searchString.indexOf(searchTerm) === -1) return pv;
+      pv.push(cv.game);
+      return pv;
+    }, []);
+  }
+
+  _onSearchChanged = (value: string) => {
+    this.setState({ searchValue: value });
   }
 }

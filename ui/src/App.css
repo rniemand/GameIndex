@@ -15,3 +15,7 @@
 .game-list .game-list-entry .extra .order-info i {
   float: right;
 }
+
+.filter-menu .item  .button.clear {
+  margin-left: 4px !important;
+}
