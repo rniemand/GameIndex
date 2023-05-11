@@ -5,6 +5,7 @@ import { Card } from "semantic-ui-react";
 import { GameListEntryCase } from "./GameListEntryCase";
 import { GameListEntryLocation } from "./GameListEntryLocation";
 import { GameListEntryOrderInfo } from "./GameListEntryOrderInfo";
+import { GameInfoModal } from "./GameInfoModal";
 
 interface GameListEntryProps {
   game: BasicGameInfoDto;
@@ -24,6 +25,9 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
       <GameListEntryImage game={game} />
       <Card.Content>
         <Card.Header>{game.gameName}</Card.Header>
+      </Card.Content>
+      <Card.Content extra>
+        <GameInfoModal game={game} />
       </Card.Content>
       <Card.Content extra>
         <GameListEntryOrderInfo game={game} />

@@ -57,7 +57,17 @@ VALUES
     (1, 1, TRUE, 0, '01-C5', 'Minecraft Dungeons Ultimate Edition'), -- 27
     (1, 1, TRUE, 0, '02-C4', 'Legend of Zelda Links Awakening'), -- 28
     (1, 1, TRUE, 0, '01-A2', 'Hot Wheels Unleashed'), -- 29
-    (1, 1, TRUE, 0, '01-D3', 'LEGO Marvel Super Heroes') -- 30
+    (1, 1, TRUE, 0, '01-D3', 'LEGO Marvel Super Heroes'), -- 30
+    (1, 1, TRUE, 0, '01-B2', 'Spyro Reignighted'), -- 31
+    (1, 1, TRUE, 0, '01-D2', 'LEGO Marvel Super Heroes 2'), -- 32
+    (1, 1, TRUE, 0, '01-B4', 'Crash Bandicoot N.Sane Trilogy'), -- 33
+    (1, 1, TRUE, 0, '03-A3', 'Donkey Kong Country Tropical Freeze'), -- 34
+    (1, 1, TRUE, 0, '', 'Super Mario Odysee'), -- 35
+    (1, 1, TRUE, 0, '02-A6', 'Luigis Mansion 3'), -- 36
+    (1, 1, TRUE, 0, '01-D6', 'Disgaea 1 Complete'), -- 37
+    (1, 1, TRUE, 0, '02-C6', 'Pokemon Legends: Arceus'), -- 38
+    (1, 1, TRUE, 0, '02-C3', 'Pokémon Violet'), -- 39
+    (1, 1, TRUE, 0, '02-C1', 'Pokémon Shining Pearl') -- 40
 ;
 
 -- =======================================================================================
@@ -95,7 +105,17 @@ VALUES
     (27, 1, 'cover', 'covers/switch/m/minecraft-dungeons.jpg'),
     (28, 1, 'cover', 'covers/switch/z/zelda-links-awakening.jpg'),
     (29, 1, 'cover', 'covers/switch/h/hotwheels-unleashed.jpg'),
-    (30, 1, 'cover', 'covers/switch/l/lego-marvel-super-heroes.jpg');
+    (30, 1, 'cover', 'covers/switch/l/lego-marvel-super-heroes.jpg'),
+    (31, 1, 'cover', 'covers/switch/s/spyro-reignited.jpg'),
+    (32, 1, 'cover', 'covers/switch/l/lego-marvel-super-heroes-2.jpg'),
+    (33, 1, 'cover', 'covers/switch/c/crash-bandicoot-n-sane.jpg'),
+    (34, 1, 'cover', 'covers/switch/d/dk-country-tropical-freeze.jpg'),
+    (35, 1, 'cover', 'covers/switch/s/super-mario-odysee.jpg'),
+    (36, 1, 'cover', 'covers/switch/l/luigis-mansion-3.jpg'),
+    (37, 1, 'cover', 'covers/switch/d/disgaea-1-complete.jpg'),
+    (38, 1, 'cover', 'covers/switch/p/pokemon-arceas.jpg'),
+    (39, 1, 'cover', 'covers/switch/p/pokemon-violet.jpg'),
+    (40, 1, 'cover', 'covers/switch/p/pokemon-shining-pearl.jpg');
 
 -- =======================================================================================
 -- GameOrderInfo
@@ -120,6 +140,12 @@ VALUES
     (26, FALSE, 'Amazon', '702-0994886-4812251', 41.99, '2022-11-19'),
     (28, FALSE, 'GameStop', '44645315', 65.99, '2022-09-21'),
     (29, FALSE, 'GameStop', '44869704', 29.99, '2022-10-14'),
-    (30, TRUE, 'GameStop', '46664125', 39.99, '2023-02-26');
+    (30, TRUE, 'GameStop', '46664125', 39.99, '2023-02-26'),
+    (31, FALSE, 'GameStop', '44971127', 24.99, '2022-10-22'),
+    (32, TRUE, 'GameStop', '46661680', 24.99, '2023-02-26'),
+    (34, TRUE, 'GameStop', '46824559', 65.99, '2023-03-16'),
+    (37, TRUE, 'GameStop', '46821750', 19.99, '2023-03-16'),
+    (38, FALSE, 'GameStop', '44669886', 65.99, '2022-09-23'),
+    (39, TRUE, 'GameStop', '46583840', 79.99, '2023-02-18');
 
 -- Fin.
