@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Menu } from "semantic-ui-react";
-
 interface GameListControlsProps {
     itemsPerPage: number;
     onSetItemsPerPage: (count: number) => void;
@@ -19,7 +18,7 @@ export class GameListControls extends React.Component<GameListControlsProps, Gam
         return (<Container>
             <Menu>
                 <Menu.Menu position="right">
-                    {[3, 4, 5, 6].map(num => {
+                    {[3, 4, 5, 6, 7].map(num => {
                         return (<Menu.Item key={num} active={num === itemsPerPage} onClick={() => this.props.onSetItemsPerPage(num)}>
                             {num}
                         </Menu.Item>);

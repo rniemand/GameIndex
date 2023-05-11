@@ -3,6 +3,7 @@ import { BasicGameInfoDto } from "../api";
 import { Card, Container, SemanticWIDTHSNUMBER } from "semantic-ui-react";
 import { GameListEntry } from "./GameListEntry";
 import { GameListControls } from "./GameListControls";
+import { storageHelper } from "../helpers/StorageHelper";
 
 interface GamesListProps {
   games: BasicGameInfoDto[];
@@ -18,7 +19,9 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   }
 
   componentDidMount(): void {
-    this.setState({ itemsPerPage: 3 });
+    this.setState({
+      itemsPerPage: storageHelper.getNumber('app.items.pp', 3)
+    });
   }
 
   render(): React.ReactNode {
@@ -47,6 +50,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   }
 
   _setItemsPerPage = (count: number) => {
+    storageHelper.setNumber('app.items.pp', count);
     this.setState({ itemsPerPage: count });
   }
 }
