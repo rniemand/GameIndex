@@ -1,16 +1,17 @@
 import React from 'react';
 import './App.css';
-import { TestComponent } from './components/Test';
-import { BasicGameInfoDto, GamePlatformEntity } from './api';
+import { GamesList } from './components/GamesList';
+import { BasicGameInfoDto, GamePlatformEntity, GamesClient } from './api';
 import { GamePlatforms } from './components/GamePlatforms';
 import 'semantic-ui-css/semantic.min.css'
 
-interface AppProps {
-  games: BasicGameInfoDto[];
-}
+const gamesClient = new GamesClient();
+
+interface AppProps { }
 
 interface AppState {
   selectedPlatform?: GamePlatformEntity;
+  games: BasicGameInfoDto[];
 }
 
 export default class App extends React.Component<AppProps, AppState> {
@@ -25,26 +26,34 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   render(): React.ReactNode {
-    if(!this.state) return null;
+    if (!this.state) return null;
     const selectedPlatform = this.state.selectedPlatform;
-
-    const onPlatformSelectedHandler = (platform: GamePlatformEntity) => {
-      this.setState({ selectedPlatform: platform });
-    };
+    const games = this.state.games || [];
 
     return (
       <div className="App">
         <header className="App-header">
-          <GamePlatforms onPlatformSelected={onPlatformSelectedHandler} selectedPlatform={selectedPlatform} />
-          <TestComponent games={this.props.games} />
+          <GamePlatforms onPlatformSelected={this._platformSelected} selectedPlatform={selectedPlatform} />
+          <GamesList games={games} />
         </header>
       </div>
     );
   }
+
+  _platformSelected = (platform: GamePlatformEntity) => {
+    this.setState({ selectedPlatform: platform }, this._loadPlatformGames);
+  }
+
+  _loadPlatformGames = () => {
+    const selectedPlatform = this.state.selectedPlatform;
+    if (!selectedPlatform) {
+      this.setState({ games: [] });
+      return;
+    }
+
+    gamesClient.getAllGames(selectedPlatform.platformID).then(_games => {
+      this.setState({ games: _games });
+    });
+  }
 }
 
-// function App(props: { games: BasicGameInfoDto[] }) {
-  
-// }
-
-// export default App;

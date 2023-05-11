@@ -29,9 +29,13 @@ export class GamePlatforms extends React.Component<GamePlatformsProps, GamePlatf
 
         return (<Menu>
             {platforms.map(platform => {
-                return (<Menu.Item key={platform.platformID} active={selectedPlatform?.platformID == platform.platformID}>
-                    {platform.platformName}
-                </Menu.Item>);
+                return (<Menu.Item
+                    key={platform.platformID}
+                    active={selectedPlatform?.platformID == platform.platformID}
+                    as='a'
+                    onClick={() => this.props.onPlatformSelected(platform)}
+                    content={platform.platformName}
+                />);
             })}
         </Menu>);
     }

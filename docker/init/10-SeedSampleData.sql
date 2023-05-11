@@ -4,7 +4,8 @@
 INSERT INTO `GamePlatforms`
     (`PlatformName`)
 VALUES
-    ('Switch');
+    ('Switch'),
+    ('XBox');
 
 -- =======================================================================================
 -- GameLocations
