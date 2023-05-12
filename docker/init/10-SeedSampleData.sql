@@ -67,7 +67,17 @@ VALUES
     (1, 1, TRUE, 0, '01-D6', 'Disgaea 1 Complete'), -- 37
     (1, 1, TRUE, 0, '02-C6', 'Pokemon Legends: Arceus'), -- 38
     (1, 1, TRUE, 0, '02-C3', 'Pokémon Violet'), -- 39
-    (1, 1, TRUE, 0, '02-C1', 'Pokémon Shining Pearl') -- 40
+    (1, 1, TRUE, 0, '02-C1', 'Pokémon Shining Pearl'), -- 40
+    (1, 1, TRUE, 0, '01-C1', 'LEGO Harry Potter Collection'), -- 41
+    (1, 1, TRUE, 0, '01-C2', 'LEGO DC Super Villians'), -- 42
+    (1, 1, TRUE, 0, '02-A5', 'Pokémon Shield'), -- 43
+    (1, 1, TRUE, 0, '02-B4', 'Pokémon Brilliant Diamond'), -- 44
+    (1, 1, TRUE, 0, '01-A1', 'Ice Age Scrats Nutty Adventure'), -- 45
+    (1, 1, TRUE, 0, '01-B5', 'Paw Patrol Grand Prix'), -- 46
+    (1, 1, TRUE, 0, '01-A4', 'Cars 3 Driven to Win'), -- 47
+    (1, 1, TRUE, 0, '02-D4', 'Mario Kart 8 Deluxe'), -- 48
+    (1, 1, TRUE, 0, '02-D5', 'Disney Classic Games: Aladdin and The Lion King'), -- 49
+    (1, 1, TRUE, 0, '01-A3', 'Rayman Legends Definitive Edition') -- 50
 ;
 
 -- =======================================================================================
@@ -115,7 +125,17 @@ VALUES
     (37, 1, 'cover', 'covers/switch/d/disgaea-1-complete.jpg'),
     (38, 1, 'cover', 'covers/switch/p/pokemon-arceas.jpg'),
     (39, 1, 'cover', 'covers/switch/p/pokemon-violet.jpg'),
-    (40, 1, 'cover', 'covers/switch/p/pokemon-shining-pearl.jpg');
+    (40, 1, 'cover', 'covers/switch/p/pokemon-shining-pearl.jpg'),
+    (41, 1, 'cover', 'covers/switch/l/lego-harry-potter-collection.jpg'),
+    (42, 1, 'cover', 'covers/switch/l/lego-dc-villians.jpg'),
+    (43, 1, 'cover', 'covers/switch/p/pokemon-shield.jpg'),
+    (44, 1, 'cover', 'covers/switch/p/pokemon-brilliant-diamond.jpg'),
+    (45, 1, 'cover', 'covers/switch/i/ice-age-scrats-nutty-adventure.jpg'),
+    (46, 1, 'cover', 'covers/switch/p/paw-patrol-grand-prix.jpg'),
+    (47, 1, 'cover', 'covers/switch/c/cars3-driven-to-win.jpg'),
+    (48, 1, 'cover', 'covers/switch/m/mario-kart-8-duluxe.jpg'),
+    (49, 1, 'cover', 'covers/switch/a/aladin-lion-king.jpg'),
+    (50, 1, 'cover', 'covers/switch/r/rayman-legends.jpg');
 
 -- =======================================================================================
 -- GameOrderInfo
@@ -146,6 +166,13 @@ VALUES
     (34, TRUE, 'GameStop', '46824559', 65.99, '2023-03-16'),
     (37, TRUE, 'GameStop', '46821750', 19.99, '2023-03-16'),
     (38, FALSE, 'GameStop', '44669886', 65.99, '2022-09-23'),
-    (39, TRUE, 'GameStop', '46583840', 79.99, '2023-02-18');
+    (39, TRUE, 'GameStop', '46583840', 79.99, '2023-02-18'),
+    (42, FALSE, 'GameStop', '46661680', 29.99, '2023-02-26'),
+    (43, FALSE, 'GameStop', '46590922', 65.99, '2023-02-19'),
+    (44, FALSE, 'GameStop', '45439390', 59.39, '2022-11-23'),
+    (45, TRUE, 'GameStop', '46883722', 19.99, '2023-03-22'),
+    (46, TRUE, 'GameStop', '46882187', 59.99, '2023-03-22'),
+    (47, TRUE, 'GameStop', '46883722', 24.99, '2023-03-22'),
+    (48, FALSE, 'GameStop', '44645315', 24.99, '2022-09-21');
 
 -- Fin.
