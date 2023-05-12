@@ -19,6 +19,7 @@ public class BasicGameInfoDto
   public string OrderNumber { get; set; } = string.Empty;
   public double Cost { get; set; }
   public DateTime? PurchaseDate { get; set; }
+  public bool GameSold { get; set; }
 
   public static BasicGameInfoDto FromEntity(BasicGameInfoEntity entity) => new()
   {
@@ -36,6 +37,7 @@ public class BasicGameInfoDto
     PurchaseDate = entity.PurchaseDate,
     HasProtection = entity.HasProtection,
     OrderNumber = entity.OrderNumber,
-    Seller = entity.Seller
+    Seller = entity.Seller,
+    GameSold = entity.GameSold,
   };
 }

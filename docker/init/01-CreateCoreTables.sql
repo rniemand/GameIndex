@@ -51,3 +51,12 @@ CREATE TABLE `Games` (
 )
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB;
+
+CREATE TABLE `GameSales` (
+	`GameID` BIGINT(20) NOT NULL,
+	`SaleDate` DATE NOT NULL,
+	`SaleAmount` DOUBLE NOT NULL DEFAULT '0',
+	INDEX `GameID` (`GameID`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB;

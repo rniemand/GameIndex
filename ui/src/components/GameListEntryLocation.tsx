@@ -14,7 +14,8 @@ export class GameListEntryLocation extends React.Component<GameListEntryLocation
 
   render(): React.ReactNode {
     const game = this.props.game;
-    
+
+    if(game.gameSold) return(<span className="location sold">Sold</span>);
     return (<span className="location">{game.locationName}</span>);
   }
 }

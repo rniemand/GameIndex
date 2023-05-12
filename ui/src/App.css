@@ -1,3 +1,7 @@
+.game-list .game-list-entry.sold {
+  opacity: .7;
+}
+
 .game-list .game-list-entry .extra .spacer {
   margin-left: 4px;
   margin-right: 4px;
@@ -10,9 +14,8 @@
 
 .game-list .center { text-align: center; }
 
-.game-list .game-list-entry .extra .location {
-  color: #2aab40;
-}
+.game-list .game-list-entry .extra .location { color: #2aab40; }
+.game-list .game-list-entry .extra .location.sold { color: #ab392a; }
 
 .game-list .game-list-entry .extra .order-info i {
   float: right;

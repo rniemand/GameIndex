@@ -54,7 +54,7 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
       onClose={() => this._setOpen(false)}
       onOpen={() => this._setOpen(true)}
       open={open}
-      trigger={<Button fluid icon labelPosition='left' color="blue">
+      trigger={<Button fluid icon labelPosition='left' color={game.gameSold ? 'red' : 'green'}>
         <Icon name='info' />
         Info
       </Button>}

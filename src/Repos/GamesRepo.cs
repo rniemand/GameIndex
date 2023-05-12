@@ -35,12 +35,14 @@ public class GamesRepo : IGamesRepo
 	    o.Seller,
 	    o.OrderNumber,
 	    o.Cost,
-	    o.PurchaseDate
+	    o.PurchaseDate,
+      CASE WHEN gs.GameID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`
     FROM `Games` g
 	    INNER JOIN `GamePlatforms` p ON p.PlatformID = g.PlatformID
 	    INNER JOIN `GameLocations` l ON l.LocationID = g.LocationID
 	    LEFT JOIN `GameImages` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
       LEFT JOIN `GameOrderInfo` o ON o.GameID = g.GameID
+      LEFT JOIN `GameSales` gs ON gs.GameID = g.GameID
     WHERE g.PlatformID = @PlatformID
     ORDER BY g.GameName";
     await using var connection = _connectionHelper.GetCoreConnection();

@@ -20,7 +20,6 @@ VALUES
     (1, 'Richard Switch');
 
 /*
-TRUNCATE TABLE `Games`;
 TRUNCATE TABLE `GameImages`;
 TRUNCATE TABLE `GameOrderInfo`;
 */

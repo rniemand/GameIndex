@@ -17,4 +17,5 @@ public class BasicGameInfoEntity
   public string OrderNumber { get; set; } = string.Empty;
   public double Cost { get; set; }
   public DateTime? PurchaseDate { get; set; }
+  public bool GameSold { get; set; }
 }
