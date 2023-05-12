@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Dev\GameIndex\src\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2023-05-12T00:58:49.9421174Z;True|2023-05-11T18:56:56.8003335-06:00;True|2023-05-11T18:45:58.3575353-06:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>
