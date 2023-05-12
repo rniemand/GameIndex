@@ -1,4 +1,4 @@
-﻿namespace GameIndex.Models.Entities;
+namespace GameIndex.Models.Entities;
 
 public class GameLocationEntity
 {

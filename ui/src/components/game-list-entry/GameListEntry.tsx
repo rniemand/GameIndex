@@ -3,12 +3,12 @@ import { BasicGameInfoDto } from "../../api";
 import { GameListEntryImage } from "./GameListEntryImage";
 import { Card } from "semantic-ui-react";
 import { GameListEntryCase } from "./GameListEntryCase";
-import { GameListEntryLocation } from "./GameListEntryLocation";
-import { GameListEntryOrderInfo } from "./GameListEntryOrderInfo";
 import { GameInfoModal } from "../../modals/GameInfoModal";
+import { SetConsoleModal } from "../../modals/SetConsoleModal";
 
 interface GameListEntryProps {
   game: BasicGameInfoDto;
+  onGameLocationChange: (game: BasicGameInfoDto) => void;
 }
 
 interface GameListEntryState { }
@@ -32,11 +32,10 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
         <GameInfoModal game={game} />
       </Card.Content>
       <Card.Content extra>
-        {/* <GameListEntryOrderInfo game={game} /> */}
         <div>
           {!game.gameSold && <GameListEntryCase game={game} />}
           {!game.gameSold && <span className="spacer">|</span>}
-          <GameListEntryLocation game={game} />
+          <SetConsoleModal game={game} onGameLocationChange={this.props.onGameLocationChange} />
         </div>
       </Card.Content>
     </Card>);

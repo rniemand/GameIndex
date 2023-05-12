@@ -12,8 +12,8 @@
 
 .game-list .game-list-entry .extra { text-align: center; }
 .game-list .game-list-entry .extra .case { font-weight: bold; color: #000; }
-.game-list .game-list-entry .extra .location { color: #2aab40; }
-.game-list .game-list-entry .extra .location.sold { color: #ab392a; }
+.game-list .game-list-entry .extra .location { color: #2aab40; cursor: pointer; }
+.game-list .game-list-entry .extra .location.sold { color: #ab392a; cursor: not-allowed; }
 
 .game-list .game-list-entry .extra .order-info i {
   float: right;

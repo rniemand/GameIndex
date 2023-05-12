@@ -13,6 +13,7 @@ interface GamesListProps {
 interface GamesListState {
   itemsPerPage: number;
   searchValue: string;
+  counter: number;
 }
 
 export class GameList extends React.Component<GamesListProps, GamesListState> {
@@ -23,7 +24,8 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   componentDidMount(): void {
     this.setState({
       itemsPerPage: storageHelper.getNumber('app.items.pp', 3),
-      searchValue: ''
+      searchValue: '',
+      counter: 0
     });
   }
 
@@ -39,7 +41,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
         {games.length === 0 && <p className="center">No games found.</p>}
         <Card.Group itemsPerRow={itemsPerPage as SemanticWIDTHSNUMBER}>
           {games.map(game => {
-            return (<GameListEntry key={game.gameID} game={game} />);
+            return (<GameListEntry key={game.gameID} game={game} onGameLocationChange={this._onGameLocationChange} />);
           })}
         </Card.Group>
       </Container>
@@ -63,5 +65,33 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
 
   _onSearchChanged = (value: string) => {
     this.setState({ searchValue: value });
+  }
+
+  _onGameLocationChange = (game: BasicGameInfoDto) => {
+    if(game.locationName.toLowerCase() == 'home') return;
+
+    const homeLocation = this.props.games.reduce((pv: BasicGameInfoDto | null, cv) => {
+      if(pv) return pv;
+      if(cv.game.locationName.toLowerCase() === 'home') return cv.game;
+      return null;
+    }, null);
+
+    if(!homeLocation) return;
+
+    this.props.games
+      .filter(x => x.game.locationID === game.locationID && x.game.gameID !== game.gameID)
+      .forEach(entry => {
+        entry.game.locationID = homeLocation.locationID;
+        entry.game.locationName = homeLocation.locationName;
+      });
+
+    this.props.games.forEach(e => {
+      const game = e.game;
+      e.searchString = `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}`.toLowerCase();
+    });
+
+    this.setState({
+      counter: this.state.counter+1
+    });
   }
 }
