@@ -60,5 +60,36 @@ VALUES
     (4, 1, TRUE, 0, '', 'Batman Arkam Knight'), -- 57
     (4, 1, TRUE, 0, '', 'Marvel Avengers'), -- 58
     (4, 1, TRUE, 0, '', 'Red Dead Redemption 2'), -- 59
-    (4, 1, TRUE, 0, '', 'Uncharted 4 A Thiefs End (PS Hits)') -- 60
+    (4, 1, TRUE, 0, '', 'Uncharted 4 A Thiefs End (PS Hits)'), -- 60
+    (3, 1, TRUE, 0, '', 'The Last of Us Part 1'), -- 61
+    (3, 1, TRUE, 0, '', 'Forspoken'), -- 62
+    (4, 1, TRUE, 0, '', 'Witcher 3 Wild Hunt'), -- 63
+    (2, 1, TRUE, 0, '', 'Hogwarts Legacy'), -- 64
+    (1, 1, FALSE, 0, '', 'Katamari Damacy Reroll'), -- 65
+    (1, 1, FALSE, 0, '', 'Baldurs GATE & Baldurs GATE 2 Enhanced Edition'), -- 66
+    (1, 1, FALSE, 0, '', 'Kingdom Hearts: Melody of Memory'), -- 67
+    (3, 1, FALSE, 0, '', 'Road 96'), -- 68
+    (4, 1, TRUE, 0, '', 'Kingdom Hearts 3'), -- 69
+    (4, 1, TRUE, 0, '', 'Ratchet & Clank'), -- 70
+    (4, 1, TRUE, 0, '', 'Infamous Second Son'), -- 71
+    (3, 1, TRUE, 0, '', 'Godfall'), -- 72
+    (2, 1, TRUE, 0, '', 'Metal Gear Solid V Ground Zeroes'), -- 73
+    (2, 1, TRUE, 0, '', 'Thief 4'), -- 74
+    (2, 1, TRUE, 0, '', 'Assassins Creed: Unity'), -- 75
+    (4, 1, TRUE, 0, '', 'Kalypso - Dungeons 3'), -- 76
+    (1, 1, TRUE, 0, '', 'Digimon Survive'), -- 77
+    (2, 1, TRUE, 0, '', 'Bleeding Edge'), -- 78
+    (1, 1, TRUE, 0, '', 'Diablo III Eternal Collection'), -- 79
+    (2, 1, TRUE, 0, '', 'Elder Scrolls Online'), -- 80
+    (4, 1, TRUE, 0, '', 'THE ELDER SCROLLS V : SKYRIM SPECIAL EDITION'), -- 81
+    (2, 1, TRUE, 0, '', 'DARKSIDERS 3'), -- 82
+    (4, 1, TRUE, 0, '', 'Sonic Mania Plus'), -- 83
+    (1, 1, TRUE, 0, '03-A4', 'Hotel Transylvania Scary Tale Adventure'), -- 84
+    (1, 1, TRUE, 0, '03-A5', 'Power Rangers: Battle for the Grid Super Edition'), -- 85
+    (1, 1, TRUE, 0, '03-B1', 'DC Super Pets'), -- 86
+    (1, 1, TRUE, 0, '03-A6', 'Ghost Parade'), -- 87
+    (1, 1, TRUE, 0, '03-B2', 'Paw Patrol The Movie Adventure City Calls'), -- 88
+    (1, 1, TRUE, 0, '03-B3', 'Dredge'), -- 89
+    (1, 1, TRUE, 0, '03-B4', 'Cult of the Lamb'), -- 90
+    (1, 1, TRUE, 0, '', 'Star Wars Racer and Commando Combo') -- 91
 ;
