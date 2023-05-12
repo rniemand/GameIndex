@@ -31,14 +31,14 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
       <Card.Content extra>
         <GameInfoModal game={game} />
       </Card.Content>
-      {!game.gameSold && <Card.Content extra>
-        <GameListEntryOrderInfo game={game} />
+      <Card.Content extra>
+        {/* <GameListEntryOrderInfo game={game} /> */}
         <div>
-          <GameListEntryCase game={game} />
-          <span className="spacer">|</span>
+          {!game.gameSold && <GameListEntryCase game={game} />}
+          {!game.gameSold && <span className="spacer">|</span>}
           <GameListEntryLocation game={game} />
         </div>
-      </Card.Content>}
+      </Card.Content>
     </Card>);
   }
 }

@@ -1,19 +1,17 @@
-.game-list .game-list-entry.sold {
-  opacity: .7;
-}
-
-.game-list .game-list-entry .extra .spacer {
-  margin-left: 4px;
-  margin-right: 4px;
-}
-
-.game-list .game-list-entry .extra .case {
-  font-weight: bold;
-  color: #000;
-}
-
 .game-list .center { text-align: center; }
 
+.game-list .game-list-entry.sold { opacity: .7; }
+.game-list .game-list-entry .extra .spacer { margin-left: 4px; margin-right: 4px; }
+
+.ui.container.game-list div.game-list-entry .content .header {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1em;
+}
+
+.game-list .game-list-entry .extra { text-align: center; }
+.game-list .game-list-entry .extra .case { font-weight: bold; color: #000; }
 .game-list .game-list-entry .extra .location { color: #2aab40; }
 .game-list .game-list-entry .extra .location.sold { color: #ab392a; }
 

@@ -15,6 +15,6 @@ export class GameListEntryCase extends React.Component<GameListEntryCaseProps, G
   render(): React.ReactNode {
     const game = this.props.game;
     
-    return (<span className="case">{game.gameCase}</span>);
+    return (<span className="case">{game.gameCase || 'N/A'}</span>);
   }
 }
