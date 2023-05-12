@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, Container, SemanticWIDTHSNUMBER } from "semantic-ui-react";
-import { GameListEntry } from "./GameListEntry";
-import { GameListControls } from "./GameListControls";
+import { GameListEntry } from "./game-list-entry/GameListEntry";
+import { GameListControls } from "./game-list-entry/GameListControls";
 import { storageHelper } from "../helpers/StorageHelper";
-import ISearchableGame from "../modals/ISearchableGame";
+import ISearchableGame from "../models/ISearchableGame";
 import { BasicGameInfoDto } from "../api";
 
 interface GamesListProps {

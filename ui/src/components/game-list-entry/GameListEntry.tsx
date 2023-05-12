@@ -1,11 +1,11 @@
 import React from "react";
-import { BasicGameInfoDto } from "../api";
+import { BasicGameInfoDto } from "../../api";
 import { GameListEntryImage } from "./GameListEntryImage";
 import { Card } from "semantic-ui-react";
 import { GameListEntryCase } from "./GameListEntryCase";
 import { GameListEntryLocation } from "./GameListEntryLocation";
 import { GameListEntryOrderInfo } from "./GameListEntryOrderInfo";
-import { GameInfoModal } from "./GameInfoModal";
+import { GameInfoModal } from "../../modals/GameInfoModal";
 
 interface GameListEntryProps {
   game: BasicGameInfoDto;

@@ -1,9 +1,9 @@
 import React from "react";
 import { BasicGameInfoDto } from "../api";
 import { Button, Icon, Modal, Tab } from "semantic-ui-react";
-import { GameInfoModalCoreInfo } from "./GameInfoModalCoreInfo";
-import { GameInfoModalOrderInfo } from "./GameInfoModalOrderInfo";
-import { GameInfoModalImages } from "./GameInfoModalImages";
+import { GameInfoModalCoreInfo } from "../components/modals/GameInfoModalCoreInfo";
+import { GameInfoModalImages } from "../components/modals/GameInfoModalImages";
+import { GameInfoModalOrderInfo } from "../components/modals/GameInfoModalOrderInfo";
 
 interface GameInfoModalProps {
   game: BasicGameInfoDto;

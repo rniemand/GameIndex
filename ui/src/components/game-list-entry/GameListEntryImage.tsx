@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto } from "../api";
+import { BasicGameInfoDto } from "../../api";
 import { Image } from "semantic-ui-react";
 
 interface ComponentProps {

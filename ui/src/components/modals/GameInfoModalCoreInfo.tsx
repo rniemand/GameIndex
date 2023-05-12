@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto } from "../api";
+import { BasicGameInfoDto } from "../../api";
 
 interface GameInfoModalCoreInfoProps {
   game: BasicGameInfoDto;

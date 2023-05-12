@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto } from "../api";
+import { BasicGameInfoDto } from "../../api";
 import { Icon } from "semantic-ui-react";
 
 interface GameListEntryOrderInfoProps {

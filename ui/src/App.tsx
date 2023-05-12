@@ -4,7 +4,7 @@ import { GameList } from './components/GameList';
 import { GamePlatformEntity, GamesClient } from './api';
 import { GamePlatforms } from './components/GamePlatforms';
 import 'semantic-ui-css/semantic.min.css'
-import ISearchableGame from './modals/ISearchableGame';
+import ISearchableGame from './models/ISearchableGame';
 
 const gamesClient = new GamesClient();
 
