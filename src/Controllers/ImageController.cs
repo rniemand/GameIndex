@@ -1,4 +1,4 @@
-﻿using GameIndex.Helpers;
+using GameIndex.Helpers;
 using GameIndex.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
@@ -26,10 +26,11 @@ public class ImageController : ControllerBase
   public async Task<ActionResult> GetImage([FromRoute] string platform, [FromRoute] long gameId)
   {
     var gameCoverEntity = await _gameImagesRepo.GetGameCoverImageAsync(gameId);
-    var fallbackPath = _pathHelper.ResolveImagePath($"covers/{platform}/placeholder.png");
+    var safePlatform = platform.ToLower();
+    var fallbackPath = _pathHelper.ResolveImagePath($"covers/{safePlatform}/placeholder.png");
 
     if (!_file.Exists(fallbackPath))
-      throw new Exception("Unable to resolve placeholder image");
+      throw new Exception($"Unable to resolve placeholder image: {fallbackPath}");
 
     if (gameCoverEntity is null)
       return File(System.IO.File.OpenRead(fallbackPath), GetContentType(fallbackPath));
