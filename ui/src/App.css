@@ -8,6 +8,8 @@
   color: #000;
 }
 
+.game-list .center { text-align: center; }
+
 .game-list .game-list-entry .extra .location {
   color: #2aab40;
 }

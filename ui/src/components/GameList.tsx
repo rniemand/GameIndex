@@ -32,17 +32,11 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     const games = this._getFilteredGames();
     const itemsPerPage = this.state.itemsPerPage || 3;
 
-    if (games.length === 0) {
-      return (<Container>
-        <h1>No Games</h1>
-        <p>There are no games for the selected category</p>
-      </Container>);
-    }
-
     return (<React.Fragment>
       <GameListControls itemsPerPage={itemsPerPage} onSetItemsPerPage={this._setItemsPerPage} onSearchChanged={this._onSearchChanged} />
       <br style={{ marginBottom: '6px' }} />
       <Container className="game-list">
+        {games.length === 0 && <p className="center">No games found.</p>}
         <Card.Group itemsPerRow={itemsPerPage as SemanticWIDTHSNUMBER}>
           {games.map(game => {
             return (<GameListEntry key={game.gameID} game={game} />);

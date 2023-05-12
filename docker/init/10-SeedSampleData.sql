@@ -4,9 +4,9 @@
 INSERT INTO `GamePlatforms`
     (`PlatformName`)
 VALUES
-    ('Switch') -- 1,
-    ('XBox') -- 2,
-    ('PS5') -- 3,
+    ('Switch'), -- 1,
+    ('XBox'), -- 2,
+    ('PS5'), -- 3,
     ('PS4') -- 4
 ;
 

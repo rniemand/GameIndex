@@ -91,5 +91,7 @@ VALUES
     (1, 1, TRUE, 0, '03-B2', 'Paw Patrol The Movie Adventure City Calls'), -- 88
     (1, 1, TRUE, 0, '03-B3', 'Dredge'), -- 89
     (1, 1, TRUE, 0, '03-B4', 'Cult of the Lamb'), -- 90
-    (1, 1, TRUE, 0, '', 'Star Wars Racer and Commando Combo') -- 91
+    (1, 1, TRUE, 0, '', 'Star Wars Racer and Commando Combo'), -- 91
+    (1, 1, TRUE, 0, '', 'The Legend of Zelda: Tears of the Kingdom'), -- 92
+    (1, 1, TRUE, 0, '', 'It Takes Two') -- 93
 ;

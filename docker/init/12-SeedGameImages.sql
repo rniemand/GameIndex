@@ -91,5 +91,7 @@ VALUES
     (88, 1, 'cover', 'covers/switch/p/pp-adv-city.png'),
     (89, 1, 'cover', 'covers/switch/d/dredge.jpg'),
     (90, 1, 'cover', 'covers/switch/c/cult-of-the-lamb.jpg'),
-    (91, 1, 'cover', 'covers/switch/s/star-wars-racer-combo.jpg')
+    (91, 1, 'cover', 'covers/switch/s/star-wars-racer-combo.jpg'),
+    (92, 1, 'cover', 'covers/switch/z/zelda-tears-of-the-kingdom.png'),
+    (93, 1, 'cover', 'covers/switch/i/it-takes-two.jpg')
 ;
