@@ -28,7 +28,3 @@ VALUES
     (1, 'Erica Switch'),
     (1, 'Sean Switch');
 
-/*
-TRUNCATE TABLE `GameImages`;
-TRUNCATE TABLE `GameOrderInfo`;
-*/

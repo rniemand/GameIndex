@@ -1,3 +1,5 @@
+-- TRUNCATE TABLE `GameOrderInfo`;
+
 INSERT INTO `GameOrderInfo`
 	(`GameID`, `HasProtection`, `Seller`, `OrderNumber`, `Cost`, `PurchaseDate`)
 VALUES

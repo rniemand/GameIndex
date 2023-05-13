@@ -1,6 +1,4 @@
-/*
-TRUNCATE TABLE `GameSales`;
-*/
+-- TRUNCATE TABLE `GameSales`;
 
 INSERT INTO `GameSales`
   (`GameID`, `SaleDate`, `SaleAmount`)

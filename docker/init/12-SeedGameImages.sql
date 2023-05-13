@@ -1,3 +1,5 @@
+-- TRUNCATE TABLE `GameImages`;
+
 INSERT INTO `GameImages`
     (`GameID`, `ImageOrder`, `ImageType`, `ImagePath`)
 VALUES
