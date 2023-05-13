@@ -40,4 +40,24 @@ public class BasicGameInfoDto
     Seller = entity.Seller,
     GameSold = entity.GameSold,
   };
+
+  public BasicGameInfoEntity ToEntity() => new()
+  {
+    Cost = Cost,
+    GameCase = GameCase,
+    GameID = GameID,
+    GameName = GameName,
+    GameSold = GameSold,
+    HasCover = HasCover,
+    LocationID = LocationID,
+    LocationName = LocationName,
+    PlatformID = PlatformID,
+    PlatformName = PlatformName,
+    Rating = Rating,
+    HasProtection = HasProtection,
+    ImagePath = ImagePath,
+    OrderNumber = OrderNumber,
+    PurchaseDate = PurchaseDate,
+    Seller = Seller,
+  };
 }

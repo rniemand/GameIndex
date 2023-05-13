@@ -1,3 +1,4 @@
+
 using Dapper;
 using GameIndex.Helpers;
 using GameIndex.Models.Entities;
@@ -7,6 +8,7 @@ namespace GameIndex.Repos;
 public interface IGamesRepo
 {
   Task<List<BasicGameInfoEntity>> GetAllAsync(int platformId);
+  Task<int> UpdateGameInfoAsync(BasicGameInfoEntity game);
 }
 
 public class GamesRepo : IGamesRepo
@@ -47,5 +49,17 @@ public class GamesRepo : IGamesRepo
     ORDER BY g.GameName";
     await using var connection = _connectionHelper.GetCoreConnection();
     return (await connection.QueryAsync<BasicGameInfoEntity>(query, new { PlatformID = platformId })).ToList();
+  }
+
+  public async Task<int> UpdateGameInfoAsync(BasicGameInfoEntity game)
+  {
+    const string query = @"UPDATE `Games`
+    SET
+	    `GameName` = @GameName,
+	    `GameCase` = @GameCase
+    WHERE
+	    `GameID` = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, game);
   }
 }

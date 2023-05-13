@@ -10,6 +10,7 @@ public interface IGamesService
   Task<List<GameImageDto>> GetImagesAsync(long gameId);
   Task<List<GameLocationDto>> GetLocationsAsync(int platformId);
   Task<int> SetGameLocationAsync(long gameId, int locationId);
+  Task<int> UpdateGameInfoAsync(BasicGameInfoDto gameInfo);
 }
 
 public class GamesService : IGamesService
@@ -53,4 +54,7 @@ public class GamesService : IGamesService
 
   public async Task<int> SetGameLocationAsync(long gameId, int locationId) =>
     await _gameLocationRepo.SetGameLocationAsync(gameId, locationId);
+
+  public async Task<int> UpdateGameInfoAsync(BasicGameInfoDto gameInfo) =>
+    await _gamesRepo.UpdateGameInfoAsync(gameInfo.ToEntity());
 }

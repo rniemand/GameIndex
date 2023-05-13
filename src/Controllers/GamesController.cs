@@ -34,4 +34,8 @@ public class GamesController : ControllerBase
   [HttpPut("set-location/{gameId:long}/{locationId:int}")]
   public async Task<int> SetGameLocation([FromRoute] long gameId, [FromRoute] int locationId) =>
     await _gamesService.SetGameLocationAsync(gameId, locationId);
+
+  [HttpPost("update")]
+  public async Task<int> UpdateGameInfo([FromBody] BasicGameInfoDto game) =>
+    await _gamesService.UpdateGameInfoAsync(game);
 }
