@@ -35,6 +35,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       return (<React.Fragment>
         <div>Order info for: {game.gameName} | {orderInfo.cost}</div>
         <div onClick={this._toggleProtection}>Protection: {orderInfo.hasProtection ? 'YES' : 'NO'}</div>
+        <div onClick={this._toggleReceipt}>Receipt: {orderInfo.haveReceipt ? 'YES' : 'NO'}</div>
       </React.Fragment>);
     }
 
@@ -49,6 +50,14 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
     _toggleProtection = () => {
       new GamesClient().toggleGameProtection(this.props.game.gameID).then(orderInfo => {
+        this.setState({
+          orderInfo: orderInfo || undefined,
+        });
+      })
+    }
+
+    _toggleReceipt = () => {
+      new GamesClient().toggleGameReceipt(this.props.game.gameID).then(orderInfo => {
         this.setState({
           orderInfo: orderInfo || undefined,
         });

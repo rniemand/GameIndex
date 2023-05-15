@@ -10,6 +10,7 @@ public class GameOrderInfoDto
   public string OrderNumber { get; set; } = string.Empty;
   public double Cost { get; set; }
   public DateTime PurchaseDate { get; set; }
+  public bool HaveReceipt { get; set; }
 
   public static GameOrderInfoDto FromEntity(GameOrderInfoEntity entity) => new()
   {
@@ -19,5 +20,6 @@ public class GameOrderInfoDto
     HasProtection = entity.HasProtection,
     OrderNumber = entity.OrderNumber,
     Seller = entity.Seller,
+    HaveReceipt = entity.HaveReceipt,
   };
 }

@@ -42,4 +42,8 @@ public class GamesController : ControllerBase
   [HttpGet("toggle-protection/{gameId:long}")]
   public async Task<GameOrderInfoDto?> ToggleGameProtection([FromRoute] long gameId) =>
     await _gamesService.ToggleGameProtectionAsync(gameId);
+
+  [HttpGet("toggle-receipt/{gameId:long}")]
+  public async Task<GameOrderInfoDto?> ToggleGameReceipt([FromRoute] long gameId) =>
+    await _gamesService.ToggleGameReceiptAsync(gameId);
 }

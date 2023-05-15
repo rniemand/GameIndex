@@ -140,6 +140,8 @@ export interface IGamesClient {
     updateGameInfo(game: BasicGameInfoDto): Promise<number>;
 
     toggleGameProtection(gameId: number): Promise<GameOrderInfoDto>;
+
+    toggleGameReceipt(gameId: number): Promise<GameOrderInfoDto>;
 }
 
 export class GamesClient implements IGamesClient {
@@ -437,6 +439,43 @@ export class GamesClient implements IGamesClient {
         }
         return Promise.resolve<GameOrderInfoDto>(null as any);
     }
+
+    toggleGameReceipt(gameId: number): Promise<GameOrderInfoDto> {
+        let url_ = this.baseUrl + "/Games/toggle-receipt/{gameId}";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processToggleGameReceipt(_response);
+        });
+    }
+
+    protected processToggleGameReceipt(response: Response): Promise<GameOrderInfoDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GameOrderInfoDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GameOrderInfoDto>(null as any);
+    }
 }
 
 export interface IImageClient {
@@ -686,6 +725,7 @@ export class GameOrderInfoDto implements IGameOrderInfoDto {
     orderNumber!: string;
     cost!: number;
     purchaseDate!: Date;
+    haveReceipt!: boolean;
 
     constructor(data?: IGameOrderInfoDto) {
         if (data) {
@@ -704,6 +744,7 @@ export class GameOrderInfoDto implements IGameOrderInfoDto {
             this.orderNumber = _data["orderNumber"];
             this.cost = _data["cost"];
             this.purchaseDate = _data["purchaseDate"] ? new Date(_data["purchaseDate"].toString()) : <any>undefined;
+            this.haveReceipt = _data["haveReceipt"];
         }
     }
 
@@ -722,6 +763,7 @@ export class GameOrderInfoDto implements IGameOrderInfoDto {
         data["orderNumber"] = this.orderNumber;
         data["cost"] = this.cost;
         data["purchaseDate"] = this.purchaseDate ? this.purchaseDate.toISOString() : <any>undefined;
+        data["haveReceipt"] = this.haveReceipt;
         return data;
     }
 }
@@ -733,6 +775,7 @@ export interface IGameOrderInfoDto {
     orderNumber: string;
     cost: number;
     purchaseDate: Date;
+    haveReceipt: boolean;
 }
 
 export class GameImageDto implements IGameImageDto {

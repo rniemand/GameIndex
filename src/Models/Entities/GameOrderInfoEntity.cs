@@ -1,4 +1,4 @@
-﻿namespace GameIndex.Models.Entities;
+namespace GameIndex.Models.Entities;
 
 public class GameOrderInfoEntity
 {
@@ -8,4 +8,5 @@ public class GameOrderInfoEntity
   public string OrderNumber { get; set; } = string.Empty;
   public double Cost { get; set; }
   public DateTime PurchaseDate { get; set; }
+  public bool HaveReceipt { get; set; }
 }

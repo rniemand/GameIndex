@@ -8,6 +8,7 @@ public interface IGamOrderInfoRepo
 {
   Task<GameOrderInfoEntity?> GetOrderInfoAsync(long gameId);
   Task<int> ToggleHasProtectionAsync(long gameId);
+  Task<int> ToggleHasReceiptAsync(long gameId);
 }
 
 public class GamOrderInfoRepo : IGamOrderInfoRepo
@@ -27,7 +28,8 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
 	    o.Seller,
 	    o.OrderNumber,
 	    o.Cost,
-	    o.PurchaseDate
+	    o.PurchaseDate,
+      o.HaveReceipt
     FROM `GameOrderInfo` o
     WHERE o.GameID = @GameID
     LIMIT 1";
@@ -43,5 +45,15 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
     WHERE `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, new { GameID = gameId});
+  }
+
+  public async Task<int> ToggleHasReceiptAsync(long gameId)
+  {
+    const string query = @"UPDATE `GameOrderInfo`
+    SET
+      `HaveReceipt` = !`HaveReceipt`
+    WHERE `GameID` = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new { GameID = gameId });
   }
 }
