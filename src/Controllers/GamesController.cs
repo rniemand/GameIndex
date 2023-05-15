@@ -46,4 +46,8 @@ public class GamesController : ControllerBase
   [HttpGet("toggle-receipt/{gameId:long}")]
   public async Task<GameOrderInfoDto?> ToggleGameReceipt([FromRoute] long gameId) =>
     await _gamesService.ToggleGameReceiptAsync(gameId);
+
+  [HttpPut("set-receipt-location/{gameId:long}")]
+  public async Task<GameOrderInfoDto?> SetReceiptLocation([FromRoute] long gameId, [FromBody] string location) =>
+    await _gamesService.SetReceiptLocationAsync(gameId, location);
 }

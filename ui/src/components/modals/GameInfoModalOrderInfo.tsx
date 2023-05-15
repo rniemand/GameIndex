@@ -1,5 +1,6 @@
 import React from "react";
 import { BasicGameInfoDto, GameOrderInfoDto, GamesClient } from "../../api";
+import { Button, Input, InputOnChangeData } from "semantic-ui-react";
 
 interface GameInfoModalOrderInfoProps {
   game: BasicGameInfoDto;
@@ -8,6 +9,8 @@ interface GameInfoModalOrderInfoProps {
 interface GameInfoModalOrderInfoState {
   orderInfo?: GameOrderInfoDto;
   loading: boolean;
+  receiptLocation: string;
+  locationDirty: boolean;
 }
 
 export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderInfoProps, GameInfoModalOrderInfoState> {
@@ -16,7 +19,11 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
     }
 
     componentDidMount(): void {
-        this.setState({ loading: true }, this._fetchOrderInfo);
+        this.setState({ 
+          loading: true,
+          receiptLocation: '',
+          locationDirty: false,
+        }, this._fetchOrderInfo);
     }
 
     render(): React.ReactNode {
@@ -32,10 +39,19 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         return(<div>No order information available for <strong>{game.gameName}</strong>.</div>);
       }
 
+      const receiptLocation = this.state.receiptLocation;
+
       return (<React.Fragment>
         <div>Order info for: {game.gameName} | {orderInfo.cost}</div>
         <div onClick={this._toggleProtection}>Protection: {orderInfo.hasProtection ? 'YES' : 'NO'}</div>
         <div onClick={this._toggleReceipt}>Receipt: {orderInfo.haveReceipt ? 'YES' : 'NO'}</div>
+        <div>
+          <Input placeholder='Order #' value={orderInfo.orderNumber} />
+        </div>
+        <div>
+          <Input placeholder='Receipt Location' value={receiptLocation} onChange={this._setReceiptLocation} />
+          <Button disabled={!this.state.locationDirty} onClick={this._saveReceiptLocation}>Save</Button>
+        </div>
       </React.Fragment>);
     }
 
@@ -43,7 +59,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       (new GamesClient()).getOrderInformation(this.props.game.gameID).then(orderInfo => {
         this.setState({
           loading: false,
-          orderInfo: orderInfo
+          orderInfo: orderInfo,
+          receiptLocation: orderInfo?.receiptLocation || ''
         });
       });
     }
@@ -62,5 +79,21 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           orderInfo: orderInfo || undefined,
         });
       })
+    }
+
+    _setReceiptLocation = (_: any, data: InputOnChangeData) => {
+      this.setState({
+        receiptLocation: data.value,
+        locationDirty: true,
+      });
+    }
+
+    _saveReceiptLocation = () => {
+        new GamesClient().setReceiptLocation(this.props.game.gameID, this.state.receiptLocation).then(orderInfo => {
+          this.setState({
+            orderInfo: orderInfo || undefined,
+            locationDirty: false,
+          });
+        })
     }
 }

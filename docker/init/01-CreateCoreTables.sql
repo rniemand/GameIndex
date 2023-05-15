@@ -32,6 +32,8 @@ CREATE TABLE `GameOrderInfo` (
 	`OrderNumber` VARCHAR(64) NOT NULL COLLATE 'utf8mb4_general_ci',
 	`Cost` DOUBLE NOT NULL DEFAULT '0',
 	`PurchaseDate` DATE NULL DEFAULT NULL,
+	`HaveReceipt` BIT(1) NOT NULL DEFAULT b'0',
+	`ReceiptLocation` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	INDEX `GameID` (`GameID`) USING BTREE
 )
 COLLATE='utf8mb4_general_ci'

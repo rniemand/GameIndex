@@ -9,6 +9,7 @@ public interface IGamOrderInfoRepo
   Task<GameOrderInfoEntity?> GetOrderInfoAsync(long gameId);
   Task<int> ToggleHasProtectionAsync(long gameId);
   Task<int> ToggleHasReceiptAsync(long gameId);
+  Task<int> SetReceiptLocationAsync(long gameId, string location);
 }
 
 public class GamOrderInfoRepo : IGamOrderInfoRepo
@@ -44,7 +45,7 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
       `HasProtection` = !`HasProtection`
     WHERE `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId});
+    return await connection.ExecuteAsync(query, new { GameID = gameId });
   }
 
   public async Task<int> ToggleHasReceiptAsync(long gameId)
@@ -55,5 +56,20 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
     WHERE `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, new { GameID = gameId });
+  }
+
+  public async Task<int> SetReceiptLocationAsync(long gameId, string location)
+  {
+    const string query = @"UPDATE `GameOrderInfo`
+    SET
+      `ReceiptLocation` = @ReceiptLocation
+    WHERE `GameID` = @GameID
+      OR `OrderNumber` = (
+        SELECT OrderNumber
+        FROM `GameOrderInfo`
+        WHERE `GameID` = @GameID
+      )";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new { GameID = gameId, ReceiptLocation = location });
   }
 }

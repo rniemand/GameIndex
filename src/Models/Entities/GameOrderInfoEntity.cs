@@ -9,4 +9,5 @@ public class GameOrderInfoEntity
   public double Cost { get; set; }
   public DateTime PurchaseDate { get; set; }
   public bool HaveReceipt { get; set; }
+  public string ReceiptLocation { get; set; } = string.Empty;
 }
