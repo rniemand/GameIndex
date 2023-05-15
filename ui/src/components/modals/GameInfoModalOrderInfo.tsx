@@ -17,6 +17,8 @@ interface GameInfoModalOrderInfoState {
   orderUrlDirty: boolean;
   orderNumber: string;
   orderNumberDirty: boolean;
+  orderDate?: string;
+  orderDateDirty: boolean;
 }
 
 export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderInfoProps, GameInfoModalOrderInfoState> {
@@ -35,6 +37,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           orderUrlDirty: false,
           orderNumber: '',
           orderNumberDirty: false,
+          orderDate: '',
+          orderDateDirty: false,
         }, this._fetchOrderInfo);
     }
 
@@ -55,9 +59,10 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       const price = this.state.cost;
       const orderUrl = this.state.orderUrl;
       const orderNumber = this.state.orderNumber;
+      const orderDate = this.state.orderDate;
 
       return (<React.Fragment>
-        <div>Order info for: {game.gameName} | {orderInfo.cost}</div>
+        <div>Order info for: {game.gameName}</div>
         <div onClick={this._toggleProtection}>Protection: {orderInfo.hasProtection ? 'YES' : 'NO'}</div>
         <div onClick={this._toggleReceipt}>Receipt: {orderInfo.haveReceipt ? 'YES' : 'NO'}</div>
         <div>
@@ -80,6 +85,11 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           &nbsp;
           <Button disabled={!this.state.orderUrlDirty} onClick={this._saveOrderUrlChanges}>Save</Button>
         </div>
+        <div>
+          <Input placeholder='Order Date' value={orderDate} type="date" onChange={this._setOrderDate} />
+          &nbsp;
+          <Button disabled={!this.state.orderDateDirty} onClick={this._saveOrderDate}>Save</Button>
+        </div>
       </React.Fragment>);
     }
 
@@ -96,6 +106,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           orderNumberDirty: false,
           orderUrl: orderInfo?.orderUrl || '',
           orderUrlDirty: false,
+          orderDate: orderInfo?.purchaseDate?.toISOString().split('T')[0] || '',
+          orderDateDirty: false,
         });
       });
     }
@@ -176,6 +188,22 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         this.setState({
           orderInfo: orderInfo || undefined,
           orderNumberDirty: false,
+        });
+      });
+    }
+
+    _setOrderDate = (_: any, data: InputOnChangeData) => {
+      this.setState({
+        orderDate: data.value,
+        orderDateDirty: true,
+      });
+    }
+
+    _saveOrderDate = () => {
+      new GamesClient().setOrderDate(this.props.game.gameID, this.state.orderDate || '').then(orderInfo => {
+        this.setState({
+          orderInfo: orderInfo || undefined,
+          orderDateDirty: false,
         });
       });
     }
