@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using GameIndex.Helpers;
 using GameIndex.Models.Entities;
 
@@ -7,6 +7,7 @@ namespace GameIndex.Repos;
 public interface IGamOrderInfoRepo
 {
   Task<GameOrderInfoEntity?> GetOrderInfoAsync(long gameId);
+  Task<int> ToggleHasProtectionAsync(long gameId);
 }
 
 public class GamOrderInfoRepo : IGamOrderInfoRepo
@@ -32,5 +33,15 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
     LIMIT 1";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.QuerySingleOrDefaultAsync<GameOrderInfoEntity>(query, new { GameID = gameId });
+  }
+
+  public async Task<int> ToggleHasProtectionAsync(long gameId)
+  {
+    const string query = @"UPDATE `GameOrderInfo`
+    SET
+      `HasProtection` = !`HasProtection`
+    WHERE `GameID` = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new { GameID = gameId});
   }
 }

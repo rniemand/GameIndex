@@ -8,7 +8,7 @@ interface GameListEntryOrderInfoProps {
 
 interface GameListEntryOrderInfoState { }
 
-export class GameListEntryOrderInfo extends React.Component<GameListEntryOrderInfoProps, GameListEntryOrderInfo> {
+export class GameListEntryOrderInfo extends React.Component<GameListEntryOrderInfoProps, GameListEntryOrderInfoState> {
   constructor(props: any) {
     super(props);
   }

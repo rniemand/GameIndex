@@ -11,6 +11,7 @@ public interface IGamesService
   Task<List<GameLocationDto>> GetLocationsAsync(int platformId);
   Task<int> SetGameLocationAsync(long gameId, int locationId);
   Task<int> UpdateGameInfoAsync(BasicGameInfoDto gameInfo);
+  Task<GameOrderInfoDto?> ToggleGameProtectionAsync(long gameId);
 }
 
 public class GamesService : IGamesService
@@ -57,4 +58,11 @@ public class GamesService : IGamesService
 
   public async Task<int> UpdateGameInfoAsync(BasicGameInfoDto gameInfo) =>
     await _gamesRepo.UpdateGameInfoAsync(gameInfo.ToEntity());
+
+  public async Task<GameOrderInfoDto?> ToggleGameProtectionAsync(long gameId)
+  {
+    await _gamOrderInfoRepo.ToggleHasProtectionAsync(gameId);
+    var orderInfo = await _gamOrderInfoRepo.GetOrderInfoAsync(gameId);
+    return orderInfo is null ? null : GameOrderInfoDto.FromEntity(orderInfo);
+  }
 }

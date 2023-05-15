@@ -38,4 +38,8 @@ public class GamesController : ControllerBase
   [HttpPost("update")]
   public async Task<int> UpdateGameInfo([FromBody] BasicGameInfoDto game) =>
     await _gamesService.UpdateGameInfoAsync(game);
+
+  [HttpGet("toggle-protection/{gameId:long}")]
+  public async Task<GameOrderInfoDto?> ToggleGameProtection([FromRoute] long gameId) =>
+    await _gamesService.ToggleGameProtectionAsync(gameId);
 }

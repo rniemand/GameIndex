@@ -32,9 +32,10 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         return(<div>No order information available for <strong>{game.gameName}</strong>.</div>);
       }
 
-        return (<div>
-          Order info for: {game.gameName} | {orderInfo.cost}
-        </div>);
+      return (<React.Fragment>
+        <div>Order info for: {game.gameName} | {orderInfo.cost}</div>
+        <div onClick={this._toggleProtection}>Protection: {orderInfo.hasProtection ? 'YES' : 'NO'}</div>
+      </React.Fragment>);
     }
 
     _fetchOrderInfo = () => {
@@ -44,5 +45,13 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           orderInfo: orderInfo
         });
       });
+    }
+
+    _toggleProtection = () => {
+      new GamesClient().toggleGameProtection(this.props.game.gameID).then(orderInfo => {
+        this.setState({
+          orderInfo: orderInfo || undefined,
+        });
+      })
     }
 }
