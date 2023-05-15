@@ -29,4 +29,19 @@ paths:
 ### Task List
 
 - Refresh games when closing game information dialog
-- 
+- Ability to search on receipt number
+- Add flag for receipt scanned
+- Support for console \ hardware purchase tracking
+- Process return info
+  - REC-005
+  - REC-007
+  - REC-015
+  - REC-017
+  - REC-018
+  - REC-021
+- Pre-order
+  - REC-009
+- Console Order
+  - REC-012
+- Missing
+  - REC-022

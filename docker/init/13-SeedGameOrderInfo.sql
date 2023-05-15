@@ -67,5 +67,7 @@ VALUES
     (89, FALSE, 'Amazon', '89-FIX-DATE-', 52.48, '2023-03-31'),
     (90, FALSE, 'GameStop', '90-FIX-DATE-', 52.48, '2023-03-31'),
     (92, FALSE, 'GameStop', '92-FIX-DATE-', 89.99, '2021-05-12'),
-    (51, FALSE, 'GameStop', '51-', 22.49, '2023-03-24')
+    (51, FALSE, 'GameStop', '51-', 22.49, '2023-03-24'),
+    (52, FALSE, 'GameStop', '52-', 16.19, '2023-03-24'),
+    (53, FALSE, 'GameStop', '53-', 29.69, '2023-03-24')
 ;
