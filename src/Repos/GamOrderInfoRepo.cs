@@ -11,6 +11,7 @@ public interface IGamOrderInfoRepo
   Task<int> ToggleHasReceiptAsync(long gameId);
   Task<int> SetReceiptLocationAsync(long gameId, string location);
   Task<int> SetGamePriceAsync(long gameId, double price);
+  Task<int> SetGameOrderUrlAsync(long gameId, string orderUrl);
 }
 
 public class GamOrderInfoRepo : IGamOrderInfoRepo
@@ -32,7 +33,8 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
 	    o.Cost,
 	    o.PurchaseDate,
       o.HaveReceipt,
-      o.ReceiptLocation
+      o.ReceiptLocation,
+      o.OrderUrl
     FROM `GameOrderInfo` o
     WHERE o.GameID = @GameID
     LIMIT 1";
@@ -83,5 +85,20 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
     WHERE `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, new { GameID = gameId, Cost = price });
+  }
+
+  public async Task<int> SetGameOrderUrlAsync(long gameId, string orderUrl)
+  {
+    const string query = @"UPDATE `GameOrderInfo`
+    SET
+      `OrderUrl` = @OrderUrl
+    WHERE `GameID` = @GameID
+      OR `OrderNumber` = (
+        SELECT OrderNumber
+        FROM `GameOrderInfo`
+        WHERE `GameID` = @GameID
+      )";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new { GameID = gameId, OrderUrl = orderUrl });
   }
 }

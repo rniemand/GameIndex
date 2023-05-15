@@ -13,6 +13,8 @@ interface GameInfoModalOrderInfoState {
   locationDirty: boolean;
   cost: number;
   costDirty: boolean;
+  orderUrl: string;
+  orderUrlDirty: boolean;
 }
 
 export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderInfoProps, GameInfoModalOrderInfoState> {
@@ -27,6 +29,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           locationDirty: false,
           cost: 0,
           costDirty: false,
+          orderUrl: '',
+          orderUrlDirty: false,
         }, this._fetchOrderInfo);
     }
 
@@ -45,6 +49,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
       const receiptLocation = this.state.receiptLocation;
       const price = this.state.cost;
+      const orderUrl = this.state.orderUrl;
 
       return (<React.Fragment>
         <div>Order info for: {game.gameName} | {orderInfo.cost}</div>
@@ -62,6 +67,11 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           <Input placeholder='Price' type="number" value={price} onChange={this._setGamePrice} />
           &nbsp;
           <Button disabled={!this.state.costDirty} onClick={this._saveCostChanges}>Save</Button>
+        </div>
+        <div>
+          <Input placeholder='Order URL' value={orderUrl} onChange={this._setOrderUrl} />
+          &nbsp;
+          <Button disabled={!this.state.orderUrlDirty} onClick={this._saveOrderUrlChanges}>Save</Button>
         </div>
       </React.Fragment>);
     }
@@ -123,6 +133,22 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         this.setState({
           orderInfo: orderInfo || undefined,
           costDirty: false,
+        });
+      });
+    }
+    
+    _setOrderUrl = (_: any, data: InputOnChangeData) => {
+      this.setState({
+        orderUrl: data.value,
+        orderUrlDirty: true,
+      });
+    }
+
+    _saveOrderUrlChanges = () => {
+      new GamesClient().setGameOrderUrl(this.props.game.gameID, this.state.orderUrl).then(orderInfo => {
+        this.setState({
+          orderInfo: orderInfo || undefined,
+          orderUrlDirty: false,
         });
       });
     }

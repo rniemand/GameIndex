@@ -54,4 +54,8 @@ public class GamesController : ControllerBase
   [HttpPut("set-game-price/{gameId:long}")]
   public async Task<GameOrderInfoDto?> SetGamePrice([FromRoute] long gameId, [FromBody] double price) =>
     await _gamesService.SetGamePriceAsync(gameId, price);
+
+  [HttpPut("set-game-order-url/{gameId:long}")]
+  public async Task<GameOrderInfoDto?> SetGameOrderUrl([FromRoute] long gameId, [FromBody] string orderUrl) =>
+    await _gamesService.SetGameOrderUrlAsync(gameId, orderUrl);
 }

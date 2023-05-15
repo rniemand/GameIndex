@@ -15,6 +15,7 @@ public interface IGamesService
   Task<GameOrderInfoDto?> ToggleGameReceiptAsync(long gameId);
   Task<GameOrderInfoDto?> SetReceiptLocationAsync(long gameId, string location);
   Task<GameOrderInfoDto?> SetGamePriceAsync(long gameId, double price);
+  Task<GameOrderInfoDto?> SetGameOrderUrlAsync(long gameId, string orderUrl);
 }
 
 public class GamesService : IGamesService
@@ -86,6 +87,13 @@ public class GamesService : IGamesService
   public async Task<GameOrderInfoDto?> SetGamePriceAsync(long gameId, double price)
   {
     await _gamOrderInfoRepo.SetGamePriceAsync(gameId, price);
+    var orderInfo = await _gamOrderInfoRepo.GetOrderInfoAsync(gameId);
+    return orderInfo is null ? null : GameOrderInfoDto.FromEntity(orderInfo);
+  }
+
+  public async Task<GameOrderInfoDto?> SetGameOrderUrlAsync(long gameId, string orderUrl)
+  {
+    await _gamOrderInfoRepo.SetGameOrderUrlAsync(gameId, orderUrl);
     var orderInfo = await _gamOrderInfoRepo.GetOrderInfoAsync(gameId);
     return orderInfo is null ? null : GameOrderInfoDto.FromEntity(orderInfo);
   }

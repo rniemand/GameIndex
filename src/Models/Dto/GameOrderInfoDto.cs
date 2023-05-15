@@ -12,6 +12,7 @@ public class GameOrderInfoDto
   public DateTime PurchaseDate { get; set; }
   public bool HaveReceipt { get; set; }
   public string ReceiptLocation { get; set; } = string.Empty;
+  public string OrderUrl { get; set; } = string.Empty;
 
   public static GameOrderInfoDto FromEntity(GameOrderInfoEntity entity) => new()
   {
@@ -23,5 +24,6 @@ public class GameOrderInfoDto
     Seller = entity.Seller,
     HaveReceipt = entity.HaveReceipt,
     ReceiptLocation = entity.ReceiptLocation,
+    OrderUrl = entity.OrderUrl,
   };
 }
