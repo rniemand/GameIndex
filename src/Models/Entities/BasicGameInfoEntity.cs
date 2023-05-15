@@ -18,4 +18,5 @@ public class BasicGameInfoEntity
   public double Cost { get; set; }
   public DateTime? PurchaseDate { get; set; }
   public bool GameSold { get; set; }
+  public bool HaveReceipt { get; set; }
 }

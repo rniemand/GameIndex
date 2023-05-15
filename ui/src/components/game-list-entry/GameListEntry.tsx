@@ -1,7 +1,7 @@
 import React from "react";
 import { BasicGameInfoDto } from "../../api";
 import { GameListEntryImage } from "./GameListEntryImage";
-import { Card } from "semantic-ui-react";
+import { Card, Icon } from "semantic-ui-react";
 import { GameListEntryCase } from "./GameListEntryCase";
 import { GameInfoModal } from "../../modals/GameInfoModal";
 import { SetConsoleModal } from "../../modals/SetConsoleModal";
@@ -36,6 +36,9 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
           {!game.gameSold && <GameListEntryCase game={game} />}
           {!game.gameSold && <span className="spacer">|</span>}
           <SetConsoleModal game={game} onGameLocationChange={this.props.onGameLocationChange} />
+        </div>
+        <div>
+          {game.haveReceipt && <Icon name='list alternate outline' />}
         </div>
       </Card.Content>
     </Card>);

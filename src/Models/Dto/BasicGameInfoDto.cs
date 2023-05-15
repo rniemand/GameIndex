@@ -20,6 +20,7 @@ public class BasicGameInfoDto
   public double Cost { get; set; }
   public DateTime? PurchaseDate { get; set; }
   public bool GameSold { get; set; }
+  public bool HaveReceipt { get; set; }
 
   public static BasicGameInfoDto FromEntity(BasicGameInfoEntity entity) => new()
   {
@@ -39,6 +40,7 @@ public class BasicGameInfoDto
     OrderNumber = entity.OrderNumber,
     Seller = entity.Seller,
     GameSold = entity.GameSold,
+    HaveReceipt = entity.HaveReceipt,
   };
 
   public BasicGameInfoEntity ToEntity() => new()
@@ -59,5 +61,6 @@ public class BasicGameInfoDto
     OrderNumber = OrderNumber,
     PurchaseDate = PurchaseDate,
     Seller = Seller,
+    HaveReceipt = HaveReceipt,
   };
 }

@@ -38,7 +38,8 @@ public class GamesRepo : IGamesRepo
 	    o.OrderNumber,
 	    o.Cost,
 	    o.PurchaseDate,
-      CASE WHEN gs.GameID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`
+      CASE WHEN gs.GameID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`,
+      o.HaveReceipt
     FROM `Games` g
 	    INNER JOIN `GamePlatforms` p ON p.PlatformID = g.PlatformID
 	    INNER JOIN `GameLocations` l ON l.LocationID = g.LocationID
