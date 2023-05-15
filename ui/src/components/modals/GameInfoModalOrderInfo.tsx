@@ -15,6 +15,8 @@ interface GameInfoModalOrderInfoState {
   costDirty: boolean;
   orderUrl: string;
   orderUrlDirty: boolean;
+  orderNumber: string;
+  orderNumberDirty: boolean;
 }
 
 export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderInfoProps, GameInfoModalOrderInfoState> {
@@ -31,6 +33,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           costDirty: false,
           orderUrl: '',
           orderUrlDirty: false,
+          orderNumber: '',
+          orderNumberDirty: false,
         }, this._fetchOrderInfo);
     }
 
@@ -50,13 +54,16 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       const receiptLocation = this.state.receiptLocation;
       const price = this.state.cost;
       const orderUrl = this.state.orderUrl;
+      const orderNumber = this.state.orderNumber;
 
       return (<React.Fragment>
         <div>Order info for: {game.gameName} | {orderInfo.cost}</div>
         <div onClick={this._toggleProtection}>Protection: {orderInfo.hasProtection ? 'YES' : 'NO'}</div>
         <div onClick={this._toggleReceipt}>Receipt: {orderInfo.haveReceipt ? 'YES' : 'NO'}</div>
         <div>
-          <Input placeholder='Order #' value={orderInfo.orderNumber} />
+          <Input placeholder='Order #' value={orderNumber} onChange={this._setOrderNumber} />
+          &nbsp;
+          <Button disabled={!this.state.orderNumberDirty} onClick={this._saveOrderNumber}>Save</Button>
         </div>
         <div>
           <Input placeholder='Receipt Location' value={receiptLocation} onChange={this._setReceiptLocation} />
@@ -85,6 +92,10 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           locationDirty: false,
           cost: orderInfo?.cost || 0,
           costDirty: false,
+          orderNumber: orderInfo?.orderNumber || '',
+          orderNumberDirty: false,
+          orderUrl: orderInfo?.orderUrl || '',
+          orderUrlDirty: false,
         });
       });
     }
@@ -149,6 +160,22 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         this.setState({
           orderInfo: orderInfo || undefined,
           orderUrlDirty: false,
+        });
+      });
+    }
+
+    _setOrderNumber = (_: any, data: InputOnChangeData) => {
+      this.setState({
+        orderNumber: data.value,
+        orderNumberDirty: true,
+      });
+    }
+
+    _saveOrderNumber = () => {
+      new GamesClient().setGameOrderNumber(this.props.game.gameID, this.state.orderNumber).then(orderInfo => {
+        this.setState({
+          orderInfo: orderInfo || undefined,
+          orderNumberDirty: false,
         });
       });
     }

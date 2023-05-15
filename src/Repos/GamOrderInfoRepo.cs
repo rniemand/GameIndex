@@ -12,6 +12,7 @@ public interface IGamOrderInfoRepo
   Task<int> SetReceiptLocationAsync(long gameId, string location);
   Task<int> SetGamePriceAsync(long gameId, double price);
   Task<int> SetGameOrderUrlAsync(long gameId, string orderUrl);
+  Task<int> SetGameOrderNumberAsync(long gameId, string orderNumber);
 }
 
 public class GamOrderInfoRepo : IGamOrderInfoRepo
@@ -100,5 +101,15 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
       )";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, new { GameID = gameId, OrderUrl = orderUrl });
+  }
+
+  public async Task<int> SetGameOrderNumberAsync(long gameId, string orderNumber)
+  {
+    const string query = @"UPDATE `GameOrderInfo`
+    SET
+      `OrderNumber` = @OrderNumber
+    WHERE `GameID` = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new { GameID = gameId, OrderNumber = orderNumber });
   }
 }
