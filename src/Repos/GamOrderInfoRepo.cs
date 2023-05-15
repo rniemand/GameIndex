@@ -30,7 +30,8 @@ public class GamOrderInfoRepo : IGamOrderInfoRepo
 	    o.OrderNumber,
 	    o.Cost,
 	    o.PurchaseDate,
-      o.HaveReceipt
+      o.HaveReceipt,
+      o.ReceiptLocation
     FROM `GameOrderInfo` o
     WHERE o.GameID = @GameID
     LIMIT 1";
