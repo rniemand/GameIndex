@@ -23,3 +23,10 @@ paths:
     - /app/appsettings.json | /mnt/user/Backups/app-data/game-index/appsettings.json
     - /data | /mnt/user/Backups/app-data/game-index/data/
 ```
+
+## Development
+
+### Task List
+
+- Refresh games when closing game information dialog
+- 

@@ -11,6 +11,8 @@ interface GameInfoModalOrderInfoState {
   loading: boolean;
   receiptLocation: string;
   locationDirty: boolean;
+  cost: number;
+  costDirty: boolean;
 }
 
 export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderInfoProps, GameInfoModalOrderInfoState> {
@@ -23,6 +25,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           loading: true,
           receiptLocation: '',
           locationDirty: false,
+          cost: 0,
+          costDirty: false,
         }, this._fetchOrderInfo);
     }
 
@@ -40,6 +44,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       }
 
       const receiptLocation = this.state.receiptLocation;
+      const price = this.state.cost;
 
       return (<React.Fragment>
         <div>Order info for: {game.gameName} | {orderInfo.cost}</div>
@@ -50,7 +55,13 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         </div>
         <div>
           <Input placeholder='Receipt Location' value={receiptLocation} onChange={this._setReceiptLocation} />
+          &nbsp;
           <Button disabled={!this.state.locationDirty} onClick={this._saveReceiptLocation}>Save</Button>
+        </div>
+        <div>
+          <Input placeholder='Price' type="number" value={price} onChange={this._setGamePrice} />
+          &nbsp;
+          <Button disabled={!this.state.costDirty} onClick={this._saveCostChanges}>Save</Button>
         </div>
       </React.Fragment>);
     }
@@ -60,7 +71,10 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         this.setState({
           loading: false,
           orderInfo: orderInfo,
-          receiptLocation: orderInfo?.receiptLocation || ''
+          receiptLocation: orderInfo?.receiptLocation || '',
+          locationDirty: false,
+          cost: orderInfo?.cost || 0,
+          costDirty: false,
         });
       });
     }
@@ -95,5 +109,21 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
             locationDirty: false,
           });
         })
+    }
+
+    _setGamePrice = (_: any, data: InputOnChangeData) => {
+      this.setState({
+        cost: parseFloat(data.value),
+        costDirty: true,
+      });
+    }
+
+    _saveCostChanges = () => {
+      new GamesClient().setGamePrice(this.props.game.gameID, this.state.cost).then(orderInfo => {
+        this.setState({
+          orderInfo: orderInfo || undefined,
+          costDirty: false,
+        });
+      });
     }
 }

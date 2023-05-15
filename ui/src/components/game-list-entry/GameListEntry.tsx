@@ -39,6 +39,7 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
         </div>
         <div>
           {game.haveReceipt && <Icon name='list alternate outline' />}
+          {game.cost > 0 && <span>${game.cost}</span>}
         </div>
       </Card.Content>
     </Card>);
