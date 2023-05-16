@@ -4,6 +4,13 @@ Work in progress
 
 - https://hub.docker.com/repository/docker/niemandr/game-index/general
 
+```bash
+cd .\ui\
+npm run start
+```
+
+Open app using [http://localhost:5232/](http://localhost:5232/)
+
 ## Building
 
 ```bash

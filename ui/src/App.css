@@ -27,3 +27,7 @@
   width: 150px;
   display: inline-block;
 }
+
+.item-count-selector {
+  width: 80px;
+}

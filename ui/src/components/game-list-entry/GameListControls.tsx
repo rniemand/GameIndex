@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Icon, Input, InputOnChangeData, Menu } from "semantic-ui-react";
+import { Button, Container, DropdownProps, Icon, Input, InputOnChangeData, Menu, Select } from "semantic-ui-react";
 
 interface GameListControlsProps {
     itemsPerPage: number;
@@ -24,6 +24,7 @@ export class GameListControls extends React.Component<GameListControlsProps, Gam
         if(!this.state) return null;
         const itemsPerPage = this.props.itemsPerPage || 3;
         const searchTerm = this.state.searchTerm || '';
+        const itemsPerRow = [2,3,4,5,6,7,8,9,10].map(x => ({ key: x, value: x, text: `${x}` }));
 
         return (<Container>
             <Menu className="filter-menu">
@@ -33,12 +34,10 @@ export class GameListControls extends React.Component<GameListControlsProps, Gam
                         <Icon name='delete' />
                     </Button>
                 </Menu.Item>
-                <Menu.Menu position="right">
-                    {[3, 4, 5, 6, 7].map(num => {
-                        return (<Menu.Item key={num} active={num === itemsPerPage} onClick={() => this.props.onSetItemsPerPage(num)}>
-                            {num}
-                        </Menu.Item>);
-                    })}
+                <Menu.Menu position="right" className="item-count-selector">
+                    <Menu.Item>
+                        <Select placeholder='#' options={itemsPerRow} value={itemsPerPage} fluid onChange={this._onItemsPerPageChange} />
+                    </Menu.Item>
                 </Menu.Menu>
             </Menu>
         </Container>);
@@ -54,5 +53,9 @@ export class GameListControls extends React.Component<GameListControlsProps, Gam
         this.setState({ searchTerm: '' }, () => {
             this.props.onSearchChanged('');
         });
+    }
+
+    _onItemsPerPageChange = (_event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+        this.props.onSetItemsPerPage(data.value as number);
     }
 }
