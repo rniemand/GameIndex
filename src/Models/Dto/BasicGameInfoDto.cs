@@ -22,6 +22,7 @@ public class BasicGameInfoDto
   public bool GameSold { get; set; }
   public bool HaveReceipt { get; set; }
   public string ReceiptLocation { get; set; } = string.Empty;
+  public bool ReceiptScanned { get; set; }
 
   public static BasicGameInfoDto FromEntity(BasicGameInfoEntity entity) => new()
   {
@@ -43,6 +44,7 @@ public class BasicGameInfoDto
     GameSold = entity.GameSold,
     HaveReceipt = entity.HaveReceipt,
     ReceiptLocation = entity.ReceiptLocation,
+    ReceiptScanned = entity.ReceiptScanned,
   };
 
   public BasicGameInfoEntity ToEntity() => new()
@@ -65,5 +67,6 @@ public class BasicGameInfoDto
     Seller = Seller,
     HaveReceipt = HaveReceipt,
     ReceiptLocation = ReceiptLocation,
+    ReceiptScanned = ReceiptScanned,
   };
 }

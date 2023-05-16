@@ -27,10 +27,12 @@ CREATE TABLE `GameOrderInfo` (
 	`HaveReceipt` BIT(1) NOT NULL DEFAULT b'0',
 	`ReceiptLocation` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`OrderUrl` VARCHAR(512) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ReceiptScanned` BIT(1) NOT NULL DEFAULT b'0',
 	INDEX `GameID` (`GameID`) USING BTREE
 )
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB;
+
 
 CREATE TABLE `GamePlatforms` (
 	`PlatformID` INT(11) NOT NULL AUTO_INCREMENT,

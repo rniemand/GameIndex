@@ -856,6 +856,7 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
     gameSold!: boolean;
     haveReceipt!: boolean;
     receiptLocation!: string;
+    receiptScanned!: boolean;
 
     constructor(data?: IBasicGameInfoDto) {
         if (data) {
@@ -886,6 +887,7 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
             this.gameSold = _data["gameSold"];
             this.haveReceipt = _data["haveReceipt"];
             this.receiptLocation = _data["receiptLocation"];
+            this.receiptScanned = _data["receiptScanned"];
         }
     }
 
@@ -916,6 +918,7 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
         data["gameSold"] = this.gameSold;
         data["haveReceipt"] = this.haveReceipt;
         data["receiptLocation"] = this.receiptLocation;
+        data["receiptScanned"] = this.receiptScanned;
         return data;
     }
 }
@@ -939,6 +942,7 @@ export interface IBasicGameInfoDto {
     gameSold: boolean;
     haveReceipt: boolean;
     receiptLocation: string;
+    receiptScanned: boolean;
 }
 
 export class GameOrderInfoDto implements IGameOrderInfoDto {
@@ -951,6 +955,7 @@ export class GameOrderInfoDto implements IGameOrderInfoDto {
     haveReceipt!: boolean;
     receiptLocation!: string;
     orderUrl!: string;
+    receiptScanned!: boolean;
 
     constructor(data?: IGameOrderInfoDto) {
         if (data) {
@@ -972,6 +977,7 @@ export class GameOrderInfoDto implements IGameOrderInfoDto {
             this.haveReceipt = _data["haveReceipt"];
             this.receiptLocation = _data["receiptLocation"];
             this.orderUrl = _data["orderUrl"];
+            this.receiptScanned = _data["receiptScanned"];
         }
     }
 
@@ -993,6 +999,7 @@ export class GameOrderInfoDto implements IGameOrderInfoDto {
         data["haveReceipt"] = this.haveReceipt;
         data["receiptLocation"] = this.receiptLocation;
         data["orderUrl"] = this.orderUrl;
+        data["receiptScanned"] = this.receiptScanned;
         return data;
     }
 }
@@ -1007,6 +1014,7 @@ export interface IGameOrderInfoDto {
     haveReceipt: boolean;
     receiptLocation: string;
     orderUrl: string;
+    receiptScanned: boolean;
 }
 
 export class GameImageDto implements IGameImageDto {

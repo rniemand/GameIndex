@@ -28,7 +28,6 @@ paths:
 
 ### Task List
 
-- Ability to search on receipt number
 - Add flag for receipt scanned
 - Support for console \ hardware purchase tracking
 - Process return info

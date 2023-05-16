@@ -20,4 +20,5 @@ public class BasicGameInfoEntity
   public bool GameSold { get; set; }
   public bool HaveReceipt { get; set; }
   public string ReceiptLocation { get; set; } = string.Empty;
+  public bool ReceiptScanned { get; set; }
 }
