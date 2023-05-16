@@ -13,12 +13,12 @@ public class BasicGameInfoEntity
   public string LocationName { get; set; } = string.Empty;
   public string PlatformName { get; set; } = string.Empty;
   public bool HasProtection { get; set; }
-  public string Seller { get; set; } = string.Empty;
-  public string OrderNumber { get; set; } = string.Empty;
+  public string Store { get; set; } = string.Empty;
+  public string ReceiptNumber { get; set; } = string.Empty;
   public double Cost { get; set; }
-  public DateTime? PurchaseDate { get; set; }
+  public DateTime? ReceiptDate { get; set; }
   public bool GameSold { get; set; }
   public bool HaveReceipt { get; set; }
-  public string ReceiptLocation { get; set; } = string.Empty;
+  public string ReceiptName { get; set; } = string.Empty;
   public bool ReceiptScanned { get; set; }
 }

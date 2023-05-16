@@ -36,8 +36,11 @@ paths:
 ### Task List
 
 - Support for console \ hardware purchase tracking
-- Games List
-  - Add indication for price
+- Auto calculate game coverage end date
+- Move protection out from game receipts onto games themselves
+- Move cost to game table
+- Game Info Modal
+  - Add links to store page
 - Process return info
   - REC-005
   - REC-007
@@ -51,3 +54,4 @@ paths:
   - REC-012
 - Missing
   - REC-022
+ 

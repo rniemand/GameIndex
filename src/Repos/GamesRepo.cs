@@ -13,6 +13,7 @@ public interface IGamesRepo
 
 public class GamesRepo : IGamesRepo
 {
+  public const string TableName = "Games";
   private readonly IConnectionHelper _connectionHelper;
 
   public GamesRepo(IConnectionHelper connectionHelper)
@@ -22,7 +23,7 @@ public class GamesRepo : IGamesRepo
 
   public async Task<List<BasicGameInfoEntity>> GetAllAsync(int platformId)
   {
-    const string query = @"SELECT
+    const string query = @$"SELECT
 	    g.GameID,
 	    g.GameName,
 	    g.PlatformID,
@@ -34,19 +35,19 @@ public class GamesRepo : IGamesRepo
 	    p.PlatformName,
 	    i.ImagePath,
       o.HasProtection,
-	    o.Seller,
-	    o.OrderNumber,
+	    o.Store,
+	    o.ReceiptNumber,
 	    o.Cost,
-	    o.PurchaseDate,
+	    o.ReceiptDate,
       CASE WHEN gs.GameID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`,
       o.HaveReceipt,
-      o.ReceiptLocation,
+      o.ReceiptName,
       o.ReceiptScanned
-    FROM `Games` g
-	    INNER JOIN `GamePlatforms` p ON p.PlatformID = g.PlatformID
-	    INNER JOIN `GameLocations` l ON l.LocationID = g.LocationID
-	    LEFT JOIN `GameImages` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
-      LEFT JOIN `GameOrderInfo` o ON o.GameID = g.GameID
+    FROM `{TableName}` g
+	    INNER JOIN `{GamePlatformsRepo.TableName}` p ON p.PlatformID = g.PlatformID
+	    INNER JOIN `{GameLocationRepo.TableName}` l ON l.LocationID = g.LocationID
+	    LEFT JOIN `{GameImagesRepo.TableName}` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
+      LEFT JOIN `{GamReceiptRepo.TableName}` o ON o.GameID = g.GameID
       LEFT JOIN `GameSales` gs ON gs.GameID = g.GameID
     WHERE g.PlatformID = @PlatformID
     ORDER BY g.GameName";
@@ -56,7 +57,7 @@ public class GamesRepo : IGamesRepo
 
   public async Task<int> UpdateGameInfoAsync(BasicGameInfoEntity game)
   {
-    const string query = @"UPDATE `Games`
+    const string query = @$"UPDATE `{TableName}`
     SET
 	    `GameName` = @GameName,
 	    `GameCase` = @GameCase

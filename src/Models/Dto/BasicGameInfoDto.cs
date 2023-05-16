@@ -15,13 +15,13 @@ public class BasicGameInfoDto
   public string LocationName { get; set; } = string.Empty;
   public string PlatformName { get; set; } = string.Empty;
   public bool HasProtection { get; set; }
-  public string Seller { get; set; } = string.Empty;
-  public string OrderNumber { get; set; } = string.Empty;
+  public string Store { get; set; } = string.Empty;
+  public string ReceiptNumber { get; set; } = string.Empty;
   public double Cost { get; set; }
-  public DateTime? PurchaseDate { get; set; }
+  public DateTime? ReceiptDate { get; set; }
   public bool GameSold { get; set; }
   public bool HaveReceipt { get; set; }
-  public string ReceiptLocation { get; set; } = string.Empty;
+  public string ReceiptName { get; set; } = string.Empty;
   public bool ReceiptScanned { get; set; }
 
   public static BasicGameInfoDto FromEntity(BasicGameInfoEntity entity) => new()
@@ -37,13 +37,13 @@ public class BasicGameInfoDto
     PlatformName = entity.PlatformName,
     Rating = entity.Rating,
     Cost = entity.Cost,
-    PurchaseDate = entity.PurchaseDate,
+    ReceiptDate = entity.ReceiptDate,
     HasProtection = entity.HasProtection,
-    OrderNumber = entity.OrderNumber,
-    Seller = entity.Seller,
+    ReceiptNumber = entity.ReceiptNumber,
+    Store = entity.Store,
     GameSold = entity.GameSold,
     HaveReceipt = entity.HaveReceipt,
-    ReceiptLocation = entity.ReceiptLocation,
+    ReceiptName = entity.ReceiptName,
     ReceiptScanned = entity.ReceiptScanned,
   };
 
@@ -62,11 +62,11 @@ public class BasicGameInfoDto
     Rating = Rating,
     HasProtection = HasProtection,
     ImagePath = ImagePath,
-    OrderNumber = OrderNumber,
-    PurchaseDate = PurchaseDate,
-    Seller = Seller,
+    ReceiptNumber = ReceiptNumber,
+    ReceiptDate = ReceiptDate,
+    Store= Store,
     HaveReceipt = HaveReceipt,
-    ReceiptLocation = ReceiptLocation,
+    ReceiptName = ReceiptName,
     ReceiptScanned = ReceiptScanned,
   };
 }

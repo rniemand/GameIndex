@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto, GameOrderInfoDto, GamesClient } from "../../api";
+import { BasicGameInfoDto, GameReceiptDto, GamesClient } from "../../api";
 import { Button, Checkbox, Input, InputOnChangeData } from "semantic-ui-react";
 
 interface GameInfoModalOrderInfoProps {
@@ -7,7 +7,7 @@ interface GameInfoModalOrderInfoProps {
 }
 
 interface GameInfoModalOrderInfoState {
-  orderInfo?: GameOrderInfoDto;
+  orderInfo?: GameReceiptDto;
   loading: boolean;
   receiptLocation: string;
   locationDirty: boolean;
@@ -66,9 +66,6 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           <span>Protection:</span> <Checkbox toggle checked={orderInfo.hasProtection} onChange={this._toggleProtection} />
         </div>
         <div className="order-toggle">
-          <span>Receipt:</span> <Checkbox toggle checked={orderInfo.haveReceipt} onChange={this._toggleReceipt} />
-        </div>
-        <div className="order-toggle">
           <span>Receipt Scanned:</span> <Checkbox toggle checked={orderInfo.receiptScanned} onChange={this._toggleReceiptScanned} />
         </div>
         <div>
@@ -104,15 +101,15 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         this.setState({
           loading: false,
           orderInfo: orderInfo,
-          receiptLocation: orderInfo?.receiptLocation || '',
+          receiptLocation: orderInfo?.receiptName || '',
           locationDirty: false,
           cost: orderInfo?.cost || 0,
           costDirty: false,
-          orderNumber: orderInfo?.orderNumber || '',
+          orderNumber: orderInfo?.receiptNumber || '',
           orderNumberDirty: false,
-          orderUrl: orderInfo?.orderUrl || '',
+          orderUrl: orderInfo?.receiptUrl || '',
           orderUrlDirty: false,
-          orderDate: orderInfo?.purchaseDate?.toISOString().split('T')[0] || '',
+          orderDate: orderInfo?.receiptDate?.toISOString().split('T')[0] || '',
           orderDateDirty: false,
         });
       });
@@ -120,14 +117,6 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
     _toggleProtection = () => {
       new GamesClient().toggleGameProtection(this.props.game.gameID).then(orderInfo => {
-        this.setState({
-          orderInfo: orderInfo || undefined,
-        });
-      })
-    }
-
-    _toggleReceipt = () => {
-      new GamesClient().toggleGameReceipt(this.props.game.gameID).then(orderInfo => {
         this.setState({
           orderInfo: orderInfo || undefined,
         });

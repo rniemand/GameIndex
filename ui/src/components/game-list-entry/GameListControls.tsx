@@ -30,7 +30,7 @@ export class GameListControls extends React.Component<GameListControlsProps, Gam
             <Menu className="filter-menu">
                 <Menu.Item>
                     <Input className='icon' value={searchTerm} icon='search' placeholder='Search...' onChange={this._onChange} />
-                    <Button icon className="clear" disabled={searchTerm.length === 0} onClick={this._clearSearch}>
+                    <Button icon className="clear" onClick={this._clearSearch}>
                         <Icon name='delete' />
                     </Button>
                 </Menu.Item>

@@ -12,6 +12,7 @@ public interface IGameLocationRepo
 
 public class GameLocationRepo : IGameLocationRepo
 {
+  public const string TableName = "GameLocations";
   private readonly IConnectionHelper _connectionHelper;
 
   public GameLocationRepo(IConnectionHelper connectionHelper)
@@ -21,11 +22,11 @@ public class GameLocationRepo : IGameLocationRepo
 
   public async Task<List<GameLocationEntity>> GetLocationsAsync(int platformId)
   {
-    const string query = @"SELECT
+    const string query = $@"SELECT
 	    l.LocationID,
 	    l.PlatformID,
 	    l.LocationName
-    FROM `GameLocations` l
+    FROM `{TableName}` l
     WHERE l.PlatformID = @PlatformID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return (await connection.QueryAsync<GameLocationEntity>(query, new { PlatformID = platformId })).AsList();
@@ -33,19 +34,19 @@ public class GameLocationRepo : IGameLocationRepo
 
   public async Task<int> SetGameLocationAsync(long gameId, int locationId)
   {
-    const string query = @"UPDATE `Games`
+    const string query = $@"UPDATE `{GamesRepo.TableName}`
     SET `LocationID` = (
 	    SELECT `LocationID`
-	    FROM `GameLocations`
+	    FROM `{TableName}`
 	    WHERE `PlatformID` = (
 		    SELECT `PlatformID`
-		    FROM `Games`
+		    FROM `{GamesRepo.TableName}`
 		    WHERE `GameID` = @GameID
 	    )
 	    AND `LocationName` = 'Home'
     )
     WHERE `LocationID` = @LocationID;
-    UPDATE `Games`
+    UPDATE `{GamesRepo.TableName}`
     SET `LocationID` = @LocationID
     WHERE `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();

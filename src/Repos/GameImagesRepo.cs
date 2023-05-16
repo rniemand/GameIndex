@@ -12,6 +12,7 @@ public interface IGameImagesRepo
 
 public class GameImagesRepo : IGameImagesRepo
 {
+  public const string TableName = "GameImages";
   private readonly IConnectionHelper _connectionHelper;
 
   public GameImagesRepo(IConnectionHelper connectionHelper)
@@ -21,12 +22,12 @@ public class GameImagesRepo : IGameImagesRepo
 
   public async Task<GameImageEntity?> GetGameCoverImageAsync(long gameId)
   {
-    const string query = @"SELECT
+    const string query = @$"SELECT
 	    gi.GameID,
 	    gi.ImageType,
 	    gi.ImageOrder,
 	    gi.ImagePath
-    FROM `GameImages` gi
+    FROM `{TableName}` gi
     WHERE gi.GameID = @GameID
 	    AND gi.ImageType = 'cover'
     LIMIT 1";
@@ -36,12 +37,12 @@ public class GameImagesRepo : IGameImagesRepo
 
   public async Task<List<GameImageEntity>> GetGameImagesAsync(long gameId)
   {
-    const string query = @"SELECT
+    const string query = $@"SELECT
 	    gi.GameID,
 	    gi.ImageType,
 	    gi.ImageOrder,
 	    gi.ImagePath
-    FROM `GameImages` gi
+    FROM `{TableName}` gi
     WHERE gi.GameID = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return (await connection.QueryAsync<GameImageEntity>(query, new { GameID = gameId })).AsList();

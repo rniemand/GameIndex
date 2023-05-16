@@ -98,7 +98,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   }
 
   _generateSearchString = (game: BasicGameInfoDto) => {
-    let searchString = `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}|${game.receiptLocation}`;
+    let searchString = `${game.gameCase}|${game.gameName}|${game.locationName}|${game.store}|${game.receiptNumber}|${game.receiptName}`;
     if(game.gameSold) searchString += '|sold';
     return searchString.toLowerCase();
   }

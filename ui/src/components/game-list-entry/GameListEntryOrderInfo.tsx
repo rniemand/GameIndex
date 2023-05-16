@@ -15,10 +15,10 @@ export class GameListEntryOrderInfo extends React.Component<GameListEntryOrderIn
 
   render(): React.ReactNode {
     const game = this.props.game;
-    if((game.orderNumber?.length ?? 0) === 0) return null;
+    if((game.receiptNumber?.length ?? 0) === 0) return null;
 
     return (<div className="order-info">
-      {game.seller}
+      {game.store}
       {game.hasProtection && <Icon name='checkmark' color="green" className="protection" />}
     </div>);
   }
