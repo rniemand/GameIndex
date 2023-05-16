@@ -855,6 +855,7 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
     purchaseDate?: Date | undefined;
     gameSold!: boolean;
     haveReceipt!: boolean;
+    receiptLocation!: string;
 
     constructor(data?: IBasicGameInfoDto) {
         if (data) {
@@ -884,6 +885,7 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
             this.purchaseDate = _data["purchaseDate"] ? new Date(_data["purchaseDate"].toString()) : <any>undefined;
             this.gameSold = _data["gameSold"];
             this.haveReceipt = _data["haveReceipt"];
+            this.receiptLocation = _data["receiptLocation"];
         }
     }
 
@@ -913,6 +915,7 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
         data["purchaseDate"] = this.purchaseDate ? this.purchaseDate.toISOString() : <any>undefined;
         data["gameSold"] = this.gameSold;
         data["haveReceipt"] = this.haveReceipt;
+        data["receiptLocation"] = this.receiptLocation;
         return data;
     }
 }
@@ -935,6 +938,7 @@ export interface IBasicGameInfoDto {
     purchaseDate?: Date | undefined;
     gameSold: boolean;
     haveReceipt: boolean;
+    receiptLocation: string;
 }
 
 export class GameOrderInfoDto implements IGameOrderInfoDto {

@@ -86,7 +86,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
         loading: false,
         games: (games || []).map(game => ({
           game: game,
-          searchString: `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}`.toLowerCase()
+          searchString: `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}|${game.receiptLocation}`.toLowerCase()
         })),
         platform: this.props.platform,
       })
