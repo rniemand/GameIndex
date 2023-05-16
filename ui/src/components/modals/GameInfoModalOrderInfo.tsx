@@ -1,6 +1,6 @@
 import React from "react";
 import { BasicGameInfoDto, GameOrderInfoDto, GamesClient } from "../../api";
-import { Button, Input, InputOnChangeData } from "semantic-ui-react";
+import { Button, Checkbox, Input, InputOnChangeData } from "semantic-ui-react";
 
 interface GameInfoModalOrderInfoProps {
   game: BasicGameInfoDto;
@@ -62,9 +62,15 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       const orderDate = this.state.orderDate;
 
       return (<React.Fragment>
-        <div>Order info for: {game.gameName}</div>
-        <div onClick={this._toggleProtection}>Protection: {orderInfo.hasProtection ? 'YES' : 'NO'}</div>
-        <div onClick={this._toggleReceipt}>Receipt: {orderInfo.haveReceipt ? 'YES' : 'NO'}</div>
+        <div className="order-toggle">
+          <span>Protection:</span> <Checkbox toggle checked={orderInfo.hasProtection} onChange={this._toggleProtection} />
+        </div>
+        <div className="order-toggle">
+          <span>Receipt:</span> <Checkbox toggle checked={orderInfo.haveReceipt} onChange={this._toggleReceipt} />
+        </div>
+        <div className="order-toggle">
+          <span>Receipt Scanned:</span> <Checkbox toggle checked={orderInfo.receiptScanned} onChange={this._toggleReceiptScanned} />
+        </div>
         <div>
           <Input placeholder='Order #' value={orderNumber} onChange={this._setOrderNumber} />
           &nbsp;
@@ -122,6 +128,14 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
     _toggleReceipt = () => {
       new GamesClient().toggleGameReceipt(this.props.game.gameID).then(orderInfo => {
+        this.setState({
+          orderInfo: orderInfo || undefined,
+        });
+      })
+    }
+
+    _toggleReceiptScanned = () => {
+      new GamesClient().toggleReceiptScanned(this.props.game.gameID).then(orderInfo => {
         this.setState({
           orderInfo: orderInfo || undefined,
         });

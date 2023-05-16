@@ -28,7 +28,6 @@ paths:
 
 ### Task List
 
-- Add flag for receipt scanned
 - Support for console \ hardware purchase tracking
 - Process return info
   - REC-005

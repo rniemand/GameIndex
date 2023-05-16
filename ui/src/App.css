@@ -22,3 +22,8 @@
 .filter-menu .item  .button.clear {
   margin-left: 4px !important;
 }
+
+.order-toggle span {
+  width: 150px;
+  display: inline-block;
+}
