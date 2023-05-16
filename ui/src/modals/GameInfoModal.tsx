@@ -7,6 +7,7 @@ import { GameInfoModalOrderInfo } from "../components/modals/GameInfoModalOrderI
 
 interface GameInfoModalProps {
   game: BasicGameInfoDto;
+  onModalClosed: () => void;
 }
 
 interface GameInfoModalState {
@@ -72,6 +73,9 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
   }
 
   _setOpen = (open: boolean) => {
-    this.setState({ open: open });
+    this.setState({ open: open }, () => {
+      if(open) return;
+      this.props.onModalClosed();
+    });
   }
 }

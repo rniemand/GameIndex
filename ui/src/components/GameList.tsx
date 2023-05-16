@@ -51,7 +51,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
         {games.length === 0 && <p className="center">No games found.</p>}
         <Card.Group itemsPerRow={itemsPerPage as SemanticWIDTHSNUMBER}>
           {games.map(game => {
-            return (<GameListEntry key={game.gameID} game={game} onModalClosed={this._onModalClosed} />);
+            return (<GameListEntry key={game.gameID} game={game} onGameLocationChange={this._runModalGamesRefresh} gamesInfoModalClosed={this._runModalGamesRefresh} />);
           })}
         </Card.Group>
       </Container>
@@ -77,10 +77,10 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     this.setState({ searchValue: value });
   }
 
-  _refreshGames = () => {
+  _refreshGames = (force?: boolean) => {
     if(!this.props.platform) return;
-    if(this.state.platform === this.props.platform) return;
-
+    force = force || false;
+    if(this.state.platform === this.props.platform && !force) return;
     new GamesClient().getAllGames(this.props.platform.platformID).then(games => {
       this.setState({
         loading: false,
@@ -93,7 +93,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     });
   }
 
-  _onModalClosed = () => {
-    this.setState({ loading: true, }, this._refreshGames);
+  _runModalGamesRefresh = () => {
+    this.setState({ loading: true, }, () => this._refreshGames(true));
   }
 }
