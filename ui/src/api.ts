@@ -947,10 +947,8 @@ export interface IBasicGameInfoDto {
 
 export class GameReceiptDto implements IGameReceiptDto {
     gameID!: number;
-    hasProtection!: boolean;
     store!: string;
     receiptNumber!: string;
-    cost!: number;
     receiptDate!: Date;
     receiptName!: string;
     receiptUrl!: string;
@@ -968,10 +966,8 @@ export class GameReceiptDto implements IGameReceiptDto {
     init(_data?: any) {
         if (_data) {
             this.gameID = _data["gameID"];
-            this.hasProtection = _data["hasProtection"];
             this.store = _data["store"];
             this.receiptNumber = _data["receiptNumber"];
-            this.cost = _data["cost"];
             this.receiptDate = _data["receiptDate"] ? new Date(_data["receiptDate"].toString()) : <any>undefined;
             this.receiptName = _data["receiptName"];
             this.receiptUrl = _data["receiptUrl"];
@@ -989,10 +985,8 @@ export class GameReceiptDto implements IGameReceiptDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["gameID"] = this.gameID;
-        data["hasProtection"] = this.hasProtection;
         data["store"] = this.store;
         data["receiptNumber"] = this.receiptNumber;
-        data["cost"] = this.cost;
         data["receiptDate"] = this.receiptDate ? this.receiptDate.toISOString() : <any>undefined;
         data["receiptName"] = this.receiptName;
         data["receiptUrl"] = this.receiptUrl;
@@ -1003,10 +997,8 @@ export class GameReceiptDto implements IGameReceiptDto {
 
 export interface IGameReceiptDto {
     gameID: number;
-    hasProtection: boolean;
     store: string;
     receiptNumber: string;
-    cost: number;
     receiptDate: Date;
     receiptName: string;
     receiptUrl: string;

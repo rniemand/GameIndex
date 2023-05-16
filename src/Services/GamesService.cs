@@ -67,7 +67,7 @@ public class GamesService : IGamesService
 
   public async Task<GameReceiptDto?> ToggleGameProtectionAsync(long gameId)
   {
-    await _gamReceiptRepo.ToggleHasProtectionAsync(gameId);
+    await _gamesRepo.ToggleProtectionAsync(gameId);
     var orderInfo = await _gamReceiptRepo.GetOrderInfoAsync(gameId);
     return orderInfo is null ? null : GameReceiptDto.FromEntity(orderInfo);
   }
@@ -78,7 +78,7 @@ public class GamesService : IGamesService
     var orderInfo = await _gamReceiptRepo.GetOrderInfoAsync(gameId);
     return orderInfo is null ? null : GameReceiptDto.FromEntity(orderInfo);
   }
-  
+
   public async Task<GameReceiptDto?> SetReceiptLocationAsync(long gameId, string location)
   {
     await _gamReceiptRepo.SetReceiptLocationAsync(gameId, location);
@@ -88,7 +88,7 @@ public class GamesService : IGamesService
 
   public async Task<GameReceiptDto?> SetGamePriceAsync(long gameId, double price)
   {
-    await _gamReceiptRepo.SetGamePriceAsync(gameId, price);
+    await _gamesRepo.SetGamePriceAsync(gameId, price);
     var orderInfo = await _gamReceiptRepo.GetOrderInfoAsync(gameId);
     return orderInfo is null ? null : GameReceiptDto.FromEntity(orderInfo);
   }

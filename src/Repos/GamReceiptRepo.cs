@@ -7,10 +7,8 @@ namespace GameIndex.Repos;
 public interface IGamReceiptRepo
 {
   Task<GameReceiptEntity?> GetOrderInfoAsync(long gameId);
-  Task<int> ToggleHasProtectionAsync(long gameId);
   Task<int> ToggleReceiptScannedAsync(long gameId);
   Task<int> SetReceiptLocationAsync(long gameId, string location);
-  Task<int> SetGamePriceAsync(long gameId, double price);
   Task<int> SetGameOrderUrlAsync(long gameId, string orderUrl);
   Task<int> SetGameOrderNumberAsync(long gameId, string orderNumber);
   Task<int> SetGameOrderDateAsync(long gameId, string orderDate);
@@ -30,10 +28,8 @@ public class GamReceiptRepo : IGamReceiptRepo
   {
     const string query = @$"SELECT
 	    o.GameID,
-	    o.HasProtection,
 	    o.Store,
 	    o.ReceiptNumber,
-	    o.Cost,
 	    o.ReceiptDate,
       o.ReceiptName,
       o.ReceiptUrl,
@@ -44,17 +40,7 @@ public class GamReceiptRepo : IGamReceiptRepo
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.QuerySingleOrDefaultAsync<GameReceiptEntity>(query, new { GameID = gameId });
   }
-
-  public async Task<int> ToggleHasProtectionAsync(long gameId)
-  {
-    const string query = @$"UPDATE `{TableName}`
-    SET
-      `HasProtection` = !`HasProtection`
-    WHERE `GameID` = @GameID";
-    await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId });
-  }
-
+  
   public async Task<int> ToggleReceiptScannedAsync(long gameId)
   {
     const string query = @$"UPDATE `{TableName}`
@@ -84,17 +70,7 @@ public class GamReceiptRepo : IGamReceiptRepo
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, new { GameID = gameId, ReceiptName = location });
   }
-
-  public async Task<int> SetGamePriceAsync(long gameId, double price)
-  {
-    const string query = @$"UPDATE `{TableName}`
-    SET
-      `Cost` = @Cost
-    WHERE `GameID` = @GameID";
-    await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId, Cost = price });
-  }
-
+  
   public async Task<int> SetGameOrderUrlAsync(long gameId, string orderUrl)
   {
     const string query = @$"UPDATE `{TableName}`

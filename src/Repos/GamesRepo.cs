@@ -2,6 +2,7 @@
 using Dapper;
 using GameIndex.Helpers;
 using GameIndex.Models.Entities;
+using Microsoft.Extensions.Hosting;
 
 namespace GameIndex.Repos;
 
@@ -9,6 +10,8 @@ public interface IGamesRepo
 {
   Task<List<BasicGameInfoEntity>> GetAllAsync(int platformId);
   Task<int> UpdateGameInfoAsync(BasicGameInfoEntity game);
+  Task<int> ToggleProtectionAsync(long gameId);
+  Task<int> SetGamePriceAsync(long gameId, double price);
 }
 
 public class GamesRepo : IGamesRepo
@@ -34,10 +37,10 @@ public class GamesRepo : IGamesRepo
 	    l.LocationName,
 	    p.PlatformName,
 	    i.ImagePath,
-      o.HasProtection,
+      g.HasProtection,
 	    o.Store,
 	    o.ReceiptNumber,
-	    o.Cost,
+	    g.Cost,
 	    o.ReceiptDate,
       CASE WHEN gs.GameID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`,
       o.HaveReceipt,
@@ -60,10 +63,30 @@ public class GamesRepo : IGamesRepo
     const string query = @$"UPDATE `{TableName}`
     SET
 	    `GameName` = @GameName,
-	    `GameCase` = @GameCase
+	    `GameCase` = @GameCase,
+      `Cost` = @Cost,
+      `HasProtection` = @HasProtection
     WHERE
 	    `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, game);
+  }
+
+  public async Task<int> ToggleProtectionAsync(long gameId)
+  {
+    const string query = @$"UPDATE `{TableName}`
+    SET `HasProtection` = !`HasProtection`
+    WHERE `GameID` = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new { GameID = gameId });
+  }
+
+  public async Task<int> SetGamePriceAsync(long gameId, double price)
+  {
+    const string query = @$"UPDATE `{TableName}`
+    SET `Cost` = @Cost
+    WHERE `GameID` = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new { GameID = gameId, Cost = price });
   }
 }

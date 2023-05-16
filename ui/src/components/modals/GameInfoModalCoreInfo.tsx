@@ -1,6 +1,6 @@
 import React from "react";
 import { BasicGameInfoDto, GamesClient } from "../../api";
-import { Button, Form, Input, InputOnChangeData, Label } from "semantic-ui-react";
+import { Button, Checkbox, CheckboxProps, Form, Input, InputOnChangeData, Label } from "semantic-ui-react";
 
 interface GameInfoModalCoreInfoProps {
   game: BasicGameInfoDto;
@@ -11,6 +11,8 @@ interface GameInfoModalCoreInfoState {
   gameCase: string;
   dirty: boolean;
   saving: boolean;
+  cost: number;
+  hasProtection: boolean;
 }
 
 export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfoProps, GameInfoModalCoreInfoState> {
@@ -24,12 +26,15 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
       dirty: false,
       gameCase: this.props.game.gameCase,
       saving: false,
+      cost: this.props.game.cost,
+      hasProtection: this.props.game.hasProtection
     });
   }
 
   render(): React.ReactNode {
     if (!this.state) return null;
-    const game = this.props.game;
+    const cost = this.state.cost;
+    const hasProtection = this.state.hasProtection;
 
     return (<div>
       {this.state.saving && <p>Saving changes...</p>}
@@ -42,6 +47,14 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
           <label>Location</label>
           <Input placeholder='Case' value={this.state.gameCase} onChange={this._onCaseChange} />
         </Form.Field>
+        <Form.Field>
+          <label>Price</label>
+          <Input placeholder='Price' value={cost} type="number" onChange={this._onPriceChanged} />
+        </Form.Field>
+        <Form.Field>
+          <label>Has Protection</label>
+          <Checkbox toggle checked={hasProtection} onChange={this._onProtectionChanged} />
+        </Form.Field>
         <Button type='button' disabled={!this.state.dirty && !this.state.saving} onClick={this._saveChanges}>Save Changes</Button>
       </Form>
     </div>);
@@ -50,7 +63,15 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
   _onNameChange = (_: any, data: InputOnChangeData) => {
     this.props.game.gameName = data.value;
     this.setState({
-      gameName: data.value,
+      gameName: this.props.game.gameName,
+      dirty: true,
+    });
+  }
+
+  _onProtectionChanged = (_event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
+    this.props.game.hasProtection = data.checked || false;
+    this.setState({
+      hasProtection: this.props.game.hasProtection,
       dirty: true,
     });
   }
@@ -59,7 +80,15 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
     this.props.game.gameCase = data.value;
     this.setState({
       dirty: true,
-      gameCase: data.value,
+      gameCase: this.props.game.gameCase,
+    })
+  }
+
+  _onPriceChanged = (_: any, data: InputOnChangeData) => {
+    this.props.game.cost = parseFloat(data.value || '0');
+    this.setState({
+      dirty: true,
+      cost: this.props.game.cost,
     })
   }
 
@@ -69,7 +98,7 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
         this.setState({
           saving: false,
           dirty: false,
-        })
+        });
       });
     });
   }
