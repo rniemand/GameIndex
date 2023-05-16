@@ -1,12 +1,10 @@
 import React from 'react';
 import './App.css';
 import { GameList } from './components/GameList';
-import { GamePlatformEntity, GamesClient } from './api';
+import { GamePlatformEntity } from './api';
 import { GamePlatforms } from './components/GamePlatforms';
 import 'semantic-ui-css/semantic.min.css'
 import ISearchableGame from './models/ISearchableGame';
-
-const gamesClient = new GamesClient();
 
 interface AppProps { }
 
@@ -30,30 +28,13 @@ export default class App extends React.Component<AppProps, AppState> {
     return (
       <div className="App test">
         <GamePlatforms onPlatformSelected={this._platformSelected} selectedPlatform={selectedPlatform} />
-        <GameList games={games} />
+        <GameList platform={selectedPlatform} />
       </div>
     );
   }
 
   _platformSelected = (platform: GamePlatformEntity) => {
-    this.setState({ selectedPlatform: platform }, this._loadPlatformGames);
-  }
-
-  _loadPlatformGames = () => {
-    const selectedPlatform = this.state.selectedPlatform;
-    if (!selectedPlatform) {
-      this.setState({ games: [] });
-      return;
-    }
-
-    gamesClient.getAllGames(selectedPlatform.platformID).then(_games => {
-      this.setState({
-        games: _games.map(game => ({
-          game: game,
-          searchString: `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}`.toLowerCase()
-        }))
-      });
-    });
+    this.setState({ selectedPlatform: platform });
   }
 }
 

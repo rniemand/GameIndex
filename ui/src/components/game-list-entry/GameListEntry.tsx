@@ -8,7 +8,7 @@ import { SetConsoleModal } from "../../modals/SetConsoleModal";
 
 interface GameListEntryProps {
   game: BasicGameInfoDto;
-  onGameLocationChange: (game: BasicGameInfoDto) => void;
+  onModalClosed: () => void;
 }
 
 interface GameListEntryState { }
@@ -35,7 +35,7 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
         <div>
           {!game.gameSold && <GameListEntryCase game={game} />}
           {!game.gameSold && <span className="spacer">|</span>}
-          <SetConsoleModal game={game} onGameLocationChange={this.props.onGameLocationChange} />
+          <SetConsoleModal game={game} onGameLocationChange={this.props.onModalClosed} />
         </div>
         <div>
           {game.haveReceipt && <Icon name='list alternate outline' />}

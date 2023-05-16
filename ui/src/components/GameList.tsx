@@ -3,17 +3,20 @@ import { Card, Container, SemanticWIDTHSNUMBER } from "semantic-ui-react";
 import { GameListEntry } from "./game-list-entry/GameListEntry";
 import { GameListControls } from "./game-list-entry/GameListControls";
 import { storageHelper } from "../helpers/StorageHelper";
+import { BasicGameInfoDto, GamePlatformEntity, GamesClient } from "../api";
 import ISearchableGame from "../models/ISearchableGame";
-import { BasicGameInfoDto } from "../api";
 
 interface GamesListProps {
-  games: ISearchableGame[];
+  platform?: GamePlatformEntity;
 }
 
 interface GamesListState {
   itemsPerPage: number;
   searchValue: string;
   counter: number;
+  loading: boolean;
+  games: ISearchableGame[];
+  platform?: GamePlatformEntity;
 }
 
 export class GameList extends React.Component<GamesListProps, GamesListState> {
@@ -25,12 +28,19 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     this.setState({
       itemsPerPage: storageHelper.getNumber('app.items.pp', 3),
       searchValue: '',
-      counter: 0
-    });
+      counter: 0,
+      loading: true,
+      platform: undefined,
+    }, this._refreshGames);
   }
 
   render(): React.ReactNode {
     if (!this.state) return null;
+    
+    this._refreshGames();
+    if(!this.props.platform) return(<div>You need to select a platform.</div>);
+    if(this.state.loading) return(<div>Fetching Games.</div>);
+
     const games = this._getFilteredGames();
     const itemsPerPage = this.state.itemsPerPage || 3;
 
@@ -41,7 +51,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
         {games.length === 0 && <p className="center">No games found.</p>}
         <Card.Group itemsPerRow={itemsPerPage as SemanticWIDTHSNUMBER}>
           {games.map(game => {
-            return (<GameListEntry key={game.gameID} game={game} onGameLocationChange={this._onGameLocationChange} />);
+            return (<GameListEntry key={game.gameID} game={game} onModalClosed={this._onModalClosed} />);
           })}
         </Card.Group>
       </Container>
@@ -56,7 +66,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   _getFilteredGames = () => {
     const searchTerm = this.state.searchValue || '';
     const runSearch = searchTerm.length > 0;
-    return this.props.games.reduce((pv: BasicGameInfoDto[], cv) => {
+    return this.state.games.reduce((pv: BasicGameInfoDto[], cv) => {
       if(runSearch && cv.searchString.indexOf(searchTerm) === -1) return pv;
       pv.push(cv.game);
       return pv;
@@ -67,31 +77,23 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     this.setState({ searchValue: value });
   }
 
-  _onGameLocationChange = (game: BasicGameInfoDto) => {
-    if(game.locationName.toLowerCase() == 'home') return;
+  _refreshGames = () => {
+    if(!this.props.platform) return;
+    if(this.state.platform === this.props.platform) return;
 
-    const homeLocation = this.props.games.reduce((pv: BasicGameInfoDto | null, cv) => {
-      if(pv) return pv;
-      if(cv.game.locationName.toLowerCase() === 'home') return cv.game;
-      return null;
-    }, null);
-
-    if(!homeLocation) return;
-
-    this.props.games
-      .filter(x => x.game.locationID === game.locationID && x.game.gameID !== game.gameID)
-      .forEach(entry => {
-        entry.game.locationID = homeLocation.locationID;
-        entry.game.locationName = homeLocation.locationName;
-      });
-
-    this.props.games.forEach(e => {
-      const game = e.game;
-      e.searchString = `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}`.toLowerCase();
+    new GamesClient().getAllGames(this.props.platform.platformID).then(games => {
+      this.setState({
+        loading: false,
+        games: (games || []).map(game => ({
+          game: game,
+          searchString: `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}`.toLowerCase()
+        })),
+        platform: this.props.platform,
+      })
     });
+  }
 
-    this.setState({
-      counter: this.state.counter+1
-    });
+  _onModalClosed = () => {
+    this.setState({ loading: true, }, this._refreshGames);
   }
 }
