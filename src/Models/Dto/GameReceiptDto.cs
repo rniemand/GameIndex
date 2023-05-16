@@ -4,7 +4,7 @@ namespace GameIndex.Models.Dto;
 
 public class GameReceiptDto
 {
-  public long GameID { get; set; }
+  public int ReceiptID { get; set; }
   public string Store { get; set; } = string.Empty;
   public string ReceiptNumber { get; set; } = string.Empty;
   public DateTime ReceiptDate { get; set; }
@@ -15,11 +15,11 @@ public class GameReceiptDto
   public static GameReceiptDto FromEntity(GameReceiptEntity entity) => new()
   {
     ReceiptDate = entity.ReceiptDate,
-    GameID = entity.GameID,
     ReceiptNumber = entity.ReceiptNumber,
     Store = entity.Store,
     ReceiptName = entity.ReceiptName,
     ReceiptUrl = entity.ReceiptUrl,
     ReceiptScanned = entity.ReceiptScanned,
+    ReceiptID = entity.ReceiptID,
   };
 }

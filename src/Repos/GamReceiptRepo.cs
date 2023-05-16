@@ -6,8 +6,8 @@ namespace GameIndex.Repos;
 
 public interface IGamReceiptRepo
 {
-  Task<GameReceiptEntity?> GetOrderInfoAsync(long gameId);
-  Task<int> ToggleReceiptScannedAsync(long gameId);
+  Task<GameReceiptEntity?> GetOrderInfoAsync(int receiptId);
+  Task<int> ToggleReceiptScannedAsync(int receiptId);
   Task<int> SetReceiptLocationAsync(long gameId, string location);
   Task<int> SetGameOrderUrlAsync(long gameId, string orderUrl);
   Task<int> SetGameOrderNumberAsync(long gameId, string orderNumber);
@@ -24,10 +24,10 @@ public class GamReceiptRepo : IGamReceiptRepo
     _connectionHelper = connectionHelper;
   }
 
-  public async Task<GameReceiptEntity?> GetOrderInfoAsync(long gameId)
+  public async Task<GameReceiptEntity?> GetOrderInfoAsync(int receiptId)
   {
     const string query = @$"SELECT
-	    o.GameID,
+	    o.ReceiptID,
 	    o.Store,
 	    o.ReceiptNumber,
 	    o.ReceiptDate,
@@ -35,25 +35,20 @@ public class GamReceiptRepo : IGamReceiptRepo
       o.ReceiptUrl,
       o.ReceiptScanned
     FROM `{TableName}` o
-    WHERE o.GameID = @GameID
+    WHERE o.ReceiptID = @ReceiptID
     LIMIT 1";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.QuerySingleOrDefaultAsync<GameReceiptEntity>(query, new { GameID = gameId });
+    return await connection.QuerySingleOrDefaultAsync<GameReceiptEntity>(query, new { ReceiptID = receiptId });
   }
   
-  public async Task<int> ToggleReceiptScannedAsync(long gameId)
+  public async Task<int> ToggleReceiptScannedAsync(int receiptId)
   {
     const string query = @$"UPDATE `{TableName}`
     SET
       `ReceiptScanned` = !`ReceiptScanned`
-    WHERE `GameID` = @GameID
-      OR `ReceiptName` = (
-        SELECT ReceiptName
-        FROM `{TableName}`
-        WHERE `GameID` = @GameID
-      )";
+    WHERE `ReceiptID` = @ReceiptID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId });
+    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId });
   }
   
   public async Task<int> SetReceiptLocationAsync(long gameId, string location)

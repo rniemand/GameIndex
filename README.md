@@ -37,8 +37,6 @@ paths:
 
 - Support for console \ hardware purchase tracking
 - Auto calculate game coverage end date
-- Move protection out from game receipts onto games themselves
-- Move cost to game table
 - Game Info Modal
   - Add links to store page
 - Process return info
