@@ -1,6 +1,6 @@
 .game-list .center { text-align: center; }
 
-.game-list .game-list-entry.sold { opacity: .7; }
+.game-list .game-list-entry.sold { opacity: .6; background-color: #ecff938f!important; }
 .game-list .game-list-entry .extra .spacer { margin-left: 4px; margin-right: 4px; }
 
 .ui.container.game-list div.game-list-entry .content .header {
@@ -31,3 +31,15 @@
 .item-count-selector {
   width: 80px;
 }
+
+.game-list-entry .game-price {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  color: #00ff1f;
+  background-color: rgb(0 0 0 / 61%);
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.modal-trigger { cursor: pointer; }

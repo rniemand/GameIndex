@@ -86,7 +86,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
         loading: false,
         games: (games || []).map(game => ({
           game: game,
-          searchString: `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}|${game.receiptLocation}`.toLowerCase()
+          searchString: this._generateSearchString(game)
         })),
         platform: this.props.platform,
       })
@@ -95,5 +95,11 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
 
   _runModalGamesRefresh = () => {
     this.setState({ loading: true, }, () => this._refreshGames(true));
+  }
+
+  _generateSearchString = (game: BasicGameInfoDto) => {
+    let searchString = `${game.gameCase}|${game.gameName}|${game.locationName}|${game.seller}|${game.orderNumber}|${game.receiptLocation}`;
+    if(game.gameSold) searchString += '|sold';
+    return searchString.toLowerCase();
   }
 }

@@ -26,24 +26,25 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
 
     return (<Card className={classes.join(' ')}>
       <GameListEntryImage game={game} />
+      {game.cost > 0 && <div className="game-price">${game.cost}</div>}
       <Card.Content>
         <Card.Header>{game.gameName}</Card.Header>
       </Card.Content>
       <Card.Content extra>
-        <GameInfoModal game={game} onModalClosed={this.props.gamesInfoModalClosed} />
-      </Card.Content>
-      <Card.Content extra>
         <div>
-          {!game.gameSold && <GameListEntryCase game={game} />}
-          {!game.gameSold && <span className="spacer">|</span>}
-          <SetConsoleModal game={game} onGameLocationChange={this.props.onGameLocationChange} />
-        </div>
-        <div>
-          {game.haveReceipt && <Icon name='list alternate outline' />}
-          {game.receiptScanned && <Icon name='copy' />}
-          {game.cost > 0 && <span>${game.cost}</span>}
+          <GameInfoModal game={game} onModalClosed={this.props.gamesInfoModalClosed} />
+          {game.haveReceipt && <Icon name='list alternate outline' title='Has Receipt' />}
+          {game.receiptScanned && <Icon name='picture' title='Receipt Scanned' />}
+          {game.hasProtection && <Icon name='copy outline' title='Has Protection' />}
+          {game.gameSold && <Icon name='dollar sign' title='Sold' />}
+          {game.hasCover && <Icon name='box' title='Has Cover' />}
         </div>
       </Card.Content>
+      {!game.gameSold && <Card.Content extra>
+        <GameListEntryCase game={game} />
+        <span className="spacer">|</span>
+        <SetConsoleModal game={game} onGameLocationChange={this.props.onGameLocationChange} />
+      </Card.Content>}
     </Card>);
   }
 }

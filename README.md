@@ -37,7 +37,6 @@ paths:
 
 - Support for console \ hardware purchase tracking
 - Games List
-  - Add indication for protection
   - Add indication for price
 - Process return info
   - REC-005
