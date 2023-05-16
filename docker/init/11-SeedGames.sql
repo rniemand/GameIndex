@@ -1,99 +1,99 @@
 -- TRUNCATE TABLE `Games`;
 
 INSERT INTO `Games`
-    (`PlatformID`, `LocationID`, `HasCover`, `Rating`, `GameCase`, `GameName`)
+    (`GameName`, `PlatformID`, `LocationID`, `HasCover`, `GameCase`, `Rating`)
 VALUES
-    (1, 1, TRUE, 0, '01-C4', 'Civilization VI'), -- 1
-    (1, 1, TRUE, 0, '01-D5', 'Hello Neighbor'), -- 2
-    (1, 1, TRUE, 0, '03-A2', 'Super Mario 3D World + Bowsers Fury'), -- 3
-    (1, 1, TRUE, 0, '01-D1', 'Lego Jurassic World'), -- 4
-    (1, 1, TRUE, 0, '02-C2', 'Nickelodeon All-Star Brawl'), -- 5
-    (1, 1, TRUE, 0, '01-B6', 'The LEGO Movie 2 Videogame'), -- 6
-    (1, 1, TRUE, 0, '02-B3', 'Pokémon Sword'), -- 7
-    (1, 1, TRUE, 0, '02-B2', 'The Legend of Zelda: Breath of the Wild'), -- 8
-    (1, 1, TRUE, 0, '02-D3', 'Paper Mario: The Origami King'), -- 9
-    (1, 1, TRUE, 0, '02-D6', 'Minecraft'), -- 10
-    (1, 1, TRUE, 0, '02-A4', 'Mario + Rabbids Kingdom Battle'), -- 11
-    (1, 1, TRUE, 0, '02-B6', 'Animal Crossing'), -- 12
-    (1, 1, TRUE, 0, '02-A3', 'Mario + Rabbids Sparks of Hope'), -- 13
-    (1, 1, TRUE, 0, '02-A1', 'Indivisible'), -- 14
-    (1, 1, TRUE, 0, '01-A5', 'New Super Mario Bros. U Deluxe'), -- 15
-    (1, 1, TRUE, 0, '01-B1', 'South Park: The Fractured But Whole'), -- 16
-    (1, 1, TRUE, 0, '02-B5', 'Pokémon Scarlet'), -- 17
-    (1, 1, TRUE, 0, '01-B3', 'Astroneer'), -- 18
-    (1, 1, TRUE, 0, '02-C5', 'Pokémon: Lets Go, Pikachu!'), -- 19
-    (1, 1, TRUE, 0, '01-C6', 'Borderlands Legendary Collection'), -- 20
-    (1, 1, TRUE, 0, '03-A1', 'LEGO The Incredibles'), -- 21
-    (1, 1, TRUE, 0, '01-A6', 'Harvest Moon Light of Hope'), -- 22
-    (1, 1, TRUE, 0, '02-B1', 'Captain Toad: Treasure Tracker'), -- 23
-    (1, 1, TRUE, 0, '01-D4', 'Assassins Creed The Ezio Collection'), -- 24
-    (1, 1, TRUE, 0, '02-A2', 'Dragons: Dawn of the New Riders'), -- 25
-    (1, 1, TRUE, 0, '01-C3', 'Autonauts'), -- 26
-    (1, 1, TRUE, 0, '01-C5', 'Minecraft Dungeons Ultimate Edition'), -- 27
-    (1, 1, TRUE, 0, '02-C4', 'Legend of Zelda Links Awakening'), -- 28
-    (1, 1, TRUE, 0, '01-A2', 'Hot Wheels Unleashed'), -- 29
-    (1, 1, TRUE, 0, '01-D3', 'LEGO Marvel Super Heroes'), -- 30
-    (1, 1, TRUE, 0, '01-B2', 'Spyro Reignighted'), -- 31
-    (1, 1, TRUE, 0, '01-D2', 'LEGO Marvel Super Heroes 2'), -- 32
-    (1, 1, TRUE, 0, '01-B4', 'Crash Bandicoot N.Sane Trilogy'), -- 33
-    (1, 1, TRUE, 0, '03-A3', 'Donkey Kong Country Tropical Freeze'), -- 34
-    (1, 1, TRUE, 0, '', 'Super Mario Odysee'), -- 35
-    (1, 1, TRUE, 0, '02-A6', 'Luigis Mansion 3'), -- 36
-    (1, 1, TRUE, 0, '01-D6', 'Disgaea 1 Complete'), -- 37
-    (1, 1, TRUE, 0, '02-C6', 'Pokemon Legends: Arceus'), -- 38
-    (1, 1, TRUE, 0, '02-C3', 'Pokémon Violet'), -- 39
-    (1, 1, TRUE, 0, '02-C1', 'Pokémon Shining Pearl'), -- 40
-    (1, 1, TRUE, 0, '01-C1', 'LEGO Harry Potter Collection'), -- 41
-    (1, 1, TRUE, 0, '01-C2', 'LEGO DC Super Villians'), -- 42
-    (1, 1, TRUE, 0, '02-A5', 'Pokémon Shield'), -- 43
-    (1, 1, TRUE, 0, '02-B4', 'Pokémon Brilliant Diamond'), -- 44
-    (1, 1, TRUE, 0, '01-A1', 'Ice Age Scrats Nutty Adventure'), -- 45
-    (1, 1, TRUE, 0, '01-B5', 'Paw Patrol Grand Prix'), -- 46
-    (1, 1, TRUE, 0, '01-A4', 'Cars 3 Driven to Win'), -- 47
-    (1, 1, TRUE, 0, '02-D4', 'Mario Kart 8 Deluxe'), -- 48
-    (1, 1, TRUE, 0, '02-D5', 'Disney Classic Games: Aladdin and The Lion King'), -- 49
-    (1, 1, TRUE, 0, '01-A3', 'Rayman Legends Definitive Edition'), -- 50
-    (1, 1, TRUE, 0, '02-D1', 'Scribblenauts Mega Pack'), -- 51
-    (1, 1, TRUE, 0, '02-D2', 'Kaze and the Wild Masks'), -- 52
-    (3, 1, TRUE, 0, '', 'Overcooked: All you can Eat'), -- 53
-    (4, 1, TRUE, 0, '', 'God of War 3 Remastered'), -- 54
-    (4, 1, TRUE, 0, '', 'God of War (PS Hits)'), -- 55
-    (4, 1, TRUE, 0, '', 'Injustice Gods Amoung Us'), -- 56
-    (4, 1, TRUE, 0, '', 'Batman Arkam Knight'), -- 57
-    (4, 1, TRUE, 0, '', 'Marvel Avengers'), -- 58
-    (4, 1, TRUE, 0, '', 'Red Dead Redemption 2'), -- 59
-    (4, 1, TRUE, 0, '', 'Uncharted 4 A Thiefs End (PS Hits)'), -- 60
-    (3, 1, TRUE, 0, '', 'The Last of Us Part 1'), -- 61
-    (3, 1, TRUE, 0, '', 'Forspoken'), -- 62
-    (4, 1, TRUE, 0, '', 'Witcher 3 Wild Hunt'), -- 63
-    (2, 1, TRUE, 0, '', 'Hogwarts Legacy'), -- 64
-    (1, 1, FALSE, 0, '', 'Katamari Damacy Reroll'), -- 65
-    (1, 1, FALSE, 0, '', 'Baldurs GATE & Baldurs GATE 2 Enhanced Edition'), -- 66
-    (1, 1, FALSE, 0, '', 'Kingdom Hearts: Melody of Memory'), -- 67
-    (3, 1, FALSE, 0, '', 'Road 96'), -- 68
-    (4, 1, TRUE, 0, '', 'Kingdom Hearts 3'), -- 69
-    (4, 1, TRUE, 0, '', 'Ratchet & Clank'), -- 70
-    (4, 1, TRUE, 0, '', 'Infamous Second Son'), -- 71
-    (3, 1, TRUE, 0, '', 'Godfall'), -- 72
-    (2, 1, TRUE, 0, '', 'Metal Gear Solid V Ground Zeroes'), -- 73
-    (2, 1, TRUE, 0, '', 'Thief 4'), -- 74
-    (2, 1, TRUE, 0, '', 'Assassins Creed: Unity'), -- 75
-    (4, 1, TRUE, 0, '', 'Kalypso - Dungeons 3'), -- 76
-    (1, 1, TRUE, 0, '', 'Digimon Survive'), -- 77
-    (2, 1, TRUE, 0, '', 'Bleeding Edge'), -- 78
-    (1, 1, TRUE, 0, '', 'Diablo III Eternal Collection'), -- 79
-    (2, 1, TRUE, 0, '', 'Elder Scrolls Online'), -- 80
-    (4, 1, TRUE, 0, '', 'THE ELDER SCROLLS V : SKYRIM SPECIAL EDITION'), -- 81
-    (2, 1, TRUE, 0, '', 'DARKSIDERS 3'), -- 82
-    (4, 1, TRUE, 0, '', 'Sonic Mania Plus'), -- 83
-    (1, 1, TRUE, 0, '03-A4', 'Hotel Transylvania Scary Tale Adventure'), -- 84
-    (1, 1, TRUE, 0, '03-A5', 'Power Rangers: Battle for the Grid Super Edition'), -- 85
-    (1, 1, TRUE, 0, '03-B1', 'DC Super Pets'), -- 86
-    (1, 1, TRUE, 0, '03-A6', 'Ghost Parade'), -- 87
-    (1, 1, TRUE, 0, '03-B2', 'Paw Patrol The Movie Adventure City Calls'), -- 88
-    (1, 1, TRUE, 0, '03-B3', 'Dredge'), -- 89
-    (1, 1, TRUE, 0, '03-B4', 'Cult of the Lamb'), -- 90
-    (1, 1, TRUE, 0, '', 'Star Wars Racer and Commando Combo'), -- 91
-    (1, 1, TRUE, 0, '', 'The Legend of Zelda: Tears of the Kingdom'), -- 92
-    (1, 1, TRUE, 0, '', 'It Takes Two') -- 93
+	('Civilization VI', 1, 1, b'1', '01-C4', 0),
+	('Hello Neighbor', 1, 1, b'1', '01-D5', 0),
+	('Super Mario 3D World + Bowsers Fury', 1, 1, b'1', '03-A2', 0),
+	('Lego Jurassic World', 1, 1, b'1', '01-D1', 0),
+	('Nickelodeon All-Star Brawl', 1, 1, b'1', '02-C2', 0),
+	('The LEGO Movie 2 Videogame', 1, 1, b'1', '01-B6', 0),
+	('Pokémon Sword', 1, 1, b'1', '02-B3', 0),
+	('The Legend of Zelda: Breath of the Wild', 1, 1, b'1', '02-B2', 0),
+	('Paper Mario: The Origami King', 1, 1, b'1', '02-D3', 0),
+	('Minecraft', 1, 1, b'1', '02-D6', 0),
+	('Mario + Rabbids Kingdom Battle', 1, 1, b'1', '02-A4', 0),
+	('Animal Crossing', 1, 1, b'1', '02-B6', 0),
+	('Mario + Rabbids Sparks of Hope', 1, 1, b'1', '02-A3', 0),
+	('Indivisible', 1, 1, b'1', '02-A1', 0),
+	('New Super Mario Bros. U Deluxe', 1, 1, b'1', '01-A5', 0),
+	('South Park: The Fractured But Whole', 1, 1, b'1', '01-B1', 0),
+	('Pokémon Scarlet', 1, 1, b'1', '02-B5', 0),
+	('Astroneer', 1, 1, b'1', '01-B3', 0),
+	('Pokémon: Lets Go, Pikachu!', 1, 1, b'1', '02-C5', 0),
+	('Borderlands Legendary Collection', 1, 1, b'1', '01-C6', 0),
+	('LEGO The Incredibles', 1, 1, b'1', '03-A1', 0),
+	('Harvest Moon Light of Hope', 1, 1, b'1', '01-A6', 0),
+	('Captain Toad: Treasure Tracker', 1, 1, b'1', '02-B1', 0),
+	('Assassins Creed The Ezio Collection', 1, 1, b'1', '01-D4', 0),
+	('Dragons: Dawn of the New Riders', 1, 1, b'1', '02-A2', 0),
+	('Autonauts', 1, 1, b'1', '01-C3', 0),
+	('Minecraft Dungeons Ultimate Edition', 1, 1, b'1', '01-C5', 0),
+	('Legend of Zelda Links Awakening', 1, 1, b'1', '02-C4', 0),
+	('Hot Wheels Unleashed', 1, 1, b'1', '01-A2', 0),
+	('LEGO Marvel Super Heroes', 1, 1, b'1', '01-D3', 0),
+	('Spyro Reignighted', 1, 1, b'1', '01-B2', 0),
+	('LEGO Marvel Super Heroes 2', 1, 1, b'1', '01-D2', 0),
+	('Crash Bandicoot N.Sane Trilogy', 1, 1, b'1', '01-B4', 0),
+	('Donkey Kong Country Tropical Freeze', 1, 1, b'1', '03-A3', 0),
+	('Super Mario Odysee', 1, 1, b'1', '', 0),
+	('Luigis Mansion 3', 1, 1, b'1', '02-A6', 0),
+	('Disgaea 1 Complete', 1, 1, b'1', '01-D6', 0),
+	('Pokemon Legends: Arceus', 1, 1, b'1', '02-C6', 0),
+	('Pokémon Violet', 1, 1, b'1', '02-C3', 0),
+	('Pokémon Shining Pearl', 1, 1, b'1', '02-C1', 0),
+	('LEGO Harry Potter Collection', 1, 1, b'1', '01-C1', 0),
+	('LEGO DC Super Villians', 1, 1, b'1', '01-C2', 0),
+	('Pokémon Shield', 1, 1, b'1', '02-A5', 0),
+	('Pokémon Brilliant Diamond', 1, 1, b'1', '02-B4', 0),
+	('Ice Age Scrats Nutty Adventure', 1, 1, b'1', '01-A1', 0),
+	('Paw Patrol Grand Prix', 1, 1, b'1', '01-B5', 0),
+	('Cars 3 Driven to Win', 1, 1, b'1', '01-A4', 0),
+	('Mario Kart 8 Deluxe', 1, 1, b'1', '02-D4', 0),
+	('Disney Classic Games: Aladdin and The Lion King', 1, 1, b'1', '02-D5', 0),
+	('Rayman Legends Definitive Edition', 1, 1, b'1', '01-A3', 0),
+	('Scribblenauts Mega Pack', 1, 1, b'1', '02-D1', 0),
+	('Kaze and the Wild Masks', 1, 1, b'1', '02-D2', 0),
+	('Overcooked: All you can Eat', 3, 1, b'1', '', 0),
+	('God of War 3 Remastered', 4, 1, b'1', '', 0),
+	('God of War (its)', 4, 1, b'1', '', 0),
+	('Injustice Gods Amoung Us', 4, 1, b'1', '', 0),
+	('Batman Arkam Knight', 4, 1, b'1', '', 0),
+	('Marvel Avengers', 4, 1, b'1', '', 0),
+	('Red Dead Redemption 2', 4, 1, b'1', '', 0),
+	('Uncharted 4 A Thiefs End (its)', 4, 1, b'1', '', 0),
+	('The Last of Us Part 1', 3, 1, b'1', '', 0),
+	('Forspoken', 3, 1, b'1', '', 0),
+	('Witcher 3 Wild Hunt', 4, 1, b'1', '', 0),
+	('Hogwarts Legacy', 2, 1, b'1', '', 0),
+	('Katamari Damacy Reroll', 1, 1, b'0', '', 0),
+	('Baldurs GATE & Baldurs GATE 2 Enhanced Edition', 1, 1, b'0', '', 0),
+	('Kingdom Hearts: Melody of Memory', 1, 1, b'0', '', 0),
+	('Road 96', 3, 1, b'0', '', 0),
+	('Kingdom Hearts 3', 4, 1, b'1', '', 0),
+	('Ratchet & Clank', 4, 1, b'1', '', 0),
+	('Infamous Second Son', 4, 1, b'1', '', 0),
+	('Godfall', 3, 1, b'1', '', 0),
+	('Metal Gear Solid V Ground Zeroes', 2, 1, b'1', '', 0),
+	('Thief 4', 2, 1, b'1', '', 0),
+	('Assassins Creed: Unity', 2, 1, b'1', '', 0),
+	('Kalypso - Dungeons 3', 4, 1, b'1', '', 0),
+	('Digimon Survive', 1, 1, b'1', '', 0),
+	('Bleeding Edge', 2, 1, b'1', '', 0),
+	('Diablo III Eternal Collection', 1, 1, b'1', '', 0),
+	('Elder Scrolls Online', 2, 1, b'1', '', 0),
+	('THE ELDER SCROLLS V : SKYRIM SPECIAL EDITION', 4, 1, b'1', '', 0),
+	('DARKSIDERS 3', 2, 1, b'1', '', 0),
+	('Sonic Mania Plus', 4, 1, b'1', '', 0),
+	('Hotel Transylvania Scary Tale Adventure', 1, 1, b'1', '03-A4', 0),
+	('Power Rangers: Battle for the Grid Super Edition', 1, 1, b'1', '03-A5', 0),
+	('DC Super Pets', 1, 1, b'1', '03-B1', 0),
+	('Ghost Parade', 1, 1, b'1', '03-A6', 0),
+	('Paw Patrol The Movie Adventure City Calls', 1, 1, b'1', '03-B2', 0),
+	('Dredge', 1, 1, b'1', '03-B4', 0),
+	('Cult of the Lamb', 1, 1, b'1', '03-C1', 0),
+	('Star Wars Racer and Commando Combo', 1, 1, b'1', '03-B3', 0),
+	('The Legend of Zelda: Tears of the Kingdom', 1, 1, b'1', '03-B5', 0),
+	('It Takes Two', 1, 1, b'1', '03-B6', 0)
 ;
