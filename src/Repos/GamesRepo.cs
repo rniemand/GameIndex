@@ -43,7 +43,7 @@ public class GamesRepo : IGamesRepo
 	    g.Cost,
 	    o.ReceiptDate,
       CASE WHEN gs.GameID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`,
-      o.HaveReceipt,
+      CASE WHEN o.Store IS NOT NULL THEN TRUE ELSE FALSE END AS `HaveReceipt`,
       o.ReceiptName,
       o.ReceiptScanned
     FROM `{TableName}` g
