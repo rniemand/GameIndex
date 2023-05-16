@@ -29,6 +29,9 @@ paths:
 ### Task List
 
 - Support for console \ hardware purchase tracking
+- Games List
+  - Add indication for protection
+  - Add indication for price
 - Process return info
   - REC-005
   - REC-007
