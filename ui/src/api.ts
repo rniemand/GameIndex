@@ -362,9 +362,9 @@ export class PlatformsClient implements IPlatformsClient {
 
 export interface IReceiptClient {
 
-    getOrderInformation(receiptId: number): Promise<GameReceiptDto>;
+    getOrderInformation(receiptId: number): Promise<ReceiptDto>;
 
-    updateReceipt(receipt: GameReceiptDto): Promise<GameReceiptDto>;
+    updateReceipt(receipt: ReceiptDto): Promise<ReceiptDto>;
 }
 
 export class ReceiptClient implements IReceiptClient {
@@ -377,7 +377,7 @@ export class ReceiptClient implements IReceiptClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getOrderInformation(receiptId: number): Promise<GameReceiptDto> {
+    getOrderInformation(receiptId: number): Promise<ReceiptDto> {
         let url_ = this.baseUrl + "/Receipt/order-info/{receiptId}";
         if (receiptId === undefined || receiptId === null)
             throw new Error("The parameter 'receiptId' must be defined.");
@@ -396,14 +396,14 @@ export class ReceiptClient implements IReceiptClient {
         });
     }
 
-    protected processGetOrderInformation(response: Response): Promise<GameReceiptDto> {
+    protected processGetOrderInformation(response: Response): Promise<ReceiptDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameReceiptDto.fromJS(resultData200);
+            result200 = ReceiptDto.fromJS(resultData200);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -411,10 +411,10 @@ export class ReceiptClient implements IReceiptClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GameReceiptDto>(null as any);
+        return Promise.resolve<ReceiptDto>(null as any);
     }
 
-    updateReceipt(receipt: GameReceiptDto): Promise<GameReceiptDto> {
+    updateReceipt(receipt: ReceiptDto): Promise<ReceiptDto> {
         let url_ = this.baseUrl + "/Receipt/update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -434,14 +434,14 @@ export class ReceiptClient implements IReceiptClient {
         });
     }
 
-    protected processUpdateReceipt(response: Response): Promise<GameReceiptDto> {
+    protected processUpdateReceipt(response: Response): Promise<ReceiptDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameReceiptDto.fromJS(resultData200);
+            result200 = ReceiptDto.fromJS(resultData200);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -449,7 +449,7 @@ export class ReceiptClient implements IReceiptClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GameReceiptDto>(null as any);
+        return Promise.resolve<ReceiptDto>(null as any);
     }
 }
 
@@ -697,7 +697,7 @@ export interface IPlatformDto {
     platformName: string;
 }
 
-export class GameReceiptDto implements IGameReceiptDto {
+export class ReceiptDto implements IReceiptDto {
     receiptID!: number;
     store!: string;
     receiptNumber!: string;
@@ -706,7 +706,7 @@ export class GameReceiptDto implements IGameReceiptDto {
     receiptUrl!: string;
     receiptScanned!: boolean;
 
-    constructor(data?: IGameReceiptDto) {
+    constructor(data?: IReceiptDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -727,9 +727,9 @@ export class GameReceiptDto implements IGameReceiptDto {
         }
     }
 
-    static fromJS(data: any): GameReceiptDto {
+    static fromJS(data: any): ReceiptDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GameReceiptDto();
+        let result = new ReceiptDto();
         result.init(data);
         return result;
     }
@@ -747,7 +747,7 @@ export class GameReceiptDto implements IGameReceiptDto {
     }
 }
 
-export interface IGameReceiptDto {
+export interface IReceiptDto {
     receiptID: number;
     store: string;
     receiptNumber: string;

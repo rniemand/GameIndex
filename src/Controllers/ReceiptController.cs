@@ -16,10 +16,10 @@ public class ReceiptController : ControllerBase
   }
 
   [HttpGet("order-info/{receiptId:int}")]
-  public async Task<GameReceiptDto?> GetOrderInformation([FromRoute] int receiptId) =>
+  public async Task<ReceiptDto?> GetOrderInformation([FromRoute] int receiptId) =>
     await _receiptService.GetOrderInfoAsync(receiptId);
 
   [HttpPost("update")]
-  public async Task<GameReceiptDto?> UpdateReceipt([FromBody] GameReceiptDto receipt) =>
+  public async Task<ReceiptDto?> UpdateReceipt([FromBody] ReceiptDto receipt) =>
     await _receiptService.UpdateAsync(receipt);
 }

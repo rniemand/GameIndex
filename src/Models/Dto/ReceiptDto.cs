@@ -2,7 +2,7 @@ using GameIndex.Models.Entities;
 
 namespace GameIndex.Models.Dto;
 
-public class GameReceiptDto
+public class ReceiptDto
 {
   public int ReceiptID { get; set; }
   public string Store { get; set; } = string.Empty;
@@ -12,7 +12,7 @@ public class GameReceiptDto
   public string ReceiptUrl { get; set; } = string.Empty;
   public bool ReceiptScanned { get; set; }
 
-  public static GameReceiptDto FromEntity(GameReceiptEntity entity) => new()
+  public static ReceiptDto FromEntity(ReceiptEntity entity) => new()
   {
     ReceiptDate = entity.ReceiptDate,
     ReceiptNumber = entity.ReceiptNumber,
@@ -23,7 +23,7 @@ public class GameReceiptDto
     ReceiptID = entity.ReceiptID,
   };
 
-  public GameReceiptEntity ToEntity() => new()
+  public ReceiptEntity ToEntity() => new()
   {
     ReceiptDate = ReceiptDate,
     ReceiptNumber = ReceiptNumber,

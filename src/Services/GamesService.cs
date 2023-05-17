@@ -15,17 +15,17 @@ public interface IGamesService
 public class GamesService : IGamesService
 {
   private readonly IGamesRepo _gamesRepo;
-  private readonly IGamReceiptRepo _gamReceiptRepo;
+  private readonly IReceiptRepo _receiptRepo;
   private readonly IGameImagesRepo _gameImagesRepo;
   private readonly IPlatformLocationRepo _platformLocationRepo;
 
   public GamesService(IGamesRepo gamesRepo,
-    IGamReceiptRepo gamReceiptRepo,
+    IReceiptRepo receiptRepo,
     IGameImagesRepo gameImagesRepo,
     IPlatformLocationRepo platformLocationRepo)
   {
     _gamesRepo = gamesRepo;
-    _gamReceiptRepo = gamReceiptRepo;
+    _receiptRepo = receiptRepo;
     _gameImagesRepo = gameImagesRepo;
     _platformLocationRepo = platformLocationRepo;
   }

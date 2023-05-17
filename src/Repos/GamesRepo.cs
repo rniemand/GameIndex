@@ -49,7 +49,7 @@ public class GamesRepo : IGamesRepo
 	    INNER JOIN `{PlatformsRepo.TableName}` p ON p.PlatformID = g.PlatformID
 	    INNER JOIN `{PlatformLocationRepo.TableName}` l ON l.PlatformLocationID = g.PlatformLocationID
 	    LEFT JOIN `{GameImagesRepo.TableName}` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
-      LEFT JOIN `{GamReceiptRepo.TableName}` r ON r.ReceiptID = g.ReceiptID
+      LEFT JOIN `{ReceiptRepo.TableName}` r ON r.ReceiptID = g.ReceiptID
       LEFT JOIN `GameSales` gs ON gs.GameID = g.GameID
     WHERE g.PlatformID = @PlatformID
     ORDER BY g.GameName";

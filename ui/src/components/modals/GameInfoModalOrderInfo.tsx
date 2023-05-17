@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto, GameReceiptDto, GamesClient, ReceiptClient } from "../../api";
+import { BasicGameInfoDto, ReceiptClient, ReceiptDto } from "../../api";
 import { Checkbox, CheckboxProps, Input, InputOnChangeData } from "semantic-ui-react";
 
 interface GameInfoModalOrderInfoProps {
@@ -7,7 +7,7 @@ interface GameInfoModalOrderInfoProps {
 }
 
 interface GameInfoModalOrderInfoState {
-  orderInfo?: GameReceiptDto;
+  orderInfo?: ReceiptDto;
   loading: boolean;
   dirty: boolean;
 }
@@ -74,7 +74,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
   _toggleReceiptScanned = (_event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
     this.setState({
-      orderInfo: new GameReceiptDto({
+      orderInfo: new ReceiptDto({
         ...this.state.orderInfo!,
         receiptScanned: data.checked || false,
       }),
@@ -84,7 +84,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
   _setReceiptNumber = (_: any, data: InputOnChangeData) => {
     this.setState({
-      orderInfo: new GameReceiptDto({
+      orderInfo: new ReceiptDto({
         ...this.state.orderInfo!,
         receiptNumber: data.value
       }),
@@ -94,7 +94,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
   _setReceiptName = (_: any, data: InputOnChangeData) => {
     this.setState({
-      orderInfo: new GameReceiptDto({
+      orderInfo: new ReceiptDto({
         ...this.state.orderInfo!,
         receiptName: data.value
       }),
@@ -104,7 +104,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
   _setReceiptUrl = (_: any, data: InputOnChangeData) => {
     this.setState({
-      orderInfo: new GameReceiptDto({
+      orderInfo: new ReceiptDto({
         ...this.state.orderInfo!,
         receiptUrl: data.value
       }),
@@ -114,7 +114,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
   _setReceiptDate = (_: any, data: InputOnChangeData) => {
     this.setState({
-      orderInfo: new GameReceiptDto({
+      orderInfo: new ReceiptDto({
         ...this.state.orderInfo!,
         receiptDate: new Date(data.value)
       }),

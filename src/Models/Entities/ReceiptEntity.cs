@@ -1,6 +1,6 @@
 namespace GameIndex.Models.Entities;
 
-public class GameReceiptEntity
+public class ReceiptEntity
 {
   public int ReceiptID { get; set; }
   public string Store { get; set; } = string.Empty;

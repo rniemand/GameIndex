@@ -1,4 +1,4 @@
-using GameIndex.Models.Dto;
+﻿using GameIndex.Models.Dto;
 using GameIndex.Repos;
 
 namespace GameIndex.Services;
@@ -6,30 +6,30 @@ namespace GameIndex.Services;
 public interface IGameReceiptService
 {
   // TODO: (IGameReceiptService.IGameReceiptService) [RENAME] Rename this 
-  Task<GameReceiptDto?> GetOrderInfoAsync(int receiptId);
-  Task<GameReceiptDto?> UpdateAsync(GameReceiptDto receipt);
+  Task<ReceiptDto?> GetOrderInfoAsync(int receiptId);
+  Task<ReceiptDto?> UpdateAsync(ReceiptDto receipt);
 }
 
 public class GameReceiptService : IGameReceiptService
 {
-  private readonly IGamReceiptRepo _gamReceiptRepo;
+  private readonly IReceiptRepo _receiptRepo;
 
-  public GameReceiptService(IGamReceiptRepo gamReceiptRepo)
+  public GameReceiptService(IReceiptRepo receiptRepo)
   {
-    _gamReceiptRepo = gamReceiptRepo;
+    _receiptRepo = receiptRepo;
   }
 
-  public async Task<GameReceiptDto?> GetOrderInfoAsync(int receiptId)
+  public async Task<ReceiptDto?> GetOrderInfoAsync(int receiptId)
   {
-    var gameOrderInfoEntity = await _gamReceiptRepo.GetOrderInfoAsync(receiptId);
-    return gameOrderInfoEntity is null ? null : GameReceiptDto.FromEntity(gameOrderInfoEntity);
+    var gameOrderInfoEntity = await _receiptRepo.GetOrderInfoAsync(receiptId);
+    return gameOrderInfoEntity is null ? null : ReceiptDto.FromEntity(gameOrderInfoEntity);
   }
 
-  public async Task<GameReceiptDto?> UpdateAsync(GameReceiptDto receipt)
+  public async Task<ReceiptDto?> UpdateAsync(ReceiptDto receipt)
   {
     // TODO: (GameReceiptService.UpdateAsync) [HANDLE] handle when nothing is updated
-    await _gamReceiptRepo.UpdateReceiptAsync(receipt.ToEntity());
-    var gameOrderInfoEntity = await _gamReceiptRepo.GetOrderInfoAsync(receipt.ReceiptID);
-    return gameOrderInfoEntity is null ? null : GameReceiptDto.FromEntity(gameOrderInfoEntity);
+    await _receiptRepo.UpdateReceiptAsync(receipt.ToEntity());
+    var gameOrderInfoEntity = await _receiptRepo.GetOrderInfoAsync(receipt.ReceiptID);
+    return gameOrderInfoEntity is null ? null : ReceiptDto.FromEntity(gameOrderInfoEntity);
   }
 }

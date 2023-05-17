@@ -4,24 +4,24 @@ using GameIndex.Models.Entities;
 
 namespace GameIndex.Repos;
 
-public interface IGamReceiptRepo
+public interface IReceiptRepo
 {
-  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
-  Task<GameReceiptEntity?> GetOrderInfoAsync(int receiptId);
-  Task<int> UpdateReceiptAsync(GameReceiptEntity receipt);
+  // TODO: (IReceiptRepo.IReceiptRepo) [RENAME] Rename this
+  Task<ReceiptEntity?> GetOrderInfoAsync(int receiptId);
+  Task<int> UpdateReceiptAsync(ReceiptEntity receipt);
 }
 
-public class GamReceiptRepo : IGamReceiptRepo
+public class ReceiptRepo : IReceiptRepo
 {
-  public const string TableName = "GameReceipts";
+  public const string TableName = "Receipts";
   private readonly IConnectionHelper _connectionHelper;
 
-  public GamReceiptRepo(IConnectionHelper connectionHelper)
+  public ReceiptRepo(IConnectionHelper connectionHelper)
   {
     _connectionHelper = connectionHelper;
   }
 
-  public async Task<GameReceiptEntity?> GetOrderInfoAsync(int receiptId)
+  public async Task<ReceiptEntity?> GetOrderInfoAsync(int receiptId)
   {
     const string query = @$"SELECT
 	    o.ReceiptID,
@@ -35,10 +35,10 @@ public class GamReceiptRepo : IGamReceiptRepo
     WHERE o.ReceiptID = @ReceiptID
     LIMIT 1";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.QuerySingleOrDefaultAsync<GameReceiptEntity>(query, new { ReceiptID = receiptId });
+    return await connection.QuerySingleOrDefaultAsync<ReceiptEntity>(query, new { ReceiptID = receiptId });
   }
 
-  public async Task<int> UpdateReceiptAsync(GameReceiptEntity receipt)
+  public async Task<int> UpdateReceiptAsync(ReceiptEntity receipt)
   {
     const string query = @$"UPDATE `{TableName}`
     SET
