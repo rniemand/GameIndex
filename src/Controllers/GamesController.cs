@@ -18,10 +18,6 @@ public class GamesController : ControllerBase
   [HttpGet("platform/{platformId:int}")]
   public async Task<List<BasicGameInfoDto>> GetPlatformGames([FromRoute] int platformId) =>
     await _gamesService.GetPlatformGamesAsync(platformId);
-
-  [HttpGet("images/{gameId:long}")]
-  public async Task<List<ImageDto>> GetGameImages([FromRoute] long gameId) =>
-    await _gamesService.GetGameImagesAsync(gameId);
   
   [HttpPost("update")]
   public async Task<BasicGameInfoDto?> UpdateGameInfo([FromBody] BasicGameInfoDto game) =>

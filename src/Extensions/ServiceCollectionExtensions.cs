@@ -27,6 +27,7 @@ static class ServiceCollectionExtensions
       .AddSingleton<IGameReceiptService, GameReceiptService>()
       .AddSingleton<IPlatformService, PlatformService>()
       .AddSingleton<ILocationService, LocationService>()
+      .AddSingleton<IImageService, ImageService>()
       
       // Repos
       .AddSingleton<IGamesRepo, GamesRepo>()

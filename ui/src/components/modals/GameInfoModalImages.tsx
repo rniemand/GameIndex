@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto, ImageDto, GamesClient } from "../../api";
+import { BasicGameInfoDto, ImageDto, GamesClient, ImagesClient } from "../../api";
 
 interface GameInfoModalImagesProps {
   game: BasicGameInfoDto;
@@ -38,7 +38,7 @@ export class GameInfoModalImages extends React.Component<GameInfoModalImagesProp
   }
 
   _loadGameImages = () => {
-    (new GamesClient()).getGameImages(this.props.game.gameID).then(images => {
+    (new ImagesClient()).getGameImages(this.props.game.gameID).then(images => {
       this.setState({
         loading: false,
         images: images || []

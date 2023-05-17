@@ -14,7 +14,7 @@ export class GameListEntryImage extends React.Component<ComponentProps> {
 
   render(): React.ReactNode {
     const game = this.props.game;
-    const imgUrl = `/Image/game/${game.platformName}/${game.gameID}`;
+    const imgUrl = `/Images/game/cover/${game.platformName}/${game.gameID}`;
     return (<Image src={imgUrl} wrapped ui={false} />);
   }
 }
