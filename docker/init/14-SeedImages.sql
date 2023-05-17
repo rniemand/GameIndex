@@ -1,7 +1,5 @@
--- TRUNCATE TABLE `Images`;
-
 INSERT INTO `Images`
-    (`GameID`, `ImageType`, `ImageOrder`, `ImagePath`)
+	(`GameID`, `ImageType`, `ImageOrder`, `ImagePath`)
 VALUES
 	(1, 'cover', 1, 'covers/switch/c/civ-vi.jpg'),
 	(2, 'cover', 1, 'covers/switch/h/hello-neighbor.jpg'),
@@ -95,5 +93,4 @@ VALUES
 	(90, 'cover', 1, 'covers/switch/c/cult-of-the-lamb.jpg'),
 	(91, 'cover', 1, 'covers/switch/s/star-wars-racer-combo.jpg'),
 	(92, 'cover', 1, 'covers/switch/z/zelda-tears-of-the-kingdom.png'),
-	(93, 'cover', 1, 'covers/switch/i/it-takes-two.jpg')
-;
+	(93, 'cover', 1, 'covers/switch/i/it-takes-two.jpg');

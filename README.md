@@ -37,6 +37,12 @@ paths:
 
 - Support for console \ hardware purchase tracking
 - Auto calculate game coverage end date
+- Add pre-owned flag to games table
+- fix dates not loadng initially on the game order info screen
+- Add receipts view
+- Ability to edit store on receipt view
+- Add receipts
+  - REC-012
 - Game Info Modal
   - Add links to store page
 - Process return info
@@ -52,4 +58,15 @@ paths:
   - REC-012
 - Missing
   - REC-022
- 
+- Data to correct
+  - Online
+    - 47038981
+      - Add missing games
+    - 46343488
+      - Add missing game
+    - 45839830
+      - Add missing game
+    - 45982437
+      - add missing game
+    - 45985192
+      - add missing game
