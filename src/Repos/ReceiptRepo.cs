@@ -8,6 +8,9 @@ public interface IReceiptRepo
 {
   Task<ReceiptEntity?> GetByIDAsync(int receiptId);
   Task<int> UpdateAsync(ReceiptEntity receipt);
+  Task<ReceiptEntity?> GetByGameIDAsync(long gameId);
+  Task<int> CreateNewReceiptAsync();
+  Task<int> AssociateNewReceiptWithGameAsync(long gameId);
 }
 
 public class ReceiptRepo : IReceiptRepo
@@ -43,13 +46,53 @@ public class ReceiptRepo : IReceiptRepo
     SET
       `Store` = @Store,
       `ReceiptNumber` = @ReceiptNumber,
-      `ReceiptDate` = @ReceiptDate
-      `ReceiptName` = @ReceiptName
-      `ReceiptUrl` = @ReceiptUrl
+      `ReceiptDate` = @ReceiptDate,
+      `ReceiptName` = @ReceiptName,
+      `ReceiptUrl` = @ReceiptUrl,
       `ReceiptScanned` = @ReceiptScanned
     WHERE
       `ReceiptID` = @ReceiptID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, receipt);
+  }
+
+  public async Task<ReceiptEntity?> GetByGameIDAsync(long gameId)
+  {
+    const string query = @$"SELECT r.*
+    FROM `{GamesRepo.TableName}` g
+    INNER JOIN `{TableName}` r ON g.ReceiptID = r.ReceiptID
+    WHERE g.GameID = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.QuerySingleOrDefaultAsync<ReceiptEntity>(query, new { GameID = gameId });
+  }
+
+  public async Task<int> CreateNewReceiptAsync()
+  {
+    const string query = @$"INSERT INTO {TableName}
+      (`Store`, `ReceiptNumber`, `ReceiptDate`, `ReceiptName`, `ReceiptUrl`)
+    VALUES
+      ('', '', NULL, NULL, NULL)";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query);
+  }
+
+  public async Task<int> AssociateNewReceiptWithGameAsync(long gameId)
+  {
+    const string query = @$"UPDATE `{GamesRepo.TableName}`
+    SET `ReceiptID` = (
+	    SELECT r.ReceiptID
+	    FROM `{TableName}` r
+	    WHERE
+		    r.Store = ''
+		    AND r.ReceiptNumber = ''
+		    AND r.ReceiptDate IS NULL
+		    AND r.ReceiptName IS NULL
+		    AND r.ReceiptUrl IS NULL
+		    AND r.ReceiptScanned = 0
+	    LIMIT 1
+    )
+    WHERE GameID = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new { GameID = gameId});
   }
 }

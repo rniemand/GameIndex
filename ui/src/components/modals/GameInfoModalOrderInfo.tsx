@@ -1,15 +1,16 @@
 import React from "react";
 import { BasicGameInfoDto, ReceiptClient, ReceiptDto } from "../../api";
-import { Checkbox, CheckboxProps, Input, InputOnChangeData } from "semantic-ui-react";
+import { Button, Checkbox, CheckboxProps, Input, InputOnChangeData } from "semantic-ui-react";
 
 interface GameInfoModalOrderInfoProps {
   game: BasicGameInfoDto;
 }
 
 interface GameInfoModalOrderInfoState {
-  orderInfo?: ReceiptDto;
+  receipt?: ReceiptDto;
   loading: boolean;
   dirty: boolean;
+  saving: boolean;
 }
 
 export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderInfoProps, GameInfoModalOrderInfoState> {
@@ -18,11 +19,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
   }
 
   componentDidMount(): void {
-    this.setState({
-      loading: true,
-      orderInfo: undefined,
-      dirty: false,
-    }, this._fetchOrderInfo);
+    this.setState({ loading: true, receipt: undefined, dirty: false, saving: false }, this._fetchReceipt);
   }
 
   render(): React.ReactNode {
@@ -33,15 +30,21 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       return (<div>Loading <strong>{game.gameName}</strong> order info...</div>);
     }
 
-    if (!this.state.orderInfo) {
-      return (<div>No order information available for <strong>{game.gameName}</strong>.</div>);
+    if (!this.state.receipt) {
+      return (<React.Fragment>
+        <div>No order information available for <strong>{game.gameName}</strong>.</div>
+        <div><Button content='Add Receipt' onClick={this._addReceipt} /></div>
+      </React.Fragment>);
     }
 
-    const receiptNumber = this.state.orderInfo.receiptNumber;
-    const receiptName = this.state.orderInfo.receiptName;
-    const receiptUrl = this.state.orderInfo.receiptUrl;
-    const receiptDate = this.state.orderInfo.receiptDate;
-    const receiptScanned = this.state.orderInfo.receiptScanned;
+    const receiptNumber = this.state.receipt.receiptNumber;
+    const receiptName = this.state.receipt.receiptName;
+    const receiptUrl = this.state.receipt.receiptUrl;
+    const receiptDate = this.state.receipt.receiptDate;
+    const receiptScanned = this.state.receipt.receiptScanned;
+    const dirty = this.state.dirty;
+    const saving = this.state.saving;
+    const fmtDate = receiptDate ? receiptDate.toISOString().split('T')[0] : '';
 
     return (<React.Fragment>
       <div className="order-toggle">
@@ -58,24 +61,49 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         <Input placeholder='Order URL' value={receiptUrl} onChange={this._setReceiptUrl} />
       </div>
       <div>
-        <Input placeholder='Order Date' value={receiptDate} type="date" onChange={this._setReceiptDate} />
+        <Input placeholder='Order Date' value={fmtDate} type="date" onChange={this._setReceiptDate} />
+      </div>
+      <div>
+        <Button content='Save Changes' disabled={!dirty && !saving} onClick={this._saveReceipt} />
       </div>
     </React.Fragment>);
   }
 
-  _fetchOrderInfo = () => {
-    (new ReceiptClient()).getOrderInformation(this.props.game.receiptID).then(orderInfo => {
+  _addReceipt = () => {
+    new ReceiptClient().addReceipt(this.props.game.gameID).then(receipt => {
       this.setState({
         loading: false,
-        orderInfo: orderInfo,
+        receipt: receipt,
+      });
+    });
+  }
+
+  _saveReceipt = () => {
+    if (!this.state.receipt) return;
+    this.setState({ saving: true }, () => {
+      new ReceiptClient().updateReceipt(this.state.receipt!).then(receipt => {
+        this.setState({
+          saving: false,
+          dirty: false,
+          receipt: receipt,
+        });
+      });
+    })
+  }
+
+  _fetchReceipt = () => {
+    (new ReceiptClient()).getOrderInformation(this.props.game.receiptID).then(receipt => {
+      this.setState({
+        loading: false,
+        receipt: receipt,
       });
     });
   }
 
   _toggleReceiptScanned = (_event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
     this.setState({
-      orderInfo: new ReceiptDto({
-        ...this.state.orderInfo!,
+      receipt: new ReceiptDto({
+        ...this.state.receipt!,
         receiptScanned: data.checked || false,
       }),
       dirty: true,
@@ -84,8 +112,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
   _setReceiptNumber = (_: any, data: InputOnChangeData) => {
     this.setState({
-      orderInfo: new ReceiptDto({
-        ...this.state.orderInfo!,
+      receipt: new ReceiptDto({
+        ...this.state.receipt!,
         receiptNumber: data.value
       }),
       dirty: true,
@@ -94,8 +122,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
   _setReceiptName = (_: any, data: InputOnChangeData) => {
     this.setState({
-      orderInfo: new ReceiptDto({
-        ...this.state.orderInfo!,
+      receipt: new ReceiptDto({
+        ...this.state.receipt!,
         receiptName: data.value
       }),
       dirty: true,
@@ -104,8 +132,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
 
   _setReceiptUrl = (_: any, data: InputOnChangeData) => {
     this.setState({
-      orderInfo: new ReceiptDto({
-        ...this.state.orderInfo!,
+      receipt: new ReceiptDto({
+        ...this.state.receipt!,
         receiptUrl: data.value
       }),
       dirty: true,
@@ -113,10 +141,12 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
   }
 
   _setReceiptDate = (_: any, data: InputOnChangeData) => {
+    const dp = data.value.split('-');
+
     this.setState({
-      orderInfo: new ReceiptDto({
-        ...this.state.orderInfo!,
-        receiptDate: new Date(data.value)
+      receipt: new ReceiptDto({
+        ...this.state.receipt!,
+        receiptDate: new Date(parseInt(dp[0]), parseInt(dp[1]), parseInt(dp[2]))
       }),
       dirty: true,
     });

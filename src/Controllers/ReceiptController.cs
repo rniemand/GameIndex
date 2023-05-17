@@ -22,4 +22,8 @@ public class ReceiptController : ControllerBase
   [HttpPost("update")]
   public async Task<ReceiptDto?> UpdateReceipt([FromBody] ReceiptDto receipt) =>
     await _receiptService.UpdateAsync(receipt);
+
+  [HttpGet("create/game-id/{gameId:long}")]
+  public async Task<ReceiptDto?> AddReceipt([FromRoute] long gameId) =>
+    await _receiptService.AddReceiptAsync(gameId);
 }
