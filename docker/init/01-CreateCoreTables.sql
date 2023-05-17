@@ -36,17 +36,19 @@ CREATE TABLE IF NOT EXISTS `Platforms` (
   PRIMARY KEY (`PlatformID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS `Receipts` (
-  `ReceiptID` int(11) NOT NULL AUTO_INCREMENT,
-  `HaveReceipt` bit(1) NOT NULL DEFAULT b'0',
-  `ReceiptScanned` bit(1) NOT NULL DEFAULT b'0',
-  `ReceiptDate` date DEFAULT NULL,
-  `Store` varchar(256) DEFAULT NULL,
-  `ReceiptNumber` varchar(64) DEFAULT NULL,
-  `ReceiptUrl` varchar(512) DEFAULT NULL,
-  `ReceiptName` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`ReceiptID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `Receipts` (
+	`ReceiptID` INT(11) NOT NULL AUTO_INCREMENT,
+	`HaveReceipt` BIT(1) NOT NULL DEFAULT b'0',
+	`ReceiptScanned` BIT(1) NOT NULL DEFAULT b'0',
+	`ReceiptAssociated` BIT(1) NOT NULL DEFAULT b'0',
+	`ReceiptDate` DATE NULL DEFAULT NULL,
+	`Store` VARCHAR(256) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ReceiptNumber` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ReceiptUrl` VARCHAR(512) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ReceiptName` VARCHAR(32) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`ReceiptID`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci';
 
 CREATE TABLE IF NOT EXISTS `Sales` (
   `GameID` bigint(20) NOT NULL,

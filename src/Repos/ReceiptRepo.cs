@@ -72,9 +72,9 @@ public class ReceiptRepo : IReceiptRepo
   public async Task<int> CreateNewReceiptAsync()
   {
     const string query = @$"INSERT INTO {TableName}
-      (`Store`, `ReceiptNumber`, `ReceiptDate`, `ReceiptName`, `ReceiptUrl`)
+      (`Store`, `ReceiptNumber`, `ReceiptDate`, `ReceiptName`, `ReceiptUrl`, `ReceiptAssociated`)
     VALUES
-      ('', '', NULL, NULL, NULL)";
+      (NULL, NULL, NULL, NULL, NULL, 0)";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query);
   }
@@ -85,16 +85,26 @@ public class ReceiptRepo : IReceiptRepo
     SET `ReceiptID` = (
 	    SELECT r.ReceiptID
 	    FROM `{TableName}` r
-	    WHERE
-		    r.Store = ''
-		    AND r.ReceiptNumber = ''
+	    WHERE r.Store IS NULL
+		    AND r.ReceiptNumber IS NULL
 		    AND r.ReceiptDate IS NULL
 		    AND r.ReceiptName IS NULL
 		    AND r.ReceiptUrl IS NULL
 		    AND r.ReceiptScanned = 0
+        AND r.ReceiptAssociated = 0
 	    LIMIT 1
     )
-    WHERE GameID = @GameID";
+    WHERE GameID = @GameID;
+    UPDATE {TableName}
+    SET
+      `ReceiptAssociated` = 1
+    WHERE Store IS NULL
+		  AND ReceiptNumber IS NULL
+		  AND ReceiptDate IS NULL
+		  AND ReceiptName IS NULL
+		  AND ReceiptUrl IS NULL
+		  AND ReceiptScanned = 0
+      AND ReceiptAssociated = 0";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, new { GameID = gameId });
   }

@@ -12,6 +12,7 @@ interface GameInfoModalOrderInfoState {
   loading: boolean;
   dirty: boolean;
   saving: boolean;
+  receiptDate: string;
 }
 
 export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderInfoProps, GameInfoModalOrderInfoState> {
@@ -20,7 +21,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
   }
 
   componentDidMount(): void {
-    this.setState({ loading: true, receipt: undefined, dirty: false, saving: false }, this._fetchReceipt);
+    this.setState({ loading: true, receipt: undefined, dirty: false, saving: false, receiptDate: '' }, this._fetchReceipt);
   }
 
   render(): React.ReactNode {
@@ -42,11 +43,10 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
     const receiptNumber = this.state.receipt.receiptNumber;
     const receiptName = this.state.receipt.receiptName;
     const receiptUrl = this.state.receipt.receiptUrl;
-    const receiptDate = this.state.receipt.receiptDate;
+    const receiptDate = this.state.receiptDate;
     const receiptScanned = this.state.receipt.receiptScanned;
     const dirty = this.state.dirty;
     const saving = this.state.saving;
-    const fmtDate = receiptDate ? receiptDate.toISOString().split('T')[0] : '';
 
     return (<React.Fragment>
       <div className="order-toggle">
@@ -63,7 +63,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         <Input placeholder='Order URL' value={receiptUrl} onChange={this._setReceiptUrl} />
       </div>
       <div>
-        <Input placeholder='Order Date' value={fmtDate} type="date" onChange={this._setReceiptDate} />
+        <Input placeholder='Order Date' value={receiptDate} type="string" onChange={this._setReceiptDate} />
       </div>
       <div>
         <Button content='Save Changes' disabled={!dirty && !saving} onClick={this._saveReceipt} />
@@ -143,14 +143,16 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
   }
 
   _setReceiptDate = (_: any, data: InputOnChangeData) => {
-    const dp = data.value.split('-');
-
-    this.setState({
-      receipt: new ReceiptDto({
-        ...this.state.receipt!,
-        receiptDate: new Date(parseInt(dp[0]), parseInt(dp[1]), parseInt(dp[2]))
-      }),
-      dirty: true,
+    this.setState({receiptDate: data.value}, () => {
+      if(data.value.length < 10) return;
+      const dp = data.value.split('-');
+      this.setState({
+        receipt: new ReceiptDto({
+          ...this.state.receipt!,
+          receiptDate: new Date(parseInt(dp[0]), parseInt(dp[1]), parseInt(dp[2]))
+        }),
+        dirty: true,
+      });
     });
   }
 
@@ -164,6 +166,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
           loading: false,
           saving: false,
           receipt: receipt,
+          receiptDate: receipt?.receiptDate ? receipt.receiptDate.toISOString().split('T')[0] : ''
         });
       });
     });
