@@ -1,5 +1,5 @@
 INSERT INTO `Receipts`
-  (`HaveReceipt`, `ReceiptScanned`, `ReceiptAssociated`, `ReceiptDate`, `Store`, `ReceiptNumber`, `ReceiptUrl`, `ReceiptName`)
+	(`HaveReceipt`, `ReceiptScanned`, `ReceiptAssociated`, `ReceiptDate`, `Store`, `ReceiptNumber`, `ReceiptUrl`, `ReceiptName`)
 VALUES
 	(b'0', b'0', b'1', '0001-01-01', '', '47431831', 'https://www.gamestop.ca/MyAccount/OrdersInStoreDetail/47431831', 'REC-020'),
 	(b'0', b'0', b'1', '0001-01-01', '', '47362903', 'https://www.gamestop.ca/MyAccount/OrdersInStoreDetail/47362903', 'REC-009A'),
@@ -44,4 +44,5 @@ VALUES
 	(b'0', b'0', b'1', '0001-01-01', '', '46590922', 'https://www.gamestop.ca/MyAccount/OrdersInStoreDetail/46590922', 'REC-005'),
 	(b'0', b'0', b'1', '2023-02-18', NULL, '46576000', 'https://www.gamestop.ca/MyAccount/OrdersInStoreDetail/46576000', 'REC-017'),
 	(b'0', b'0', b'1', '0001-01-01', '', '', '', 'REC-021'),
-	(b'0', b'0', b'1', '0001-01-01', '', 'Walmart to DO', '', 'REC-025');
+	(b'0', b'0', b'1', '0001-01-01', '', 'Walmart to DO', '', 'REC-025'),
+	(b'0', b'0', b'1', '0001-01-01', '', 'tbc', 'tbc', '');
