@@ -4,23 +4,23 @@ using GameIndex.Models.Entities;
 
 namespace GameIndex.Repos;
 
-public interface IGameImagesRepo
+public interface IImagesRepo
 {
-  Task<GameImageEntity?> GetGameCoverImageAsync(long gameId);
-  Task<List<GameImageEntity>> GetGameImagesAsync(long gameId);
+  Task<ImageEntity?> GetGameCoverImageAsync(long gameId);
+  Task<List<ImageEntity>> GetGameImagesAsync(long gameId);
 }
 
-public class GameImagesRepo : IGameImagesRepo
+public class ImagesRepo : IImagesRepo
 {
-  public const string TableName = "GameImages";
+  public const string TableName = "Images";
   private readonly IConnectionHelper _connectionHelper;
 
-  public GameImagesRepo(IConnectionHelper connectionHelper)
+  public ImagesRepo(IConnectionHelper connectionHelper)
   {
     _connectionHelper = connectionHelper;
   }
 
-  public async Task<GameImageEntity?> GetGameCoverImageAsync(long gameId)
+  public async Task<ImageEntity?> GetGameCoverImageAsync(long gameId)
   {
     const string query = @$"SELECT
 	    gi.GameID,
@@ -32,10 +32,10 @@ public class GameImagesRepo : IGameImagesRepo
 	    AND gi.ImageType = 'cover'
     LIMIT 1";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.QuerySingleOrDefaultAsync<GameImageEntity>(query, new { GameID = gameId });
+    return await connection.QuerySingleOrDefaultAsync<ImageEntity>(query, new { GameID = gameId });
   }
 
-  public async Task<List<GameImageEntity>> GetGameImagesAsync(long gameId)
+  public async Task<List<ImageEntity>> GetGameImagesAsync(long gameId)
   {
     const string query = $@"SELECT
 	    gi.GameID,
@@ -45,6 +45,6 @@ public class GameImagesRepo : IGameImagesRepo
     FROM `{TableName}` gi
     WHERE gi.GameID = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return (await connection.QueryAsync<GameImageEntity>(query, new { GameID = gameId })).AsList();
+    return (await connection.QueryAsync<ImageEntity>(query, new { GameID = gameId })).AsList();
   }
 }

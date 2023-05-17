@@ -11,21 +11,21 @@ namespace GameIndex.Controllers;
 public class ImageController : ControllerBase
 {
   private readonly IAppPathHelper _pathHelper;
-  private readonly IGameImagesRepo _gameImagesRepo;
+  private readonly IImagesRepo _imagesRepo;
   private readonly IFileAbstraction _file;
   private readonly FileExtensionContentTypeProvider _provider = new();
 
-  public ImageController(IAppPathHelper pathHelper, IGameImagesRepo gameImagesRepo, IFileAbstraction file)
+  public ImageController(IAppPathHelper pathHelper, IImagesRepo imagesRepo, IFileAbstraction file)
   {
     _pathHelper = pathHelper;
-    _gameImagesRepo = gameImagesRepo;
+    _imagesRepo = imagesRepo;
     _file = file;
   }
 
   [Route("game/{platform}/{gameId:long}")]
   public async Task<ActionResult> GetImage([FromRoute] string platform, [FromRoute] long gameId)
   {
-    var gameCoverEntity = await _gameImagesRepo.GetGameCoverImageAsync(gameId);
+    var gameCoverEntity = await _imagesRepo.GetGameCoverImageAsync(gameId);
     var safePlatform = platform.ToLower();
     var fallbackPath = _pathHelper.ResolveImagePath($"covers/{safePlatform}/placeholder.png");
 

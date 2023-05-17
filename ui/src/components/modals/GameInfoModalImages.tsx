@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto, GameImageDto, GamesClient } from "../../api";
+import { BasicGameInfoDto, ImageDto, GamesClient } from "../../api";
 
 interface GameInfoModalImagesProps {
   game: BasicGameInfoDto;
@@ -7,42 +7,42 @@ interface GameInfoModalImagesProps {
 
 interface GameInfoModalImagesState {
   loading: boolean;
-  images: GameImageDto[];
+  images: ImageDto[];
 }
 
 export class GameInfoModalImages extends React.Component<GameInfoModalImagesProps, GameInfoModalImagesState> {
-    constructor(props: any) {
-        super(props);
+  constructor(props: any) {
+    super(props);
+  }
+
+  componentDidMount(): void {
+    this.setState({ loading: true, images: [] }, this._loadGameImages)
+  }
+
+  render(): React.ReactNode {
+    if (!this.state) return null;
+
+    const game = this.props.game;
+    if (this.state.loading) {
+      return (<div>Loading <strong>{game.gameName}</strong> images...</div>);
     }
 
-    componentDidMount(): void {
-        this.setState({ loading: true, images: [] }, this._loadGameImages)
+    const images = this.state.images;
+    if (images.length == 0) {
+      return (<div>No images found for <strong>{game.gameName}</strong>.</div>);
     }
 
-    render(): React.ReactNode {
-      if(!this.state) return null;
+    return (<div>
+      We have {images.length} images for {game.gameName}!
+    </div>);
+  }
 
-      const game = this.props.game;
-      if(this.state.loading) {
-        return(<div>Loading <strong>{game.gameName}</strong> images...</div>);
-      }
-
-      const images = this.state.images;
-      if(images.length == 0) {
-        return(<div>No images found for <strong>{game.gameName}</strong>.</div>);
-      }
-
-        return (<div>
-          We have {images.length} images for {game.gameName}!
-        </div>);
-    }
-
-    _loadGameImages = () => {
-      (new GamesClient()).getGameImages(this.props.game.gameID).then(images => {
-        this.setState({
-          loading: false,
-          images: images || []
-        });
+  _loadGameImages = () => {
+    (new GamesClient()).getGameImages(this.props.game.gameID).then(images => {
+      this.setState({
+        loading: false,
+        images: images || []
       });
-    }
+    });
+  }
 }

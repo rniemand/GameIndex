@@ -1,6 +1,6 @@
-﻿namespace GameIndex.Models.Entities;
+namespace GameIndex.Models.Entities;
 
-public class GameImageEntity
+public class ImageEntity
 {
   public long GameID { get; set; }
   public string ImageType { get; set; } = "cover";

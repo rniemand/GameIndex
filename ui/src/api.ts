@@ -12,7 +12,7 @@ export interface IGamesClient {
 
     getAllGames(platformId: number): Promise<BasicGameInfoDto[]>;
 
-    getGameImages(gameId: number): Promise<GameImageDto[]>;
+    getGameImages(gameId: number): Promise<ImageDto[]>;
 
     getGameLocations(platformId: number): Promise<LocationDto[]>;
 
@@ -75,7 +75,7 @@ export class GamesClient implements IGamesClient {
         return Promise.resolve<BasicGameInfoDto[]>(null as any);
     }
 
-    getGameImages(gameId: number): Promise<GameImageDto[]> {
+    getGameImages(gameId: number): Promise<ImageDto[]> {
         let url_ = this.baseUrl + "/Games/images/{gameId}";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
@@ -94,7 +94,7 @@ export class GamesClient implements IGamesClient {
         });
     }
 
-    protected processGetGameImages(response: Response): Promise<GameImageDto[]> {
+    protected processGetGameImages(response: Response): Promise<ImageDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -104,7 +104,7 @@ export class GamesClient implements IGamesClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GameImageDto.fromJS(item));
+                    result200!.push(ImageDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -116,7 +116,7 @@ export class GamesClient implements IGamesClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GameImageDto[]>(null as any);
+        return Promise.resolve<ImageDto[]>(null as any);
     }
 
     getGameLocations(platformId: number): Promise<LocationDto[]> {
@@ -565,13 +565,13 @@ export interface IBasicGameInfoDto {
     receiptID: number;
 }
 
-export class GameImageDto implements IGameImageDto {
+export class ImageDto implements IImageDto {
     gameID!: number;
     imageType!: string;
     imageOrder!: number;
     imagePath!: string;
 
-    constructor(data?: IGameImageDto) {
+    constructor(data?: IImageDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -589,9 +589,9 @@ export class GameImageDto implements IGameImageDto {
         }
     }
 
-    static fromJS(data: any): GameImageDto {
+    static fromJS(data: any): ImageDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GameImageDto();
+        let result = new ImageDto();
         result.init(data);
         return result;
     }
@@ -606,7 +606,7 @@ export class GameImageDto implements IGameImageDto {
     }
 }
 
-export interface IGameImageDto {
+export interface IImageDto {
     gameID: number;
     imageType: string;
     imageOrder: number;
