@@ -50,7 +50,7 @@ public class GamesRepo : IGamesRepo
 	    INNER JOIN `{LocationRepo.TableName}` l ON l.LocationID = g.LocationID
 	    LEFT JOIN `{ImagesRepo.TableName}` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
       LEFT JOIN `{ReceiptRepo.TableName}` r ON r.ReceiptID = g.ReceiptID
-      LEFT JOIN `GameSales` gs ON gs.GameID = g.GameID
+      LEFT JOIN `{SalesRepo.TableName}` gs ON gs.GameID = g.GameID
     WHERE g.PlatformID = @PlatformID
     ORDER BY g.GameName";
     await using var connection = _connectionHelper.GetCoreConnection();

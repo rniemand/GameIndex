@@ -1,4 +1,4 @@
-﻿using GameIndex.Helpers;
+using GameIndex.Helpers;
 using GameIndex.Models;
 using GameIndex.Repos;
 using GameIndex.Services;
@@ -32,7 +32,8 @@ static class ServiceCollectionExtensions
       .AddSingleton<IImagesRepo, ImagesRepo>()
       .AddSingleton<IPlatformsRepo, PlatformsRepo>()
       .AddSingleton<ILocationRepo, LocationRepo>()
-      .AddSingleton<IReceiptRepo, ReceiptRepo>();
+      .AddSingleton<IReceiptRepo, ReceiptRepo>()
+      .AddSingleton<ISalesRepo, SalesRepo>();
   }
 
   private static GameIndexConfig BindGameIndexConfig(IConfiguration configuration)
