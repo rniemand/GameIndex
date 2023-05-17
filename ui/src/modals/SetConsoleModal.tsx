@@ -80,7 +80,7 @@ export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetCo
 
   _setGameLocation = (location: LocationDto) => {
     const gameId = this.props.game.gameID;
-    new GamesClient().setGameLocation(gameId, location.locationID).then(count => {
+    new LocationsClient().setGameLocation(gameId, location.locationID).then(_count => {
       this.props.game.locationID = location.locationID;
       this.props.game.locationName = location.locationName;
       this.props.onGameLocationChange(this.props.game);

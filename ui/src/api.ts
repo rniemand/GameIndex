@@ -14,8 +14,6 @@ export interface IGamesClient {
 
     getGameImages(gameId: number): Promise<ImageDto[]>;
 
-    setGameLocation(gameId: number, locationId: number): Promise<number>;
-
     updateGameInfo(game: BasicGameInfoDto): Promise<BasicGameInfoDto>;
 }
 
@@ -115,47 +113,6 @@ export class GamesClient implements IGamesClient {
             });
         }
         return Promise.resolve<ImageDto[]>(null as any);
-    }
-
-    setGameLocation(gameId: number, locationId: number): Promise<number> {
-        let url_ = this.baseUrl + "/Games/set-location/{gameId}/{locationId}";
-        if (gameId === undefined || gameId === null)
-            throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
-        if (locationId === undefined || locationId === null)
-            throw new Error("The parameter 'locationId' must be defined.");
-        url_ = url_.replace("{locationId}", encodeURIComponent("" + locationId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "PUT",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSetGameLocation(_response);
-        });
-    }
-
-    protected processSetGameLocation(response: Response): Promise<number> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<number>(null as any);
     }
 
     updateGameInfo(game: BasicGameInfoDto): Promise<BasicGameInfoDto> {
@@ -260,6 +217,8 @@ export class ImageClient implements IImageClient {
 export interface ILocationsClient {
 
     getPlatformLocations(platformId: number): Promise<LocationDto[]>;
+
+    setGameLocation(gameId: number, locationId: number): Promise<number>;
 }
 
 export class LocationsClient implements ILocationsClient {
@@ -314,6 +273,47 @@ export class LocationsClient implements ILocationsClient {
             });
         }
         return Promise.resolve<LocationDto[]>(null as any);
+    }
+
+    setGameLocation(gameId: number, locationId: number): Promise<number> {
+        let url_ = this.baseUrl + "/Locations/set-location/game-id/{gameId}/location-id/{locationId}";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
+        if (locationId === undefined || locationId === null)
+            throw new Error("The parameter 'locationId' must be defined.");
+        url_ = url_.replace("{locationId}", encodeURIComponent("" + locationId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "PUT",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSetGameLocation(_response);
+        });
+    }
+
+    protected processSetGameLocation(response: Response): Promise<number> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<number>(null as any);
     }
 }
 
