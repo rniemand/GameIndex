@@ -1,5 +1,6 @@
 using Dapper;
 using GameIndex.Helpers;
+using GameIndex.Models.Dto;
 using GameIndex.Models.Entities;
 
 namespace GameIndex.Repos;
@@ -11,6 +12,8 @@ public interface IReceiptRepo
   Task<ReceiptEntity?> GetByGameIDAsync(long gameId);
   Task<int> CreateNewReceiptAsync();
   Task<int> AssociateNewReceiptWithGameAsync(long gameId);
+  Task<List<ReceiptEntity>> SearchReceiptsAsync(string term);
+  Task<int> AssociateGameReceiptAsync(long gameId, int receiptId);
 }
 
 public class ReceiptRepo : IReceiptRepo
@@ -93,6 +96,35 @@ public class ReceiptRepo : IReceiptRepo
     )
     WHERE GameID = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId});
+    return await connection.ExecuteAsync(query, new { GameID = gameId });
+  }
+
+  public async Task<List<ReceiptEntity>> SearchReceiptsAsync(string term)
+  {
+    var query = @$"SELECT *
+    FROM `{TableName}` r
+    WHERE
+	    r.Store LIKE '%{term}%'
+	    OR r.ReceiptNumber LIKE '%{term}%'
+	    OR r.ReceiptName LIKE '%{term}%'
+	    OR r.ReceiptUrl LIKE '%{term}%'
+    ORDER BY r.ReceiptID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return (await connection.QueryAsync<ReceiptEntity>(query)).ToList();
+  }
+
+  public async Task<int> AssociateGameReceiptAsync(long gameId, int receiptId)
+  {
+    const string query = $@"UPDATE `{GamesRepo.TableName}`
+    SET
+	    `ReceiptID` = @ReceiptID
+    WHERE
+	    `GameID` = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, new
+    {
+      ReceiptID = receiptId,
+      GameID = gameId
+    });
   }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { BasicGameInfoDto, ReceiptClient, ReceiptDto } from "../../api";
 import { Button, Checkbox, CheckboxProps, Input, InputOnChangeData } from "semantic-ui-react";
+import { FindReceiptModal } from "../../modals/FindReceiptModal";
 
 interface GameInfoModalOrderInfoProps {
   game: BasicGameInfoDto;
@@ -34,6 +35,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       return (<React.Fragment>
         <div>No order information available for <strong>{game.gameName}</strong>.</div>
         <div><Button content='Add Receipt' onClick={this._addReceipt} /></div>
+        <div><FindReceiptModal onReceiptSelected={this._onReceiptSelected} /></div>
       </React.Fragment>);
     }
 
@@ -149,6 +151,21 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
         receiptDate: new Date(parseInt(dp[0]), parseInt(dp[1]), parseInt(dp[2]))
       }),
       dirty: true,
+    });
+  }
+
+  _onReceiptSelected = (receipt: ReceiptDto) => {
+    if (!this.props.game || !receipt) return;
+    const gameID = this.props.game.gameID;
+    const receiptID = receipt.receiptID;
+    this.setState({ saving: true }, () => {
+      new ReceiptClient().associateReceiptToGame(gameID, receiptID).then(receipt => {
+        this.setState({
+          loading: false,
+          saving: false,
+          receipt: receipt,
+        });
+      });
     });
   }
 }
