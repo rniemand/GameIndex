@@ -1,4 +1,4 @@
-﻿using GameIndex.Helpers;
+using GameIndex.Helpers;
 using GameIndex.Models;
 using GameIndex.Repos;
 using GameIndex.Services;
@@ -24,6 +24,7 @@ static class ServiceCollectionExtensions
 
       // Services
       .AddSingleton<IGamesService, GamesService>()
+      .AddSingleton<IGameReceiptService, GameReceiptService>()
       
       // Repos
       .AddSingleton<IGamesRepo, GamesRepo>()

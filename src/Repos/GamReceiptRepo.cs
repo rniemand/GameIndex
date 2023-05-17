@@ -6,12 +6,17 @@ namespace GameIndex.Repos;
 
 public interface IGamReceiptRepo
 {
+  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
   Task<GameReceiptEntity?> GetOrderInfoAsync(int receiptId);
   Task<int> ToggleReceiptScannedAsync(int receiptId);
-  Task<int> SetReceiptLocationAsync(long gameId, string location);
-  Task<int> SetGameOrderUrlAsync(long gameId, string orderUrl);
-  Task<int> SetGameOrderNumberAsync(long gameId, string orderNumber);
-  Task<int> SetGameOrderDateAsync(long gameId, string orderDate);
+  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] rename this
+  Task<int> SetReceiptLocationAsync(int receiptId, string receiptName);
+  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
+  Task<int> SetGameOrderUrlAsync(int receiptId, string receiptUrl);
+  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
+  Task<int> SetGameOrderNumberAsync(int receiptId, string recNumber);
+  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
+  Task<int> SetGameOrderDateAsync(int receiptId, string recDate);
 }
 
 public class GamReceiptRepo : IGamReceiptRepo
@@ -51,58 +56,43 @@ public class GamReceiptRepo : IGamReceiptRepo
     return await connection.ExecuteAsync(query, new { ReceiptID = receiptId });
   }
   
-  public async Task<int> SetReceiptLocationAsync(long gameId, string location)
+  public async Task<int> SetReceiptLocationAsync(int receiptId, string receiptName)
   {
     const string query = @$"UPDATE `{TableName}`
     SET
       `ReceiptName` = @ReceiptName
-    WHERE `GameID` = @GameID
-      OR `ReceiptNumber` = (
-        SELECT ReceiptNumber
-        FROM `{TableName}`
-        WHERE `GameID` = @GameID
-      )";
+    WHERE `ReceiptID` = @ReceiptID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId, ReceiptName = location });
+    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId, ReceiptName = receiptName });
   }
   
-  public async Task<int> SetGameOrderUrlAsync(long gameId, string orderUrl)
+  public async Task<int> SetGameOrderUrlAsync(int receiptId, string receiptUrl)
   {
     const string query = @$"UPDATE `{TableName}`
     SET
       `ReceiptUrl` = @ReceiptUrl
-    WHERE `GameID` = @GameID
-      OR `ReceiptNumber` = (
-        SELECT ReceiptNumber
-        FROM `{TableName}`
-        WHERE `GameID` = @GameID
-      )";
+    WHERE `ReceiptID` = @ReceiptID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId, ReceiptUrl = orderUrl });
+    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId, ReceiptUrl = receiptUrl });
   }
 
-  public async Task<int> SetGameOrderNumberAsync(long gameId, string orderNumber)
+  public async Task<int> SetGameOrderNumberAsync(int receiptId, string recNumber)
   {
     const string query = @$"UPDATE `{TableName}`
     SET
       `ReceiptNumber` = @ReceiptNumber
-    WHERE `GameID` = @GameID";
+    WHERE `ReceiptID` = @ReceiptID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId, ReceiptNumber = orderNumber });
+    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId, ReceiptNumber = recNumber });
   }
 
-  public async Task<int> SetGameOrderDateAsync(long gameId, string orderDate)
+  public async Task<int> SetGameOrderDateAsync(int receiptId, string recDate)
   {
     const string query = @$"UPDATE `{TableName}`
     SET
       `ReceiptDate` = @ReceiptDate
-    WHERE `GameID` = @GameID
-      OR `ReceiptNumber` = (
-        SELECT ReceiptNumber
-        FROM `{TableName}`
-        WHERE `GameID` = @GameID
-      )";
+    WHERE `ReceiptID` = @ReceiptID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId, ReceiptDate = orderDate });
+    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId, ReceiptDate = recDate });
   }
 }

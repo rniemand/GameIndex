@@ -1,17 +1,14 @@
-
 using Dapper;
 using GameIndex.Helpers;
 using GameIndex.Models.Entities;
-using Microsoft.Extensions.Hosting;
 
 namespace GameIndex.Repos;
 
 public interface IGamesRepo
 {
   Task<List<BasicGameInfoEntity>> GetAllAsync(int platformId);
+  // TODO: (IGamesRepo.IGamesRepo) [RENAME] Rename this
   Task<int> UpdateGameInfoAsync(BasicGameInfoEntity game);
-  Task<int> ToggleProtectionAsync(long gameId);
-  Task<int> SetGamePriceAsync(long gameId, double price);
 }
 
 public class GamesRepo : IGamesRepo
@@ -70,23 +67,5 @@ public class GamesRepo : IGamesRepo
 	    `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, game);
-  }
-
-  public async Task<int> ToggleProtectionAsync(long gameId)
-  {
-    const string query = @$"UPDATE `{TableName}`
-    SET `HasProtection` = !`HasProtection`
-    WHERE `GameID` = @GameID";
-    await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId });
-  }
-
-  public async Task<int> SetGamePriceAsync(long gameId, double price)
-  {
-    const string query = @$"UPDATE `{TableName}`
-    SET `Cost` = @Cost
-    WHERE `GameID` = @GameID";
-    await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { GameID = gameId, Cost = price });
   }
 }

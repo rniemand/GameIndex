@@ -19,10 +19,6 @@ public class GamesController : ControllerBase
   public async Task<List<BasicGameInfoDto>> GetAllGames([FromRoute] int platformId) =>
     await _gamesService.ListAllGamesAsync(platformId);
 
-  [HttpGet("order-info/{gameId:long}")]
-  public async Task<GameReceiptDto?> GetOrderInformation([FromRoute] long gameId) =>
-    await _gamesService.GetOrderInfoAsync(gameId);
-
   [HttpGet("images/{gameId:long}")]
   public async Task<List<GameImageDto>> GetGameImages([FromRoute] long gameId) =>
     await _gamesService.GetImagesAsync(gameId);
@@ -38,32 +34,4 @@ public class GamesController : ControllerBase
   [HttpPost("update")]
   public async Task<int> UpdateGameInfo([FromBody] BasicGameInfoDto game) =>
     await _gamesService.UpdateGameInfoAsync(game);
-
-  [HttpGet("toggle-protection/{gameId:long}")]
-  public async Task<GameReceiptDto?> ToggleGameProtection([FromRoute] long gameId) =>
-    await _gamesService.ToggleGameProtectionAsync(gameId);
-
-  [HttpGet("toggle-receipt-scanned/{gameId:long}")]
-  public async Task<GameReceiptDto?> ToggleReceiptScanned([FromRoute] long gameId) =>
-    await _gamesService.ToggleReceiptScannedAsync(gameId);
-  
-  [HttpPut("set-receipt-location/{gameId:long}")]
-  public async Task<GameReceiptDto?> SetReceiptLocation([FromRoute] long gameId, [FromBody] string location) =>
-    await _gamesService.SetReceiptLocationAsync(gameId, location);
-
-  [HttpPut("set-game-price/{gameId:long}")]
-  public async Task<GameReceiptDto?> SetGamePrice([FromRoute] long gameId, [FromBody] double price) =>
-    await _gamesService.SetGamePriceAsync(gameId, price);
-
-  [HttpPut("set-game-order-url/{gameId:long}")]
-  public async Task<GameReceiptDto?> SetGameOrderUrl([FromRoute] long gameId, [FromBody] string orderUrl) =>
-    await _gamesService.SetGameOrderUrlAsync(gameId, orderUrl);
-
-  [HttpPut("set-game-order-number/{gameId:long}")]
-  public async Task<GameReceiptDto?> SetGameOrderNumber([FromRoute] long gameId, [FromBody] string orderNumber) =>
-    await _gamesService.SetGameOrderNumberAsync(gameId, orderNumber);
-
-  [HttpPut("set-game-order-date/{gameId:long}")]
-  public async Task<GameReceiptDto?> SetOrderDate([FromRoute] long gameId, [FromBody] string orderDate) =>
-    await _gamesService.SetGameOrderDateAsync(gameId, orderDate);
 }
