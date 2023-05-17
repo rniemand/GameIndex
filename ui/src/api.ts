@@ -425,15 +425,7 @@ export interface IReceiptClient {
 
     getOrderInformation(receiptId: number): Promise<GameReceiptDto>;
 
-    toggleReceiptScanned(receiptId: number): Promise<GameReceiptDto>;
-
-    setReceiptLocation(receiptId: number, location: string): Promise<GameReceiptDto>;
-
-    setGameOrderUrl(receiptId: number, orderUrl: string): Promise<GameReceiptDto>;
-
-    setGameOrderNumber(receiptId: number, orderNumber: string): Promise<GameReceiptDto>;
-
-    setOrderDate(receiptId: number, orderDate: string): Promise<GameReceiptDto>;
+    updateReceipt(receipt: GameReceiptDto): Promise<GameReceiptDto>;
 }
 
 export class ReceiptClient implements IReceiptClient {
@@ -483,55 +475,15 @@ export class ReceiptClient implements IReceiptClient {
         return Promise.resolve<GameReceiptDto>(null as any);
     }
 
-    toggleReceiptScanned(receiptId: number): Promise<GameReceiptDto> {
-        let url_ = this.baseUrl + "/Receipt/toggle-receipt-scanned/{receiptId}";
-        if (receiptId === undefined || receiptId === null)
-            throw new Error("The parameter 'receiptId' must be defined.");
-        url_ = url_.replace("{receiptId}", encodeURIComponent("" + receiptId));
+    updateReceipt(receipt: GameReceiptDto): Promise<GameReceiptDto> {
+        let url_ = this.baseUrl + "/Receipt/update";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processToggleReceiptScanned(_response);
-        });
-    }
-
-    protected processToggleReceiptScanned(response: Response): Promise<GameReceiptDto> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameReceiptDto.fromJS(resultData200);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<GameReceiptDto>(null as any);
-    }
-
-    setReceiptLocation(receiptId: number, location: string): Promise<GameReceiptDto> {
-        let url_ = this.baseUrl + "/Receipt/set-receipt-location/{receiptId}";
-        if (receiptId === undefined || receiptId === null)
-            throw new Error("The parameter 'receiptId' must be defined.");
-        url_ = url_.replace("{receiptId}", encodeURIComponent("" + receiptId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(location);
+        const content_ = JSON.stringify(receipt);
 
         let options_: RequestInit = {
             body: content_,
-            method: "PUT",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
@@ -539,134 +491,11 @@ export class ReceiptClient implements IReceiptClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSetReceiptLocation(_response);
+            return this.processUpdateReceipt(_response);
         });
     }
 
-    protected processSetReceiptLocation(response: Response): Promise<GameReceiptDto> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameReceiptDto.fromJS(resultData200);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<GameReceiptDto>(null as any);
-    }
-
-    setGameOrderUrl(receiptId: number, orderUrl: string): Promise<GameReceiptDto> {
-        let url_ = this.baseUrl + "/Receipt/set-game-order-url/{receiptId}";
-        if (receiptId === undefined || receiptId === null)
-            throw new Error("The parameter 'receiptId' must be defined.");
-        url_ = url_.replace("{receiptId}", encodeURIComponent("" + receiptId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(orderUrl);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSetGameOrderUrl(_response);
-        });
-    }
-
-    protected processSetGameOrderUrl(response: Response): Promise<GameReceiptDto> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameReceiptDto.fromJS(resultData200);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<GameReceiptDto>(null as any);
-    }
-
-    setGameOrderNumber(receiptId: number, orderNumber: string): Promise<GameReceiptDto> {
-        let url_ = this.baseUrl + "/Receipt/set-game-order-number/{receiptId}";
-        if (receiptId === undefined || receiptId === null)
-            throw new Error("The parameter 'receiptId' must be defined.");
-        url_ = url_.replace("{receiptId}", encodeURIComponent("" + receiptId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(orderNumber);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSetGameOrderNumber(_response);
-        });
-    }
-
-    protected processSetGameOrderNumber(response: Response): Promise<GameReceiptDto> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameReceiptDto.fromJS(resultData200);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<GameReceiptDto>(null as any);
-    }
-
-    setOrderDate(receiptId: number, orderDate: string): Promise<GameReceiptDto> {
-        let url_ = this.baseUrl + "/Receipt/set-game-order-date/{receiptId}";
-        if (receiptId === undefined || receiptId === null)
-            throw new Error("The parameter 'receiptId' must be defined.");
-        url_ = url_.replace("{receiptId}", encodeURIComponent("" + receiptId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(orderDate);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSetOrderDate(_response);
-        });
-    }
-
-    protected processSetOrderDate(response: Response): Promise<GameReceiptDto> {
+    protected processUpdateReceipt(response: Response): Promise<GameReceiptDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -774,21 +603,22 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
     gameName!: string;
     platformID!: number;
     locationID!: number;
-    gameCase!: string;
-    hasCover!: boolean;
-    rating!: number;
+    gameCaseLocation!: string;
+    hasGameBox!: boolean;
+    gameRating!: number;
     imagePath!: string;
     locationName!: string;
     platformName!: string;
     hasProtection!: boolean;
     store!: string;
     receiptNumber!: string;
-    cost!: number;
+    gamePrice!: number;
     receiptDate?: Date | undefined;
     gameSold!: boolean;
     haveReceipt!: boolean;
     receiptName!: string;
     receiptScanned!: boolean;
+    receiptID!: number;
 
     constructor(data?: IBasicGameInfoDto) {
         if (data) {
@@ -805,21 +635,22 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
             this.gameName = _data["gameName"];
             this.platformID = _data["platformID"];
             this.locationID = _data["locationID"];
-            this.gameCase = _data["gameCase"];
-            this.hasCover = _data["hasCover"];
-            this.rating = _data["rating"];
+            this.gameCaseLocation = _data["gameCaseLocation"];
+            this.hasGameBox = _data["hasGameBox"];
+            this.gameRating = _data["gameRating"];
             this.imagePath = _data["imagePath"];
             this.locationName = _data["locationName"];
             this.platformName = _data["platformName"];
             this.hasProtection = _data["hasProtection"];
             this.store = _data["store"];
             this.receiptNumber = _data["receiptNumber"];
-            this.cost = _data["cost"];
+            this.gamePrice = _data["gamePrice"];
             this.receiptDate = _data["receiptDate"] ? new Date(_data["receiptDate"].toString()) : <any>undefined;
             this.gameSold = _data["gameSold"];
             this.haveReceipt = _data["haveReceipt"];
             this.receiptName = _data["receiptName"];
             this.receiptScanned = _data["receiptScanned"];
+            this.receiptID = _data["receiptID"];
         }
     }
 
@@ -836,21 +667,22 @@ export class BasicGameInfoDto implements IBasicGameInfoDto {
         data["gameName"] = this.gameName;
         data["platformID"] = this.platformID;
         data["locationID"] = this.locationID;
-        data["gameCase"] = this.gameCase;
-        data["hasCover"] = this.hasCover;
-        data["rating"] = this.rating;
+        data["gameCaseLocation"] = this.gameCaseLocation;
+        data["hasGameBox"] = this.hasGameBox;
+        data["gameRating"] = this.gameRating;
         data["imagePath"] = this.imagePath;
         data["locationName"] = this.locationName;
         data["platformName"] = this.platformName;
         data["hasProtection"] = this.hasProtection;
         data["store"] = this.store;
         data["receiptNumber"] = this.receiptNumber;
-        data["cost"] = this.cost;
+        data["gamePrice"] = this.gamePrice;
         data["receiptDate"] = this.receiptDate ? this.receiptDate.toISOString() : <any>undefined;
         data["gameSold"] = this.gameSold;
         data["haveReceipt"] = this.haveReceipt;
         data["receiptName"] = this.receiptName;
         data["receiptScanned"] = this.receiptScanned;
+        data["receiptID"] = this.receiptID;
         return data;
     }
 }
@@ -860,21 +692,22 @@ export interface IBasicGameInfoDto {
     gameName: string;
     platformID: number;
     locationID: number;
-    gameCase: string;
-    hasCover: boolean;
-    rating: number;
+    gameCaseLocation: string;
+    hasGameBox: boolean;
+    gameRating: number;
     imagePath: string;
     locationName: string;
     platformName: string;
     hasProtection: boolean;
     store: string;
     receiptNumber: string;
-    cost: number;
+    gamePrice: number;
     receiptDate?: Date | undefined;
     gameSold: boolean;
     haveReceipt: boolean;
     receiptName: string;
     receiptScanned: boolean;
+    receiptID: number;
 }
 
 export class GameImageDto implements IGameImageDto {

@@ -36,10 +36,10 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
 
   render(): React.ReactNode {
     if (!this.state) return null;
-    
+
     this._refreshGames();
-    if(!this.props.platform) return(<div>You need to select a platform.</div>);
-    if(this.state.loading) return(<div>Fetching Games.</div>);
+    if (!this.props.platform) return (<div>You need to select a platform.</div>);
+    if (this.state.loading) return (<div>Fetching Games.</div>);
 
     const games = this._getFilteredGames();
     const itemsPerPage = this.state.itemsPerPage || 3;
@@ -67,7 +67,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     const searchTerm = this.state.searchValue || '';
     const runSearch = searchTerm.length > 0;
     return this.state.games.reduce((pv: BasicGameInfoDto[], cv) => {
-      if(runSearch && cv.searchString.indexOf(searchTerm) === -1) return pv;
+      if (runSearch && cv.searchString.indexOf(searchTerm) === -1) return pv;
       pv.push(cv.game);
       return pv;
     }, []);
@@ -78,9 +78,9 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   }
 
   _refreshGames = (force?: boolean) => {
-    if(!this.props.platform) return;
+    if (!this.props.platform) return;
     force = force || false;
-    if(this.state.platform === this.props.platform && !force) return;
+    if (this.state.platform === this.props.platform && !force) return;
     new GamesClient().getAllGames(this.props.platform.platformID).then(games => {
       this.setState({
         loading: false,
@@ -98,8 +98,8 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   }
 
   _generateSearchString = (game: BasicGameInfoDto) => {
-    let searchString = `${game.gameCase}|${game.gameName}|${game.locationName}|${game.store}|${game.receiptNumber}|${game.receiptName}`;
-    if(game.gameSold) searchString += '|sold';
+    let searchString = `${game.gameCaseLocation}|${game.gameName}|${game.locationName}|${game.store}|${game.receiptNumber}|${game.receiptName}`;
+    if (game.gameSold) searchString += '|sold';
     return searchString.toLowerCase();
   }
 }

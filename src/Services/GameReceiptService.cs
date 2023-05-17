@@ -7,16 +7,7 @@ public interface IGameReceiptService
 {
   // TODO: (IGameReceiptService.IGameReceiptService) [RENAME] Rename this 
   Task<GameReceiptDto?> GetOrderInfoAsync(int receiptId);
-  // TODO: (IGameReceiptService.IGameReceiptService) [RENAME] Rename
-  Task<GameReceiptDto?> ToggleReceiptScannedAsync(int receiptId);
-  // TODO: (IGameReceiptService.IGameReceiptService) [RENAME] Rename
-  Task<GameReceiptDto?> SetReceiptLocationAsync(int receiptId, string location);
-  // TODO: (IGameReceiptService.IGameReceiptService) [RENAME] Rename
-  Task<GameReceiptDto?> SetGameOrderUrlAsync(int receiptId, string orderUrl);
-  // TODO: (IGameReceiptService.IGameReceiptService) [RENAME] Rename
-  Task<GameReceiptDto?> SetGameOrderNumberAsync(int receiptId, string orderNumber);
-  // TODO: (IGameReceiptService.IGameReceiptService) [RENAME] Rename
-  Task<GameReceiptDto?> SetGameOrderDateAsync(int receiptId, string orderDate);
+  Task<GameReceiptDto?> UpdateAsync(GameReceiptDto receipt);
 }
 
 public class GameReceiptService : IGameReceiptService
@@ -34,38 +25,11 @@ public class GameReceiptService : IGameReceiptService
     return gameOrderInfoEntity is null ? null : GameReceiptDto.FromEntity(gameOrderInfoEntity);
   }
 
-  public async Task<GameReceiptDto?> ToggleReceiptScannedAsync(int receiptId)
+  public async Task<GameReceiptDto?> UpdateAsync(GameReceiptDto receipt)
   {
-    await _gamReceiptRepo.ToggleReceiptScannedAsync(receiptId);
-    var orderInfo = await _gamReceiptRepo.GetOrderInfoAsync(receiptId);
-    return orderInfo is null ? null : GameReceiptDto.FromEntity(orderInfo);
-  }
-
-  public async Task<GameReceiptDto?> SetReceiptLocationAsync(int receiptId, string location)
-  {
-    await _gamReceiptRepo.SetReceiptLocationAsync(receiptId, location);
-    var orderInfo = await _gamReceiptRepo.GetOrderInfoAsync(receiptId);
-    return orderInfo is null ? null : GameReceiptDto.FromEntity(orderInfo);
-  }
-
-  public async Task<GameReceiptDto?> SetGameOrderUrlAsync(int receiptId, string orderUrl)
-  {
-    await _gamReceiptRepo.SetGameOrderUrlAsync(receiptId, orderUrl);
-    var orderInfo = await _gamReceiptRepo.GetOrderInfoAsync(receiptId);
-    return orderInfo is null ? null : GameReceiptDto.FromEntity(orderInfo);
-  }
-
-  public async Task<GameReceiptDto?> SetGameOrderNumberAsync(int receiptId, string orderNumber)
-  {
-    await _gamReceiptRepo.SetGameOrderNumberAsync(receiptId, orderNumber);
-    var orderInfo = await _gamReceiptRepo.GetOrderInfoAsync(receiptId);
-    return orderInfo is null ? null : GameReceiptDto.FromEntity(orderInfo);
-  }
-
-  public async Task<GameReceiptDto?> SetGameOrderDateAsync(int receiptId, string orderDate)
-  {
-    await _gamReceiptRepo.SetGameOrderDateAsync(receiptId, orderDate);
-    var orderInfo = await _gamReceiptRepo.GetOrderInfoAsync(receiptId);
-    return orderInfo is null ? null : GameReceiptDto.FromEntity(orderInfo);
+    // TODO: (GameReceiptService.UpdateAsync) [HANDLE] handle when nothing is updated
+    await _gamReceiptRepo.UpdateReceiptAsync(receipt.ToEntity());
+    var gameOrderInfoEntity = await _gamReceiptRepo.GetOrderInfoAsync(receipt.ReceiptID);
+    return gameOrderInfoEntity is null ? null : GameReceiptDto.FromEntity(gameOrderInfoEntity);
   }
 }

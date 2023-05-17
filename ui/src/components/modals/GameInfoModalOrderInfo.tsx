@@ -1,6 +1,6 @@
 import React from "react";
-import { BasicGameInfoDto, GameReceiptDto, GamesClient } from "../../api";
-import { Button, Checkbox, Input, InputOnChangeData } from "semantic-ui-react";
+import { BasicGameInfoDto, GameReceiptDto, GamesClient, ReceiptClient } from "../../api";
+import { Checkbox, CheckboxProps, Input, InputOnChangeData } from "semantic-ui-react";
 
 interface GameInfoModalOrderInfoProps {
   game: BasicGameInfoDto;
@@ -9,174 +9,116 @@ interface GameInfoModalOrderInfoProps {
 interface GameInfoModalOrderInfoState {
   orderInfo?: GameReceiptDto;
   loading: boolean;
-  receiptLocation: string;
-  locationDirty: boolean;
-  orderUrl: string;
-  orderUrlDirty: boolean;
-  orderNumber: string;
-  orderNumberDirty: boolean;
-  orderDate?: string;
-  orderDateDirty: boolean;
+  dirty: boolean;
 }
 
 export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderInfoProps, GameInfoModalOrderInfoState> {
-    constructor(props: any) {
-        super(props);
+  constructor(props: any) {
+    super(props);
+  }
+
+  componentDidMount(): void {
+    this.setState({
+      loading: true,
+      orderInfo: undefined,
+      dirty: false,
+    }, this._fetchOrderInfo);
+  }
+
+  render(): React.ReactNode {
+    if (!this.state) return null;
+    const game = this.props.game;
+
+    if (this.state.loading) {
+      return (<div>Loading <strong>{game.gameName}</strong> order info...</div>);
     }
 
-    componentDidMount(): void {
-        this.setState({ 
-          loading: true,
-          receiptLocation: '',
-          locationDirty: false,
-          orderUrl: '',
-          orderUrlDirty: false,
-          orderNumber: '',
-          orderNumberDirty: false,
-          orderDate: '',
-          orderDateDirty: false,
-        }, this._fetchOrderInfo);
+    if (!this.state.orderInfo) {
+      return (<div>No order information available for <strong>{game.gameName}</strong>.</div>);
     }
 
-    render(): React.ReactNode {
-      if(!this.state) return null;
-      const game = this.props.game;
+    const receiptNumber = this.state.orderInfo.receiptNumber;
+    const receiptName = this.state.orderInfo.receiptName;
+    const receiptUrl = this.state.orderInfo.receiptUrl;
+    const receiptDate = this.state.orderInfo.receiptDate;
+    const receiptScanned = this.state.orderInfo.receiptScanned;
 
-      if(this.state.loading) {
-        return(<div>Loading <strong>{game.gameName}</strong> order info...</div>);
-      }
+    return (<React.Fragment>
+      <div className="order-toggle">
+        <span>Receipt Scanned:</span>
+        <Checkbox toggle checked={receiptScanned} onChange={this._toggleReceiptScanned} />
+      </div>
+      <div>
+        <Input placeholder='Order #' value={receiptNumber} onChange={this._setReceiptNumber} />
+      </div>
+      <div>
+        <Input placeholder='Receipt Name' value={receiptName} onChange={this._setReceiptName} />
+      </div>
+      <div>
+        <Input placeholder='Order URL' value={receiptUrl} onChange={this._setReceiptUrl} />
+      </div>
+      <div>
+        <Input placeholder='Order Date' value={receiptDate} type="date" onChange={this._setReceiptDate} />
+      </div>
+    </React.Fragment>);
+  }
 
-      const orderInfo = this.state.orderInfo;
-      if(!orderInfo) {
-        return(<div>No order information available for <strong>{game.gameName}</strong>.</div>);
-      }
-
-      const receiptLocation = this.state.receiptLocation;
-      const orderUrl = this.state.orderUrl;
-      const orderNumber = this.state.orderNumber;
-      const orderDate = this.state.orderDate;
-
-      return (<React.Fragment>
-        <div className="order-toggle">
-          <span>Receipt Scanned:</span> <Checkbox toggle checked={orderInfo.receiptScanned} onChange={this._toggleReceiptScanned} />
-        </div>
-        <div>
-          <Input placeholder='Order #' value={orderNumber} onChange={this._setOrderNumber} />
-          &nbsp;
-          <Button disabled={!this.state.orderNumberDirty} onClick={this._saveOrderNumber}>Save</Button>
-        </div>
-        <div>
-          <Input placeholder='Receipt Location' value={receiptLocation} onChange={this._setReceiptLocation} />
-          &nbsp;
-          <Button disabled={!this.state.locationDirty} onClick={this._saveReceiptLocation}>Save</Button>
-        </div>
-        <div>
-          <Input placeholder='Order URL' value={orderUrl} onChange={this._setOrderUrl} />
-          &nbsp;
-          <Button disabled={!this.state.orderUrlDirty} onClick={this._saveOrderUrlChanges}>Save</Button>
-        </div>
-        <div>
-          <Input placeholder='Order Date' value={orderDate} type="date" onChange={this._setOrderDate} />
-          &nbsp;
-          <Button disabled={!this.state.orderDateDirty} onClick={this._saveOrderDate}>Save</Button>
-        </div>
-      </React.Fragment>);
-    }
-
-    _fetchOrderInfo = () => {
-      (new GamesClient()).getOrderInformation(this.props.game.gameID).then(orderInfo => {
-        this.setState({
-          loading: false,
-          orderInfo: orderInfo,
-          receiptLocation: orderInfo?.receiptName || '',
-          locationDirty: false,
-          orderNumber: orderInfo?.receiptNumber || '',
-          orderNumberDirty: false,
-          orderUrl: orderInfo?.receiptUrl || '',
-          orderUrlDirty: false,
-          orderDate: orderInfo?.receiptDate?.toISOString().split('T')[0] || '',
-          orderDateDirty: false,
-        });
-      });
-    }
-
-    _toggleProtection = () => {
-      new GamesClient().toggleGameProtection(this.props.game.gameID).then(orderInfo => {
-        this.setState({
-          orderInfo: orderInfo || undefined,
-        });
-      })
-    }
-
-    _toggleReceiptScanned = () => {
-      new GamesClient().toggleReceiptScanned(this.props.game.gameID).then(orderInfo => {
-        this.setState({
-          orderInfo: orderInfo || undefined,
-        });
-      })
-    }
-
-    _setReceiptLocation = (_: any, data: InputOnChangeData) => {
+  _fetchOrderInfo = () => {
+    (new ReceiptClient()).getOrderInformation(this.props.game.receiptID).then(orderInfo => {
       this.setState({
-        receiptLocation: data.value,
-        locationDirty: true,
+        loading: false,
+        orderInfo: orderInfo,
       });
-    }
+    });
+  }
 
-    _saveReceiptLocation = () => {
-        new GamesClient().setReceiptLocation(this.props.game.gameID, this.state.receiptLocation).then(orderInfo => {
-          this.setState({
-            orderInfo: orderInfo || undefined,
-            locationDirty: false,
-          });
-        })
-    }
-    
-    _setOrderUrl = (_: any, data: InputOnChangeData) => {
-      this.setState({
-        orderUrl: data.value,
-        orderUrlDirty: true,
-      });
-    }
+  _toggleReceiptScanned = (_event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
+    this.setState({
+      orderInfo: new GameReceiptDto({
+        ...this.state.orderInfo!,
+        receiptScanned: data.checked || false,
+      }),
+      dirty: true,
+    });
+  }
 
-    _saveOrderUrlChanges = () => {
-      new GamesClient().setGameOrderUrl(this.props.game.gameID, this.state.orderUrl).then(orderInfo => {
-        this.setState({
-          orderInfo: orderInfo || undefined,
-          orderUrlDirty: false,
-        });
-      });
-    }
+  _setReceiptNumber = (_: any, data: InputOnChangeData) => {
+    this.setState({
+      orderInfo: new GameReceiptDto({
+        ...this.state.orderInfo!,
+        receiptNumber: data.value
+      }),
+      dirty: true,
+    });
+  }
 
-    _setOrderNumber = (_: any, data: InputOnChangeData) => {
-      this.setState({
-        orderNumber: data.value,
-        orderNumberDirty: true,
-      });
-    }
+  _setReceiptName = (_: any, data: InputOnChangeData) => {
+    this.setState({
+      orderInfo: new GameReceiptDto({
+        ...this.state.orderInfo!,
+        receiptName: data.value
+      }),
+      dirty: true,
+    });
+  }
 
-    _saveOrderNumber = () => {
-      new GamesClient().setGameOrderNumber(this.props.game.gameID, this.state.orderNumber).then(orderInfo => {
-        this.setState({
-          orderInfo: orderInfo || undefined,
-          orderNumberDirty: false,
-        });
-      });
-    }
+  _setReceiptUrl = (_: any, data: InputOnChangeData) => {
+    this.setState({
+      orderInfo: new GameReceiptDto({
+        ...this.state.orderInfo!,
+        receiptUrl: data.value
+      }),
+      dirty: true,
+    });
+  }
 
-    _setOrderDate = (_: any, data: InputOnChangeData) => {
-      this.setState({
-        orderDate: data.value,
-        orderDateDirty: true,
-      });
-    }
-
-    _saveOrderDate = () => {
-      new GamesClient().setOrderDate(this.props.game.gameID, this.state.orderDate || '').then(orderInfo => {
-        this.setState({
-          orderInfo: orderInfo || undefined,
-          orderDateDirty: false,
-        });
-      });
-    }
+  _setReceiptDate = (_: any, data: InputOnChangeData) => {
+    this.setState({
+      orderInfo: new GameReceiptDto({
+        ...this.state.orderInfo!,
+        receiptDate: new Date(data.value)
+      }),
+      dirty: true,
+    });
+  }
 }

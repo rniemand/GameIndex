@@ -28,26 +28,27 @@ public class GamesRepo : IGamesRepo
 	    g.GameName,
 	    g.PlatformID,
 	    g.LocationID,
-	    g.GameCase,
-	    g.HasCover,
-	    g.Rating,
+	    g.GameCaseLocation,
+	    g.HasGameBox,
+	    g.GameRating,
 	    l.LocationName,
 	    p.PlatformName,
 	    i.ImagePath,
       g.HasProtection,
-	    o.Store,
-	    o.ReceiptNumber,
-	    g.Cost,
-	    o.ReceiptDate,
+	    r.Store,
+	    r.ReceiptNumber,
+	    g.GamePrice,
+	    r.ReceiptDate,
       CASE WHEN gs.GameID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`,
-      CASE WHEN o.Store IS NOT NULL THEN TRUE ELSE FALSE END AS `HaveReceipt`,
-      o.ReceiptName,
-      o.ReceiptScanned
+      CASE WHEN r.Store IS NOT NULL THEN TRUE ELSE FALSE END AS `HaveReceipt`,
+      r.ReceiptName,
+      r.ReceiptScanned,
+      r.ReceiptID
     FROM `{TableName}` g
 	    INNER JOIN `{GamePlatformsRepo.TableName}` p ON p.PlatformID = g.PlatformID
 	    INNER JOIN `{GameLocationRepo.TableName}` l ON l.LocationID = g.LocationID
 	    LEFT JOIN `{GameImagesRepo.TableName}` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
-      LEFT JOIN `{GamReceiptRepo.TableName}` o ON o.GameID = g.GameID
+      LEFT JOIN `{GamReceiptRepo.TableName}` r ON r.ReceiptID = g.ReceiptID
       LEFT JOIN `GameSales` gs ON gs.GameID = g.GameID
     WHERE g.PlatformID = @PlatformID
     ORDER BY g.GameName";

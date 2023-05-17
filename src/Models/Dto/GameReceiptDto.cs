@@ -22,4 +22,15 @@ public class GameReceiptDto
     ReceiptScanned = entity.ReceiptScanned,
     ReceiptID = entity.ReceiptID,
   };
+
+  public GameReceiptEntity ToEntity() => new()
+  {
+    ReceiptDate = ReceiptDate,
+    ReceiptNumber = ReceiptNumber,
+    Store = Store,
+    ReceiptName = ReceiptName,
+    ReceiptUrl = ReceiptUrl,
+    ReceiptScanned = ReceiptScanned,
+    ReceiptID = ReceiptID,
+  };
 }

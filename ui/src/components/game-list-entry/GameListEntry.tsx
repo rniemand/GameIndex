@@ -21,12 +21,12 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
 
   render(): React.ReactNode {
     const game = this.props.game;
-    const classes= ['game-list-entry'];
-    if(game.gameSold) classes.push('sold');
+    const classes = ['game-list-entry'];
+    if (game.gameSold) classes.push('sold');
 
     return (<Card className={classes.join(' ')}>
       <GameListEntryImage game={game} />
-      {game.cost > 0 && <div className="game-price">${game.cost}</div>}
+      {game.gamePrice > 0 && <div className="game-price">${game.gamePrice}</div>}
       <Card.Content>
         <Card.Header>{game.gameName}</Card.Header>
       </Card.Content>
@@ -37,7 +37,7 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
           {game.receiptScanned && <Icon name='picture' title='Receipt Scanned' />}
           {game.hasProtection && <Icon name='copy outline' title='Has Protection' />}
           {game.gameSold && <Icon name='dollar sign' title='Sold' />}
-          {game.hasCover && <Icon name='box' title='Has Cover' />}
+          {game.hasGameBox && <Icon name='box' title='Has Cover' />}
         </div>
       </Card.Content>
       {!game.gameSold && <Card.Content extra>

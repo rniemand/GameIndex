@@ -8,15 +8,7 @@ public interface IGamReceiptRepo
 {
   // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
   Task<GameReceiptEntity?> GetOrderInfoAsync(int receiptId);
-  Task<int> ToggleReceiptScannedAsync(int receiptId);
-  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] rename this
-  Task<int> SetReceiptLocationAsync(int receiptId, string receiptName);
-  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
-  Task<int> SetGameOrderUrlAsync(int receiptId, string receiptUrl);
-  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
-  Task<int> SetGameOrderNumberAsync(int receiptId, string recNumber);
-  // TODO: (IGamReceiptRepo.IGamReceiptRepo) [RENAME] Rename this
-  Task<int> SetGameOrderDateAsync(int receiptId, string recDate);
+  Task<int> UpdateReceiptAsync(GameReceiptEntity receipt);
 }
 
 public class GamReceiptRepo : IGamReceiptRepo
@@ -45,54 +37,20 @@ public class GamReceiptRepo : IGamReceiptRepo
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.QuerySingleOrDefaultAsync<GameReceiptEntity>(query, new { ReceiptID = receiptId });
   }
-  
-  public async Task<int> ToggleReceiptScannedAsync(int receiptId)
-  {
-    const string query = @$"UPDATE `{TableName}`
-    SET
-      `ReceiptScanned` = !`ReceiptScanned`
-    WHERE `ReceiptID` = @ReceiptID";
-    await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId });
-  }
-  
-  public async Task<int> SetReceiptLocationAsync(int receiptId, string receiptName)
-  {
-    const string query = @$"UPDATE `{TableName}`
-    SET
-      `ReceiptName` = @ReceiptName
-    WHERE `ReceiptID` = @ReceiptID";
-    await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId, ReceiptName = receiptName });
-  }
-  
-  public async Task<int> SetGameOrderUrlAsync(int receiptId, string receiptUrl)
-  {
-    const string query = @$"UPDATE `{TableName}`
-    SET
-      `ReceiptUrl` = @ReceiptUrl
-    WHERE `ReceiptID` = @ReceiptID";
-    await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId, ReceiptUrl = receiptUrl });
-  }
 
-  public async Task<int> SetGameOrderNumberAsync(int receiptId, string recNumber)
+  public async Task<int> UpdateReceiptAsync(GameReceiptEntity receipt)
   {
     const string query = @$"UPDATE `{TableName}`
     SET
-      `ReceiptNumber` = @ReceiptNumber
-    WHERE `ReceiptID` = @ReceiptID";
-    await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId, ReceiptNumber = recNumber });
-  }
-
-  public async Task<int> SetGameOrderDateAsync(int receiptId, string recDate)
-  {
-    const string query = @$"UPDATE `{TableName}`
-    SET
+      `Store` = @Store,
+      `ReceiptNumber` = @ReceiptNumber,
       `ReceiptDate` = @ReceiptDate
-    WHERE `ReceiptID` = @ReceiptID";
+      `ReceiptName` = @ReceiptName
+      `ReceiptUrl` = @ReceiptUrl
+      `ReceiptScanned` = @ReceiptScanned
+    WHERE
+      `ReceiptID` = @ReceiptID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return await connection.ExecuteAsync(query, new { ReceiptID = receiptId, ReceiptDate = recDate });
+    return await connection.ExecuteAsync(query, receipt);
   }
 }

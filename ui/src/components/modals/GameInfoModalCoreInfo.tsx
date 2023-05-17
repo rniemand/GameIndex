@@ -8,10 +8,10 @@ interface GameInfoModalCoreInfoProps {
 
 interface GameInfoModalCoreInfoState {
   gameName: string;
-  gameCase: string;
+  gameCaseLocation: string;
   dirty: boolean;
   saving: boolean;
-  cost: number;
+  gamePrice: number;
   hasProtection: boolean;
 }
 
@@ -24,16 +24,16 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
     this.setState({
       gameName: this.props.game.gameName,
       dirty: false,
-      gameCase: this.props.game.gameCase,
+      gameCaseLocation: this.props.game.gameCaseLocation,
       saving: false,
-      cost: this.props.game.cost,
+      gamePrice: this.props.game.gamePrice,
       hasProtection: this.props.game.hasProtection
     });
   }
 
   render(): React.ReactNode {
     if (!this.state) return null;
-    const cost = this.state.cost;
+    const cost = this.state.gamePrice;
     const hasProtection = this.state.hasProtection;
 
     return (<div>
@@ -45,7 +45,7 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
         </Form.Field>
         <Form.Field>
           <label>Location</label>
-          <Input placeholder='Case' value={this.state.gameCase} onChange={this._onCaseChange} />
+          <Input placeholder='Case' value={this.state.gameCaseLocation} onChange={this._onCaseChange} />
         </Form.Field>
         <Form.Field>
           <label>Price</label>
@@ -77,18 +77,18 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
   }
 
   _onCaseChange = (_: any, data: InputOnChangeData) => {
-    this.props.game.gameCase = data.value;
+    this.props.game.gameCaseLocation = data.value;
     this.setState({
       dirty: true,
-      gameCase: this.props.game.gameCase,
+      gameCaseLocation: this.props.game.gameCaseLocation,
     })
   }
 
   _onPriceChanged = (_: any, data: InputOnChangeData) => {
-    this.props.game.cost = parseFloat(data.value || '0');
+    this.props.game.gamePrice = parseFloat(data.value || '0');
     this.setState({
       dirty: true,
-      cost: this.props.game.cost,
+      gamePrice: this.props.game.gamePrice,
     })
   }
 
