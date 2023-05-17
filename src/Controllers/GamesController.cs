@@ -20,6 +20,6 @@ public class GamesController : ControllerBase
     await _gamesService.GetPlatformGamesAsync(platformId);
   
   [HttpPost("update")]
-  public async Task<BasicGameInfoDto?> UpdateGameInfo([FromBody] BasicGameInfoDto game) =>
+  public async Task<BasicGameInfoDto?> Update([FromBody] BasicGameInfoDto game) =>
     await _gamesService.UpdateGameInfoAsync(game);
 }

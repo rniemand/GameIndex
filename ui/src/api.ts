@@ -12,7 +12,7 @@ export interface IGamesClient {
 
     getPlatformGames(platformId: number): Promise<BasicGameInfoDto[]>;
 
-    updateGameInfo(game: BasicGameInfoDto): Promise<BasicGameInfoDto>;
+    update(game: BasicGameInfoDto): Promise<BasicGameInfoDto>;
 }
 
 export class GamesClient implements IGamesClient {
@@ -69,7 +69,7 @@ export class GamesClient implements IGamesClient {
         return Promise.resolve<BasicGameInfoDto[]>(null as any);
     }
 
-    updateGameInfo(game: BasicGameInfoDto): Promise<BasicGameInfoDto> {
+    update(game: BasicGameInfoDto): Promise<BasicGameInfoDto> {
         let url_ = this.baseUrl + "/Games/update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -85,11 +85,11 @@ export class GamesClient implements IGamesClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUpdateGameInfo(_response);
+            return this.processUpdate(_response);
         });
     }
 
-    protected processUpdateGameInfo(response: Response): Promise<BasicGameInfoDto> {
+    protected processUpdate(response: Response): Promise<BasicGameInfoDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {

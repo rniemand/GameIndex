@@ -100,7 +100,7 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
 
   _saveChanges = () => {
     this.setState({ saving: true }, () => {
-      new GamesClient().updateGameInfo(this.state.game).then(gameInfo => {
+      new GamesClient().update(this.state.game).then(gameInfo => {
         this.setState({
           saving: false,
           dirty: false,
