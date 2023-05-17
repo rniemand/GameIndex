@@ -14,7 +14,7 @@ export interface IGamesClient {
 
     getGameImages(gameId: number): Promise<GameImageDto[]>;
 
-    getGameLocations(platformId: number): Promise<PlatformLocationDto[]>;
+    getGameLocations(platformId: number): Promise<LocationDto[]>;
 
     setGameLocation(gameId: number, locationId: number): Promise<number>;
 
@@ -119,7 +119,7 @@ export class GamesClient implements IGamesClient {
         return Promise.resolve<GameImageDto[]>(null as any);
     }
 
-    getGameLocations(platformId: number): Promise<PlatformLocationDto[]> {
+    getGameLocations(platformId: number): Promise<LocationDto[]> {
         let url_ = this.baseUrl + "/Games/locations/{platformId}";
         if (platformId === undefined || platformId === null)
             throw new Error("The parameter 'platformId' must be defined.");
@@ -138,7 +138,7 @@ export class GamesClient implements IGamesClient {
         });
     }
 
-    protected processGetGameLocations(response: Response): Promise<PlatformLocationDto[]> {
+    protected processGetGameLocations(response: Response): Promise<LocationDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -148,7 +148,7 @@ export class GamesClient implements IGamesClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(PlatformLocationDto.fromJS(item));
+                    result200!.push(LocationDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -160,7 +160,7 @@ export class GamesClient implements IGamesClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<PlatformLocationDto[]>(null as any);
+        return Promise.resolve<LocationDto[]>(null as any);
     }
 
     setGameLocation(gameId: number, locationId: number): Promise<number> {
@@ -613,12 +613,12 @@ export interface IGameImageDto {
     imagePath: string;
 }
 
-export class PlatformLocationDto implements IPlatformLocationDto {
-    platformLocationID!: number;
+export class LocationDto implements ILocationDto {
+    locationID!: number;
     platformID!: number;
     locationName!: string;
 
-    constructor(data?: IPlatformLocationDto) {
+    constructor(data?: ILocationDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -629,30 +629,30 @@ export class PlatformLocationDto implements IPlatformLocationDto {
 
     init(_data?: any) {
         if (_data) {
-            this.platformLocationID = _data["platformLocationID"];
+            this.locationID = _data["locationID"];
             this.platformID = _data["platformID"];
             this.locationName = _data["locationName"];
         }
     }
 
-    static fromJS(data: any): PlatformLocationDto {
+    static fromJS(data: any): LocationDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PlatformLocationDto();
+        let result = new LocationDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["platformLocationID"] = this.platformLocationID;
+        data["locationID"] = this.locationID;
         data["platformID"] = this.platformID;
         data["locationName"] = this.locationName;
         return data;
     }
 }
 
-export interface IPlatformLocationDto {
-    platformLocationID: number;
+export interface ILocationDto {
+    locationID: number;
     platformID: number;
     locationName: string;
 }

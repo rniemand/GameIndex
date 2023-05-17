@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto, GamesClient, PlatformLocationDto } from "../api";
+import { BasicGameInfoDto, GamesClient, LocationDto } from "../api";
 import { Button, Menu, Modal } from "semantic-ui-react";
 
 interface SetConsoleModalProps {
@@ -10,7 +10,7 @@ interface SetConsoleModalProps {
 interface SetConsoleModalState {
   open: boolean;
   loading: boolean;
-  locations: PlatformLocationDto[];
+  locations: LocationDto[];
 }
 
 export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetConsoleModalState> {
@@ -48,7 +48,7 @@ export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetCo
         {!loading && <div>
           <h2>Select console</h2>
           <Menu vertical fluid>
-            {locations.map(location => <Menu.Item key={location.platformLocationID} as='a' onClick={() => this._setGameLocation(location)}>
+            {locations.map(location => <Menu.Item key={location.locationID} as='a' onClick={() => this._setGameLocation(location)}>
               {location.locationName}
             </Menu.Item>)}
           </Menu>
@@ -78,10 +78,10 @@ export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetCo
     });
   }
 
-  _setGameLocation = (location: PlatformLocationDto) => {
+  _setGameLocation = (location: LocationDto) => {
     const gameId = this.props.game.gameID;
-    new GamesClient().setGameLocation(gameId, location.platformLocationID).then(count => {
-      this.props.game.locationID = location.platformLocationID;
+    new GamesClient().setGameLocation(gameId, location.locationID).then(count => {
+      this.props.game.locationID = location.locationID;
       this.props.game.locationName = location.locationName;
       this.props.onGameLocationChange(this.props.game);
       this._setOpen(false);
