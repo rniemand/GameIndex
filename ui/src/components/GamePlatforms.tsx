@@ -1,16 +1,14 @@
 import React from "react";
-import { GamePlatformEntity, GamePlatformsClient } from "../api";
 import { Menu } from "semantic-ui-react";
-
-const client = new GamePlatformsClient();
+import { PlatformDto, PlatformsClient } from "../api";
 
 interface GamePlatformsProps {
-    onPlatformSelected: (platform: GamePlatformEntity) => void;
-    selectedPlatform?: GamePlatformEntity;
+    onPlatformSelected: (platform: PlatformDto) => void;
+    selectedPlatform?: PlatformDto;
 }
 
 interface GamePlatformsState {
-    platforms: GamePlatformEntity[];
+    platforms: PlatformDto[];
 }
 
 export class GamePlatforms extends React.Component<GamePlatformsProps, GamePlatformsState> {
@@ -41,7 +39,7 @@ export class GamePlatforms extends React.Component<GamePlatformsProps, GamePlatf
     }
 
     _refreshPlatforms = () => {
-        client.getAll().then(_platforms => {
+        new PlatformsClient().getAll().then(_platforms => {
             this.setState({
                 platforms: _platforms
             }, () => {

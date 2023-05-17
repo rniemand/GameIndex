@@ -25,11 +25,12 @@ static class ServiceCollectionExtensions
       // Services
       .AddSingleton<IGamesService, GamesService>()
       .AddSingleton<IGameReceiptService, GameReceiptService>()
+      .AddSingleton<IPlatformService, PlatformService>()
       
       // Repos
       .AddSingleton<IGamesRepo, GamesRepo>()
       .AddSingleton<IGameImagesRepo, GameImagesRepo>()
-      .AddSingleton<IGamePlatformsRepo, GamePlatformsRepo>()
+      .AddSingleton<IPlatformsRepo, PlatformsRepo>()
       .AddSingleton<IPlatformLocationRepo, PlatformLocationRepo>()
       .AddSingleton<IGamReceiptRepo, GamReceiptRepo>();
   }

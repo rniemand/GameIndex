@@ -3,11 +3,11 @@ import { Card, Container, SemanticWIDTHSNUMBER } from "semantic-ui-react";
 import { GameListEntry } from "./game-list-entry/GameListEntry";
 import { GameListControls } from "./game-list-entry/GameListControls";
 import { storageHelper } from "../helpers/StorageHelper";
-import { BasicGameInfoDto, GamePlatformEntity, GamesClient } from "../api";
+import { BasicGameInfoDto, GamesClient, PlatformDto } from "../api";
 import ISearchableGame from "../models/ISearchableGame";
 
 interface GamesListProps {
-  platform?: GamePlatformEntity;
+  platform?: PlatformDto;
 }
 
 interface GamesListState {
@@ -16,7 +16,7 @@ interface GamesListState {
   counter: number;
   loading: boolean;
   games: ISearchableGame[];
-  platform?: GamePlatformEntity;
+  platform?: PlatformDto;
 }
 
 export class GameList extends React.Component<GamesListProps, GamesListState> {

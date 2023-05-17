@@ -46,7 +46,7 @@ public class GamesRepo : IGamesRepo
       r.ReceiptScanned,
       r.ReceiptID
     FROM `{TableName}` g
-	    INNER JOIN `{GamePlatformsRepo.TableName}` p ON p.PlatformID = g.PlatformID
+	    INNER JOIN `{PlatformsRepo.TableName}` p ON p.PlatformID = g.PlatformID
 	    INNER JOIN `{PlatformLocationRepo.TableName}` l ON l.PlatformLocationID = g.PlatformLocationID
 	    LEFT JOIN `{GameImagesRepo.TableName}` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
       LEFT JOIN `{GamReceiptRepo.TableName}` r ON r.ReceiptID = g.ReceiptID

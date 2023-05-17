@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
 import { GameList } from './components/GameList';
-import { GamePlatformEntity } from './api';
 import { GamePlatforms } from './components/GamePlatforms';
 import 'semantic-ui-css/semantic.min.css'
 import ISearchableGame from './models/ISearchableGame';
+import { PlatformDto } from './api';
 
 interface AppProps { }
 
 interface AppState {
-  selectedPlatform?: GamePlatformEntity;
+  selectedPlatform?: PlatformDto;
   games: ISearchableGame[];
 }
 
@@ -33,7 +33,7 @@ export default class App extends React.Component<AppProps, AppState> {
     );
   }
 
-  _platformSelected = (platform: GamePlatformEntity) => {
+  _platformSelected = (platform: PlatformDto) => {
     this.setState({ selectedPlatform: platform });
   }
 }
