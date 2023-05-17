@@ -7,8 +7,7 @@ namespace GameIndex.Repos;
 public interface IGamesRepo
 {
   Task<List<BasicGameInfoEntity>> GetAllAsync(int platformId);
-  // TODO: (IGamesRepo.IGamesRepo) [RENAME] Rename this
-  Task<int> UpdateGameInfoAsync(BasicGameInfoEntity game);
+  Task<int> UpdateAsync(BasicGameInfoEntity game);
   Task<BasicGameInfoEntity?> GetByIDAsync(long gameId);
 }
 
@@ -57,7 +56,7 @@ public class GamesRepo : IGamesRepo
     return (await connection.QueryAsync<BasicGameInfoEntity>(query, new { PlatformID = platformId })).ToList();
   }
 
-  public async Task<int> UpdateGameInfoAsync(BasicGameInfoEntity game)
+  public async Task<int> UpdateAsync(BasicGameInfoEntity game)
   {
     const string query = @$"UPDATE `{TableName}`
     SET

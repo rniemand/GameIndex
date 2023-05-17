@@ -10,11 +10,9 @@
 
 export interface IGamesClient {
 
-    getAllGames(platformId: number): Promise<BasicGameInfoDto[]>;
+    getPlatformGames(platformId: number): Promise<BasicGameInfoDto[]>;
 
     getGameImages(gameId: number): Promise<ImageDto[]>;
-
-    getGameLocations(platformId: number): Promise<LocationDto[]>;
 
     setGameLocation(gameId: number, locationId: number): Promise<number>;
 
@@ -31,8 +29,8 @@ export class GamesClient implements IGamesClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getAllGames(platformId: number): Promise<BasicGameInfoDto[]> {
-        let url_ = this.baseUrl + "/Games/{platformId}";
+    getPlatformGames(platformId: number): Promise<BasicGameInfoDto[]> {
+        let url_ = this.baseUrl + "/Games/platform/{platformId}";
         if (platformId === undefined || platformId === null)
             throw new Error("The parameter 'platformId' must be defined.");
         url_ = url_.replace("{platformId}", encodeURIComponent("" + platformId));
@@ -46,11 +44,11 @@ export class GamesClient implements IGamesClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetAllGames(_response);
+            return this.processGetPlatformGames(_response);
         });
     }
 
-    protected processGetAllGames(response: Response): Promise<BasicGameInfoDto[]> {
+    protected processGetPlatformGames(response: Response): Promise<BasicGameInfoDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -117,50 +115,6 @@ export class GamesClient implements IGamesClient {
             });
         }
         return Promise.resolve<ImageDto[]>(null as any);
-    }
-
-    getGameLocations(platformId: number): Promise<LocationDto[]> {
-        let url_ = this.baseUrl + "/Games/locations/{platformId}";
-        if (platformId === undefined || platformId === null)
-            throw new Error("The parameter 'platformId' must be defined.");
-        url_ = url_.replace("{platformId}", encodeURIComponent("" + platformId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetGameLocations(_response);
-        });
-    }
-
-    protected processGetGameLocations(response: Response): Promise<LocationDto[]> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(LocationDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<LocationDto[]>(null as any);
     }
 
     setGameLocation(gameId: number, locationId: number): Promise<number> {
@@ -303,6 +257,66 @@ export class ImageClient implements IImageClient {
     }
 }
 
+export interface ILocationsClient {
+
+    getPlatformLocations(platformId: number): Promise<LocationDto[]>;
+}
+
+export class LocationsClient implements ILocationsClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    getPlatformLocations(platformId: number): Promise<LocationDto[]> {
+        let url_ = this.baseUrl + "/Locations/list/platform-id/{platformId}";
+        if (platformId === undefined || platformId === null)
+            throw new Error("The parameter 'platformId' must be defined.");
+        url_ = url_.replace("{platformId}", encodeURIComponent("" + platformId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetPlatformLocations(_response);
+        });
+    }
+
+    protected processGetPlatformLocations(response: Response): Promise<LocationDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LocationDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LocationDto[]>(null as any);
+    }
+}
+
 export interface IPlatformsClient {
 
     getAll(): Promise<PlatformDto[]>;
@@ -319,7 +333,7 @@ export class PlatformsClient implements IPlatformsClient {
     }
 
     getAll(): Promise<PlatformDto[]> {
-        let url_ = this.baseUrl + "/Platforms";
+        let url_ = this.baseUrl + "/Platforms/list";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {

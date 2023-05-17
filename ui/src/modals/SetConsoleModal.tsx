@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto, GamesClient, LocationDto } from "../api";
+import { BasicGameInfoDto, GamesClient, LocationDto, LocationsClient, PlatformsClient } from "../api";
 import { Button, Menu, Modal } from "semantic-ui-react";
 
 interface SetConsoleModalProps {
@@ -70,7 +70,7 @@ export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetCo
   }
 
   _loadConsoles = () => {
-    (new GamesClient().getGameLocations(this.props.game.platformID)).then(locations => {
+    (new LocationsClient().getPlatformLocations(this.props.game.platformID)).then(locations => {
       this.setState({
         loading: false,
         locations: locations || []

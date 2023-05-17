@@ -15,6 +15,7 @@ public class PlatformsController : ControllerBase
     _platformService = platformService;
   }
 
+  [Route("list")]
   public async Task<List<PlatformDto>> GetAll() =>
     await _platformService.GetAllAsync();
 }

@@ -6,9 +6,8 @@ namespace GameIndex.Repos;
 
 public interface IReceiptRepo
 {
-  // TODO: (IReceiptRepo.IReceiptRepo) [RENAME] Rename this
-  Task<ReceiptEntity?> GetOrderInfoAsync(int receiptId);
-  Task<int> UpdateReceiptAsync(ReceiptEntity receipt);
+  Task<ReceiptEntity?> GetByIDAsync(int receiptId);
+  Task<int> UpdateAsync(ReceiptEntity receipt);
 }
 
 public class ReceiptRepo : IReceiptRepo
@@ -21,7 +20,7 @@ public class ReceiptRepo : IReceiptRepo
     _connectionHelper = connectionHelper;
   }
 
-  public async Task<ReceiptEntity?> GetOrderInfoAsync(int receiptId)
+  public async Task<ReceiptEntity?> GetByIDAsync(int receiptId)
   {
     const string query = @$"SELECT
 	    o.ReceiptID,
@@ -38,7 +37,7 @@ public class ReceiptRepo : IReceiptRepo
     return await connection.QuerySingleOrDefaultAsync<ReceiptEntity>(query, new { ReceiptID = receiptId });
   }
 
-  public async Task<int> UpdateReceiptAsync(ReceiptEntity receipt)
+  public async Task<int> UpdateAsync(ReceiptEntity receipt)
   {
     const string query = @$"UPDATE `{TableName}`
     SET

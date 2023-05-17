@@ -81,7 +81,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     if (!this.props.platform) return;
     force = force || false;
     if (this.state.platform === this.props.platform && !force) return;
-    new GamesClient().getAllGames(this.props.platform.platformID).then(games => {
+    new GamesClient().getPlatformGames(this.props.platform.platformID).then(games => {
       this.setState({
         loading: false,
         games: (games || []).map(game => ({

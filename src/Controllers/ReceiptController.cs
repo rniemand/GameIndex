@@ -17,7 +17,7 @@ public class ReceiptController : ControllerBase
 
   [HttpGet("order-info/{receiptId:int}")]
   public async Task<ReceiptDto?> GetOrderInformation([FromRoute] int receiptId) =>
-    await _receiptService.GetOrderInfoAsync(receiptId);
+    await _receiptService.GetByIDAsync(receiptId);
 
   [HttpPost("update")]
   public async Task<ReceiptDto?> UpdateReceipt([FromBody] ReceiptDto receipt) =>
