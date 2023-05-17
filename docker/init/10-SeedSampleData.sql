@@ -1,8 +1,8 @@
 -- =======================================================================================
--- Game Platforms
+-- Platforms
 -- =======================================================================================
--- TRUNCATE TABLE `GamePlatforms`;
-INSERT INTO `GamePlatforms`
+-- TRUNCATE TABLE `Platforms`;
+INSERT INTO `Platforms`
     (`PlatformName`)
 VALUES
 	('Switch'),
@@ -11,10 +11,10 @@ VALUES
 	('PS4');
 
 -- =======================================================================================
--- GameLocations
+-- Locations
 -- =======================================================================================
--- TRUNCATE TABLE `GameLocations`;
-INSERT INTO `GameLocations`
+-- TRUNCATE TABLE `Locations`;
+INSERT INTO `Locations`
     (`LocationID`, `PlatformID`, `LocationName`)
 VALUES
 	(1, 1, 'Home'),

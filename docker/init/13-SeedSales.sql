@@ -1,6 +1,6 @@
--- TRUNCATE TABLE `GameSales`;
+-- TRUNCATE TABLE `Sales`;
 
-INSERT INTO `GameSales`
+INSERT INTO `Sales`
   (`GameID`, `SaleDate`, `SaleAmount`)
 VALUES
   (66, '2023-02-19', 16),

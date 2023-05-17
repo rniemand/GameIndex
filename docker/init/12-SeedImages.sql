@@ -1,6 +1,6 @@
--- TRUNCATE TABLE `GameImages`;
+-- TRUNCATE TABLE `Images`;
 
-INSERT INTO `GameImages`
+INSERT INTO `Images`
     (`GameID`, `ImageType`, `ImageOrder`, `ImagePath`)
 VALUES
 	(1, 'cover', 1, 'covers/switch/c/civ-vi.jpg'),
