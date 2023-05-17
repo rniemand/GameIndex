@@ -7,12 +7,9 @@ interface GameInfoModalCoreInfoProps {
 }
 
 interface GameInfoModalCoreInfoState {
-  gameName: string;
-  gameCaseLocation: string;
+  game: BasicGameInfoDto;
   dirty: boolean;
   saving: boolean;
-  gamePrice: number;
-  hasProtection: boolean;
 }
 
 export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfoProps, GameInfoModalCoreInfoState> {
@@ -22,82 +19,92 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
 
   componentDidMount(): void {
     this.setState({
-      gameName: this.props.game.gameName,
+      game: this.props.game,
       dirty: false,
-      gameCaseLocation: this.props.game.gameCaseLocation,
       saving: false,
-      gamePrice: this.props.game.gamePrice,
-      hasProtection: this.props.game.hasProtection
     });
   }
 
   render(): React.ReactNode {
     if (!this.state) return null;
-    const cost = this.state.gamePrice;
-    const hasProtection = this.state.hasProtection;
+    const gamePrice = this.state.game.gamePrice;
+    const hasProtection = this.state.game.hasProtection;
+    const gameName = this.state.game.gameName;
+    const gameCaseLocation = this.state.game.gameCaseLocation;
+    const dirty = this.state.dirty;
+    const saving = this.state.saving;
 
     return (<div>
       {this.state.saving && <p>Saving changes...</p>}
       <Form>
         <Form.Field>
           <label>Game Name</label>
-          <Input placeholder='Game Name' value={this.state.gameName} onChange={this._onNameChange} />
+          <Input placeholder='Game Name' value={gameName} onChange={this._onNameChange} />
         </Form.Field>
         <Form.Field>
           <label>Location</label>
-          <Input placeholder='Case' value={this.state.gameCaseLocation} onChange={this._onCaseChange} />
+          <Input placeholder='Case' value={gameCaseLocation} onChange={this._onGameCaseChange} />
         </Form.Field>
         <Form.Field>
           <label>Price</label>
-          <Input placeholder='Price' value={cost} type="number" onChange={this._onPriceChanged} />
+          <Input placeholder='Price' value={gamePrice} type="number" onChange={this._onGamePriceChanged} />
         </Form.Field>
         <Form.Field>
           <label>Has Protection</label>
           <Checkbox toggle checked={hasProtection} onChange={this._onProtectionChanged} />
         </Form.Field>
-        <Button type='button' disabled={!this.state.dirty && !this.state.saving} onClick={this._saveChanges}>Save Changes</Button>
+        <Button type='button' disabled={!dirty && !saving} onClick={this._saveChanges}>Save Changes</Button>
       </Form>
     </div>);
   }
 
   _onNameChange = (_: any, data: InputOnChangeData) => {
-    this.props.game.gameName = data.value;
     this.setState({
-      gameName: this.props.game.gameName,
       dirty: true,
+      game: new BasicGameInfoDto({
+        ...this.state.game,
+        gameName: data.value
+      })
+    });
+  }
+
+  _onGameCaseChange = (_: any, data: InputOnChangeData) => {
+    this.setState({
+      dirty: true,
+      game: new BasicGameInfoDto({
+        ...this.state.game,
+        gameCaseLocation: data.value
+      })
+    });
+  }
+
+  _onGamePriceChanged = (_: any, data: InputOnChangeData) => {
+    this.setState({
+      dirty: true,
+      game: new BasicGameInfoDto({
+        ...this.state.game,
+        gamePrice: parseFloat(data.value)
+      })
     });
   }
 
   _onProtectionChanged = (_event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
-    this.props.game.hasProtection = data.checked || false;
     this.setState({
-      hasProtection: this.props.game.hasProtection,
       dirty: true,
+      game: new BasicGameInfoDto({
+        ...this.state.game,
+        hasProtection: data.checked || false
+      })
     });
-  }
-
-  _onCaseChange = (_: any, data: InputOnChangeData) => {
-    this.props.game.gameCaseLocation = data.value;
-    this.setState({
-      dirty: true,
-      gameCaseLocation: this.props.game.gameCaseLocation,
-    })
-  }
-
-  _onPriceChanged = (_: any, data: InputOnChangeData) => {
-    this.props.game.gamePrice = parseFloat(data.value || '0');
-    this.setState({
-      dirty: true,
-      gamePrice: this.props.game.gamePrice,
-    })
   }
 
   _saveChanges = () => {
     this.setState({ saving: true }, () => {
-      new GamesClient().updateGameInfo(this.props.game).then(_ => {
+      new GamesClient().updateGameInfo(this.state.game).then(gameInfo => {
         this.setState({
           saving: false,
           dirty: false,
+          game: gameInfo,
         });
       });
     });

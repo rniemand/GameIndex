@@ -135,7 +135,7 @@ export interface IGamesClient {
 
     setGameLocation(gameId: number, locationId: number): Promise<number>;
 
-    updateGameInfo(game: BasicGameInfoDto): Promise<number>;
+    updateGameInfo(game: BasicGameInfoDto): Promise<BasicGameInfoDto>;
 }
 
 export class GamesClient implements IGamesClient {
@@ -321,7 +321,7 @@ export class GamesClient implements IGamesClient {
         return Promise.resolve<number>(null as any);
     }
 
-    updateGameInfo(game: BasicGameInfoDto): Promise<number> {
+    updateGameInfo(game: BasicGameInfoDto): Promise<BasicGameInfoDto> {
         let url_ = this.baseUrl + "/Games/update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -341,15 +341,14 @@ export class GamesClient implements IGamesClient {
         });
     }
 
-    protected processUpdateGameInfo(response: Response): Promise<number> {
+    protected processUpdateGameInfo(response: Response): Promise<BasicGameInfoDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = BasicGameInfoDto.fromJS(resultData200);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -357,7 +356,7 @@ export class GamesClient implements IGamesClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<number>(null as any);
+        return Promise.resolve<BasicGameInfoDto>(null as any);
     }
 }
 

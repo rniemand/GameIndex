@@ -32,6 +32,6 @@ public class GamesController : ControllerBase
     await _gamesService.SetGameLocationAsync(gameId, locationId);
 
   [HttpPost("update")]
-  public async Task<int> UpdateGameInfo([FromBody] BasicGameInfoDto game) =>
+  public async Task<BasicGameInfoDto?> UpdateGameInfo([FromBody] BasicGameInfoDto game) =>
     await _gamesService.UpdateGameInfoAsync(game);
 }

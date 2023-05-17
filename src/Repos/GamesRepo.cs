@@ -9,6 +9,7 @@ public interface IGamesRepo
   Task<List<BasicGameInfoEntity>> GetAllAsync(int platformId);
   // TODO: (IGamesRepo.IGamesRepo) [RENAME] Rename this
   Task<int> UpdateGameInfoAsync(BasicGameInfoEntity game);
+  Task<BasicGameInfoEntity?> GetByIDAsync(long gameId);
 }
 
 public class GamesRepo : IGamesRepo
@@ -61,12 +62,24 @@ public class GamesRepo : IGamesRepo
     const string query = @$"UPDATE `{TableName}`
     SET
 	    `GameName` = @GameName,
-	    `GameCase` = @GameCase,
-      `Cost` = @Cost,
-      `HasProtection` = @HasProtection
+	    `HasGameBox` = @HasGameBox,
+      `HasProtection` = @HasProtection,
+      `GameRating` = @GameRating,
+      `GamePrice` = @GamePrice,
+      `GameCaseLocation` = @GameCaseLocation
     WHERE
 	    `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, game);
+  }
+
+  public async Task<BasicGameInfoEntity?> GetByIDAsync(long gameId)
+  {
+    const string query = @$"SELECT *
+    FROM `{TableName}`
+    WHERE
+	    `GameID` = @GameID";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.QuerySingleOrDefaultAsync<BasicGameInfoEntity>(query, new{ GameID = gameId });
   }
 }
