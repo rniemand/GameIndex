@@ -7,7 +7,7 @@ public interface IGamesService
 {
   Task<List<BasicGameInfoDto>> ListAllGamesAsync(int platformId);
   Task<List<GameImageDto>> GetImagesAsync(long gameId);
-  Task<List<GameLocationDto>> GetLocationsAsync(int platformId);
+  Task<List<PlatformLocationDto>> GetLocationsAsync(int platformId);
   Task<int> SetGameLocationAsync(long gameId, int locationId);
   Task<BasicGameInfoDto?> UpdateGameInfoAsync(BasicGameInfoDto gameInfo);
 }
@@ -17,17 +17,17 @@ public class GamesService : IGamesService
   private readonly IGamesRepo _gamesRepo;
   private readonly IGamReceiptRepo _gamReceiptRepo;
   private readonly IGameImagesRepo _gameImagesRepo;
-  private readonly IGameLocationRepo _gameLocationRepo;
+  private readonly IPlatformLocationRepo _platformLocationRepo;
 
   public GamesService(IGamesRepo gamesRepo,
     IGamReceiptRepo gamReceiptRepo,
     IGameImagesRepo gameImagesRepo,
-    IGameLocationRepo gameLocationRepo)
+    IPlatformLocationRepo platformLocationRepo)
   {
     _gamesRepo = gamesRepo;
     _gamReceiptRepo = gamReceiptRepo;
     _gameImagesRepo = gameImagesRepo;
-    _gameLocationRepo = gameLocationRepo;
+    _platformLocationRepo = platformLocationRepo;
   }
 
   public async Task<List<BasicGameInfoDto>> ListAllGamesAsync(int platformId) =>
@@ -39,14 +39,14 @@ public class GamesService : IGamesService
     return dbImages.Count == 0 ? new List<GameImageDto>() : dbImages.Select(GameImageDto.FromEntity).ToList();
   }
 
-  public async Task<List<GameLocationDto>> GetLocationsAsync(int platformId)
+  public async Task<List<PlatformLocationDto>> GetLocationsAsync(int platformId)
   {
-    var dbLocations = await _gameLocationRepo.GetLocationsAsync(platformId);
-    return dbLocations.Count == 0 ? new List<GameLocationDto>() : dbLocations.Select(GameLocationDto.FromEntity).ToList();
+    var dbLocations = await _platformLocationRepo.GetLocationsAsync(platformId);
+    return dbLocations.Count == 0 ? new List<PlatformLocationDto>() : dbLocations.Select(PlatformLocationDto.FromEntity).ToList();
   }
 
   public async Task<int> SetGameLocationAsync(long gameId, int locationId) =>
-    await _gameLocationRepo.SetGameLocationAsync(gameId, locationId);
+    await _platformLocationRepo.SetGameLocationAsync(gameId, locationId);
 
   public async Task<BasicGameInfoDto?> UpdateGameInfoAsync(BasicGameInfoDto gameInfo)
   {

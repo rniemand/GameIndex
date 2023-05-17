@@ -1,8 +1,8 @@
 namespace GameIndex.Models.Entities;
 
-public class GameLocationEntity
+public class PlatformLocationEntity
 {
-  public int LocationID { get; set; }
+  public int PlatformLocationID { get; set; }
   public int PlatformID { get; set; }
   public string LocationName { get; set; } = string.Empty;
 }

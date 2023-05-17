@@ -4,39 +4,39 @@ using GameIndex.Models.Entities;
 
 namespace GameIndex.Repos;
 
-public interface IGameLocationRepo
+public interface IPlatformLocationRepo
 {
-  Task<List<GameLocationEntity>> GetLocationsAsync(int platformId);
-  Task<int> SetGameLocationAsync(long gameId, int locationId);
+  Task<List<PlatformLocationEntity>> GetLocationsAsync(int platformId);
+  Task<int> SetGameLocationAsync(long gameId, int platformLocationID);
 }
 
-public class GameLocationRepo : IGameLocationRepo
+public class PlatformLocationRepo : IPlatformLocationRepo
 {
-  public const string TableName = "GameLocations";
+  public const string TableName = "PlatformLocations";
   private readonly IConnectionHelper _connectionHelper;
 
-  public GameLocationRepo(IConnectionHelper connectionHelper)
+  public PlatformLocationRepo(IConnectionHelper connectionHelper)
   {
     _connectionHelper = connectionHelper;
   }
 
-  public async Task<List<GameLocationEntity>> GetLocationsAsync(int platformId)
+  public async Task<List<PlatformLocationEntity>> GetLocationsAsync(int platformId)
   {
     const string query = $@"SELECT
-	    l.LocationID,
+	    l.PlatformLocationID,
 	    l.PlatformID,
 	    l.LocationName
     FROM `{TableName}` l
     WHERE l.PlatformID = @PlatformID";
     await using var connection = _connectionHelper.GetCoreConnection();
-    return (await connection.QueryAsync<GameLocationEntity>(query, new { PlatformID = platformId })).AsList();
+    return (await connection.QueryAsync<PlatformLocationEntity>(query, new { PlatformID = platformId })).AsList();
   }
 
-  public async Task<int> SetGameLocationAsync(long gameId, int locationId)
+  public async Task<int> SetGameLocationAsync(long gameId, int platformLocationID)
   {
     const string query = $@"UPDATE `{GamesRepo.TableName}`
-    SET `LocationID` = (
-	    SELECT `LocationID`
+    SET `PlatformLocationID` = (
+	    SELECT `PlatformLocationID`
 	    FROM `{TableName}`
 	    WHERE `PlatformID` = (
 		    SELECT `PlatformID`
@@ -45,15 +45,15 @@ public class GameLocationRepo : IGameLocationRepo
 	    )
 	    AND `LocationName` = 'Home'
     )
-    WHERE `LocationID` = @LocationID;
+    WHERE `PlatformLocationID` = @PlatformLocationID;
     UPDATE `{GamesRepo.TableName}`
-    SET `LocationID` = @LocationID
+    SET `PlatformLocationID` = @PlatformLocationID
     WHERE `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.ExecuteAsync(query, new
     {
       GameID = gameId,
-      LocationID = locationId,
+      PlatformLocationID = platformLocationID,
     });
   }
 }

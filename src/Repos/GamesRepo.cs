@@ -28,7 +28,7 @@ public class GamesRepo : IGamesRepo
 	    g.GameID,
 	    g.GameName,
 	    g.PlatformID,
-	    g.LocationID,
+	    g.PlatformLocationID,
 	    g.GameCaseLocation,
 	    g.HasGameBox,
 	    g.GameRating,
@@ -47,7 +47,7 @@ public class GamesRepo : IGamesRepo
       r.ReceiptID
     FROM `{TableName}` g
 	    INNER JOIN `{GamePlatformsRepo.TableName}` p ON p.PlatformID = g.PlatformID
-	    INNER JOIN `{GameLocationRepo.TableName}` l ON l.LocationID = g.LocationID
+	    INNER JOIN `{PlatformLocationRepo.TableName}` l ON l.PlatformLocationID = g.PlatformLocationID
 	    LEFT JOIN `{GameImagesRepo.TableName}` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
       LEFT JOIN `{GamReceiptRepo.TableName}` r ON r.ReceiptID = g.ReceiptID
       LEFT JOIN `GameSales` gs ON gs.GameID = g.GameID

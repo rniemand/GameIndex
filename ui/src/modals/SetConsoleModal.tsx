@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicGameInfoDto, GameLocationDto, GamesClient } from "../api";
+import { BasicGameInfoDto, GamesClient, PlatformLocationDto } from "../api";
 import { Button, Menu, Modal } from "semantic-ui-react";
 
 interface SetConsoleModalProps {
@@ -10,7 +10,7 @@ interface SetConsoleModalProps {
 interface SetConsoleModalState {
   open: boolean;
   loading: boolean;
-  locations: GameLocationDto[];
+  locations: PlatformLocationDto[];
 }
 
 export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetConsoleModalState> {
@@ -19,15 +19,15 @@ export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetCo
   }
 
   componentDidMount(): void {
-      this.setState({
-        open: false,
-        loading: true,
-        locations: []
-      });
+    this.setState({
+      open: false,
+      loading: true,
+      locations: []
+    });
   }
 
   render(): React.ReactNode {
-    if(!this.state) return null;
+    if (!this.state) return null;
     const game = this.props.game;
     const open = this.state.open;
     const loading = this.state.loading;
@@ -48,7 +48,7 @@ export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetCo
         {!loading && <div>
           <h2>Select console</h2>
           <Menu vertical fluid>
-            {locations.map(location => <Menu.Item key={location.locationID} as='a' onClick={() => this._setGameLocation(location)}>
+            {locations.map(location => <Menu.Item key={location.platformLocationID} as='a' onClick={() => this._setGameLocation(location)}>
               {location.locationName}
             </Menu.Item>)}
           </Menu>
@@ -64,7 +64,7 @@ export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetCo
 
   _setOpen = (open: boolean) => {
     this.setState({ open: open }, () => {
-      if(!open) return;
+      if (!open) return;
       this._loadConsoles();
     });
   }
@@ -78,10 +78,10 @@ export class SetConsoleModal extends React.Component<SetConsoleModalProps, SetCo
     });
   }
 
-  _setGameLocation = (location: GameLocationDto) => {
+  _setGameLocation = (location: PlatformLocationDto) => {
     const gameId = this.props.game.gameID;
-    new GamesClient().setGameLocation(gameId, location.locationID).then(count => {
-      this.props.game.locationID = location.locationID;
+    new GamesClient().setGameLocation(gameId, location.platformLocationID).then(count => {
+      this.props.game.locationID = location.platformLocationID;
       this.props.game.locationName = location.locationName;
       this.props.onGameLocationChange(this.props.game);
       this._setOpen(false);

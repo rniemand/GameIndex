@@ -24,7 +24,7 @@ public class GamesController : ControllerBase
     await _gamesService.GetImagesAsync(gameId);
 
   [HttpGet("locations/{platformId:int}")]
-  public async Task<List<GameLocationDto>> GetGameLocations([FromRoute] int platformId) =>
+  public async Task<List<PlatformLocationDto>> GetGameLocations([FromRoute] int platformId) =>
     await _gamesService.GetLocationsAsync(platformId);
 
   [HttpPut("set-location/{gameId:long}/{locationId:int}")]

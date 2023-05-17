@@ -2,16 +2,16 @@ using GameIndex.Models.Entities;
 
 namespace GameIndex.Models.Dto;
 
-public class GameLocationDto
+public class PlatformLocationDto
 {
-  public int LocationID { get; set; }
+  public int PlatformLocationID { get; set; }
   public int PlatformID { get; set; }
   public string LocationName { get; set; } = string.Empty;
 
-  public static GameLocationDto FromEntity(GameLocationEntity entity) => new()
+  public static PlatformLocationDto FromEntity(PlatformLocationEntity entity) => new()
   {
     PlatformID = entity.PlatformID,
-    LocationID = entity.LocationID,
+    PlatformLocationID = entity.PlatformLocationID,
     LocationName = entity.LocationName,
   };
 }

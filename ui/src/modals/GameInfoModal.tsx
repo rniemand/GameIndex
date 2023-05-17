@@ -20,13 +20,13 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
   }
 
   componentDidMount(): void {
-      this.setState({
-        open: false
-      });
+    this.setState({
+      open: false
+    });
   }
 
   render(): React.ReactNode {
-    if(!this.state) return null;
+    if (!this.state) return null;
     const game = this.props.game;
     const open = this.state.open;
 
@@ -55,7 +55,7 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
       onClose={() => this._setOpen(false)}
       onOpen={() => this._setOpen(true)}
       open={open}
-      trigger={<Icon name='info circle' className="modal-trigger" />}
+      trigger={<Icon name='info circle' className="modal-trigger" color="green" />}
     >
       <Modal.Header>{game.gameName} ({game.platformName})</Modal.Header>
       <Modal.Content>
@@ -71,7 +71,7 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
 
   _setOpen = (open: boolean) => {
     this.setState({ open: open }, () => {
-      if(open) return;
+      if (open) return;
       this.props.onModalClosed();
     });
   }
