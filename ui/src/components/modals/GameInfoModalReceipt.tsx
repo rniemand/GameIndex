@@ -13,6 +13,7 @@ interface GameInfoModalReceiptState {
   dirty: boolean;
   saving: boolean;
   receiptDate: string;
+  addReceipt: boolean;
 }
 
 export class GameInfoModalReceipt extends React.Component<GameInfoModalReceiptProps, GameInfoModalReceiptState> {
@@ -27,6 +28,7 @@ export class GameInfoModalReceipt extends React.Component<GameInfoModalReceiptPr
       dirty: false,
       saving: false,
       receiptDate: '',
+      addReceipt: false,
     }, this._refreshReceipt);
   }
 
@@ -41,8 +43,11 @@ export class GameInfoModalReceipt extends React.Component<GameInfoModalReceiptPr
     if (!this.state.receipt) {
       return (<React.Fragment>
         <div>No order information available for <strong>{game.gameName}</strong>.</div>
-        <div><Button content='Add Receipt' onClick={this._addReceipt} /></div>
-        <div><FindReceiptModal onReceiptSelected={this._onReceiptSelected} /></div>
+        <Checkbox toggle label='Add New Receipt' checked={this.state.addReceipt} onChange={this._toggleAddRecButton} className="top-spacing" />
+        <div className="top-spacing">
+          {!this.state.addReceipt && <FindReceiptModal onReceiptSelected={this._onReceiptSelected} />}
+          {this.state.addReceipt && <Button content='Add Receipt' onClick={this._addReceipt} color="blue" />}
+        </div>
       </React.Fragment>);
     }
 
@@ -105,6 +110,7 @@ export class GameInfoModalReceipt extends React.Component<GameInfoModalReceiptPr
   }
 
   _toggleReceiptScanned = (_event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => this._updateUIReceipt({ receiptScanned: data.checked || false });
+  _toggleAddRecButton = (_event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => this.setState({ addReceipt: !this.state.addReceipt });
   _setReceiptNumber = (_: any, data: InputOnChangeData) => this._updateUIReceipt({ receiptNumber: data.value });
   _setStoreName = (_: any, data: InputOnChangeData) => this._updateUIReceipt({ store: data.value });
   _setReceiptName = (_: any, data: InputOnChangeData) => this._updateUIReceipt({ receiptName: data.value });

@@ -43,3 +43,11 @@
 }
 
 .modal-trigger { cursor: pointer; }
+.top-spacing { margin-top: 12px; }
+
+.receipt-selector-row { display: flex; margin-bottom: 4px; }
+.receipt-selector-row span.date { width: 90px; color: #ff4983; }
+.receipt-selector-row span.store { width: 90px; color: #ab392a; }
+.receipt-selector-row span.name { width: 90px; color: #3197ff; }
+.receipt-selector-row span.number { flex: auto; }
+.receipt-selector-row button { width: 80px; }

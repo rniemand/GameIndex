@@ -34,19 +34,22 @@ export class FindReceiptModal extends React.Component<FindReceiptModalProps, Fin
             onOpen={() => this._setOpen(true)}
             open={open}
             size="tiny"
-            trigger={<Button content='Associate Receipt' />}
+            trigger={<Button content='Associate Receipt' color="green" />}
         >
             <Modal.Header>Associate Receipt</Modal.Header>
             <Modal.Content>
-                <div>
-                    <Input type="text" onChange={this._findReceipts} />
+                <Input fluid type="text" onChange={this._findReceipts} />
+                <div className="top-spacing">
+                    {this.state.receipts.map(receipt => {
+                        return (<div key={receipt.receiptID} className="receipt-selector-row">
+                            <span className="date">{receipt.receiptDate.toISOString().split('T')[0]}</span>
+                            <span className="store">{receipt.store}</span>
+                            <span className="name">{receipt.receiptName}</span>
+                            <span className="number">{receipt.receiptNumber}</span>
+                            <Button content='Select' onClick={() => this._selectReceipt(receipt)} color="green" />
+                        </div>);
+                    })}
                 </div>
-                {this.state.receipts.map(receipt => {
-                    return (<div key={receipt.receiptID}>
-                        {receipt.receiptNumber}
-                        <Button content='Select' onClick={() => this._selectReceipt(receipt)} />
-                    </div>);
-                })}
             </Modal.Content>
             <Modal.Actions>
                 <Button color='black' onClick={() => this._setOpen(false)}>

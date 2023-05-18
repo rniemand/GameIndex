@@ -118,7 +118,8 @@ public class ReceiptRepo : IReceiptRepo
 	    OR r.ReceiptNumber LIKE '%{term}%'
 	    OR r.ReceiptName LIKE '%{term}%'
 	    OR r.ReceiptUrl LIKE '%{term}%'
-    ORDER BY r.ReceiptID";
+    ORDER BY r.ReceiptID
+    LIMIT 10";
     await using var connection = _connectionHelper.GetCoreConnection();
     return (await connection.QueryAsync<ReceiptEntity>(query)).ToList();
   }
