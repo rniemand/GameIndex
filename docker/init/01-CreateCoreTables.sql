@@ -50,10 +50,3 @@ CREATE TABLE IF NOT EXISTS `Images` (
   `ImageOrder` smallint(6) NOT NULL DEFAULT 256,
   `ImagePath` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE IF NOT EXISTS `Sales` (
-  `GameID` bigint(20) NOT NULL,
-  `SaleDate` date NOT NULL,
-  `SaleAmount` double NOT NULL DEFAULT 0,
-  KEY `GameID` (`GameID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
