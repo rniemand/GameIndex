@@ -40,7 +40,6 @@ paths:
 - Add pre-owned flag to games table
 - fix dates not loadng initially on the game order info screen
 - Add receipts view
-- Ability to edit store on receipt view
 - Add receipts
   - REC-012
 - Game Info Modal
