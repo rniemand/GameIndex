@@ -3,13 +3,12 @@ import { Button, Container, DropdownProps, Icon, Input, InputOnChangeData, Menu,
 
 interface GameListControlsProps {
     itemsPerPage: number;
+    searchTerm: string;
     onSetItemsPerPage: (count: number) => void;
     onSearchChanged: (value: string) => void;
 }
 
-interface GameListControlsState {
-    searchTerm: string;
-}
+interface GameListControlsState { }
 
 export class GameListControls extends React.Component<GameListControlsProps, GameListControlsState> {
     constructor(props: any) {
@@ -23,7 +22,7 @@ export class GameListControls extends React.Component<GameListControlsProps, Gam
     render(): React.ReactNode {
         if(!this.state) return null;
         const itemsPerPage = this.props.itemsPerPage || 3;
-        const searchTerm = this.state.searchTerm || '';
+        const searchTerm = this.props.searchTerm || '';
         const itemsPerRow = [2,3,4,5,6,7,8,9,10].map(x => ({ key: x, value: x, text: `${x}` }));
 
         return (<Container>
@@ -43,17 +42,9 @@ export class GameListControls extends React.Component<GameListControlsProps, Gam
         </Container>);
     }
 
-    _onChange = (_: any, data: InputOnChangeData) => {
-        this.setState({ searchTerm: data.value }, () => {
-            this.props.onSearchChanged(data.value);
-        });
-    }
+    _onChange = (_: any, data: InputOnChangeData) => this.props.onSearchChanged(data.value);
 
-    _clearSearch = (_: any, _2: any) => {
-        this.setState({ searchTerm: '' }, () => {
-            this.props.onSearchChanged('');
-        });
-    }
+    _clearSearch = (_: any, _2: any) => this.props.onSearchChanged('');
 
     _onItemsPerPageChange = (_event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
         this.props.onSetItemsPerPage(data.value as number);

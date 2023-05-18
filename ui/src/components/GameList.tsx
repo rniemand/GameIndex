@@ -43,9 +43,10 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
 
     const games = this._getFilteredGames();
     const itemsPerPage = this.state.itemsPerPage || 3;
+    const searchValue = this.state.searchValue;
 
     return (<React.Fragment>
-      <GameListControls itemsPerPage={itemsPerPage} onSetItemsPerPage={this._setItemsPerPage} onSearchChanged={this._onSearchChanged} />
+      <GameListControls itemsPerPage={itemsPerPage} onSetItemsPerPage={this._setItemsPerPage} onSearchChanged={this._onSearchChanged} searchTerm={searchValue} />
       <br style={{ marginBottom: '6px' }} />
       <Container className="game-list">
         {games.length === 0 && <p className="center">No games found.</p>}
@@ -81,6 +82,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     if (!this.props.platform) return;
     force = force || false;
     if (this.state.platform === this.props.platform && !force) return;
+
     new GamesClient().getPlatformGames(this.props.platform.platformID).then(games => {
       this.setState({
         loading: false,
@@ -89,6 +91,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
           searchString: this._generateSearchString(game)
         })),
         platform: this.props.platform,
+        searchValue: '',
       })
     });
   }
