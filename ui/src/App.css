@@ -44,6 +44,7 @@
 
 .modal-trigger { cursor: pointer; }
 .top-spacing { margin-top: 12px; }
+.bottom-spacing { margin-bottom: 12px; }
 
 .receipt-selector-row { display: flex; margin-bottom: 4px; }
 .receipt-selector-row span.date { width: 90px; color: #ff4983; }

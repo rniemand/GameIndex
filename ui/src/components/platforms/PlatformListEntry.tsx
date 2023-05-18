@@ -1,9 +1,10 @@
 import React from "react";
 import { PlatformDto } from "../../api";
-import { Card } from "semantic-ui-react";
+import { Button, Card } from "semantic-ui-react";
 
 interface PlatformListEntryProps {
   platform: PlatformDto;
+  onSelected: (platform: PlatformDto) => void;
 }
 
 interface PlatformListEntryState { }
@@ -21,7 +22,7 @@ export class PlatformListEntry extends React.Component<PlatformListEntryProps, P
         <Card.Header>{platform.platformName}</Card.Header>
       </Card.Content>
       <Card.Content extra>
-        more to come
+        <Button basic onClick={() => this.props.onSelected(platform)}>Manage</Button>
       </Card.Content>
     </Card>);
   }
