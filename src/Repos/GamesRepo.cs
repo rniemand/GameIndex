@@ -39,7 +39,7 @@ public class GamesRepo : IGamesRepo
 	    r.ReceiptNumber,
 	    g.GamePrice,
 	    r.ReceiptDate,
-      CASE WHEN gs.GameID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`,
+      CASE WHEN g.SaleReceiptID IS NOT NULL THEN TRUE ELSE FALSE END AS `GameSold`,
       CASE WHEN r.Store IS NOT NULL THEN TRUE ELSE FALSE END AS `HaveReceipt`,
       r.ReceiptName,
       r.ReceiptScanned,
@@ -49,7 +49,6 @@ public class GamesRepo : IGamesRepo
 	    INNER JOIN `{LocationRepo.TableName}` l ON l.LocationID = g.LocationID
 	    LEFT JOIN `{ImagesRepo.TableName}` i ON i.GameID = g.GameID AND i.ImageType = 'cover'
       LEFT JOIN `{ReceiptRepo.TableName}` r ON r.ReceiptID = g.ReceiptID
-      LEFT JOIN `{SalesRepo.TableName}` gs ON gs.GameID = g.GameID
     WHERE g.PlatformID = @PlatformID
     ORDER BY g.GameName";
     await using var connection = _connectionHelper.GetCoreConnection();

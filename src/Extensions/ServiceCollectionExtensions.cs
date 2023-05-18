@@ -34,8 +34,7 @@ static class ServiceCollectionExtensions
       .AddSingleton<IImagesRepo, ImagesRepo>()
       .AddSingleton<IPlatformsRepo, PlatformsRepo>()
       .AddSingleton<ILocationRepo, LocationRepo>()
-      .AddSingleton<IReceiptRepo, ReceiptRepo>()
-      .AddSingleton<ISalesRepo, SalesRepo>();
+      .AddSingleton<IReceiptRepo, ReceiptRepo>();
   }
 
   private static GameIndexConfig BindGameIndexConfig(IConfiguration configuration)
