@@ -45,6 +45,7 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
     const receiptUrl = this.state.receipt.receiptUrl;
     const receiptDate = this.state.receiptDate;
     const receiptScanned = this.state.receipt.receiptScanned;
+    const store = this.state.receipt.store;
     const dirty = this.state.dirty;
     const saving = this.state.saving;
 
@@ -52,6 +53,9 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
       <div className="order-toggle">
         <span>Receipt Scanned:</span>
         <Checkbox toggle checked={receiptScanned} onChange={this._toggleReceiptScanned} />
+      </div>
+      <div>
+        <Input placeholder='Store' value={store} onChange={this._setStoreName} />
       </div>
       <div>
         <Input placeholder='Order #' value={receiptNumber} onChange={this._setReceiptNumber} />
@@ -122,6 +126,16 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
     });
   }
 
+  _setStoreName = (_: any, data: InputOnChangeData) => {
+    this.setState({
+      receipt: new ReceiptDto({
+        ...this.state.receipt!,
+        store: data.value
+      }),
+      dirty: true,
+    });
+  }
+
   _setReceiptName = (_: any, data: InputOnChangeData) => {
     this.setState({
       receipt: new ReceiptDto({
@@ -143,8 +157,8 @@ export class GameInfoModalOrderInfo extends React.Component<GameInfoModalOrderIn
   }
 
   _setReceiptDate = (_: any, data: InputOnChangeData) => {
-    this.setState({receiptDate: data.value}, () => {
-      if(data.value.length < 10) return;
+    this.setState({ receiptDate: data.value }, () => {
+      if (data.value.length < 10) return;
       const dp = data.value.split('-');
       this.setState({
         receipt: new ReceiptDto({
