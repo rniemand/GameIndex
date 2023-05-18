@@ -4,7 +4,9 @@ import { PlatformDto, PlatformsClient } from "../api";
 
 interface GamePlatformsProps {
     onPlatformSelected: (platform: PlatformDto) => void;
+    onPageSelected: (page: string) => void;
     selectedPlatform?: PlatformDto;
+    selectedPage?: string;
 }
 
 interface GamePlatformsState {
@@ -24,8 +26,10 @@ export class GamePlatforms extends React.Component<GamePlatformsProps, GamePlatf
         if (!this.state) return null;
         const platforms = this.state.platforms || [];
         const selectedPlatform = this.props.selectedPlatform;
+        const selectedPage = this.props.selectedPage || '';
 
         return (<Menu>
+            <Menu.Item icon='wrench' as='a' onClick={() => this.props.onPageSelected('settings')} active={selectedPage.length > 0} />
             {platforms.map(platform => {
                 return (<Menu.Item
                     key={platform.platformID}
