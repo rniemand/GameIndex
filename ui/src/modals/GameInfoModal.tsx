@@ -1,9 +1,9 @@
 import React from "react";
 import { BasicGameInfoDto } from "../api";
 import { Button, Icon, Modal, Tab } from "semantic-ui-react";
-import { GameInfoModalCoreInfo } from "../components/modals/GameInfoModalCoreInfo";
+import { GameInfoModalCoreInfo } from "../components/modals/GameInfoModalGame";
 import { GameInfoModalImages } from "../components/modals/GameInfoModalImages";
-import { GameInfoModalOrderInfo } from "../components/modals/GameInfoModalOrderInfo";
+import { GameInfoModalReceipt } from "../components/modals/GameInfoModalReceipt";
 
 interface GameInfoModalProps {
   game: BasicGameInfoDto;
@@ -32,19 +32,19 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
 
     const panes = [
       {
-        menuItem: { key: '1', icon: 'info', content: 'Info' },
+        menuItem: { key: '1', icon: 'info', content: 'Game' },
         render: () => <Tab.Pane attached={true}>
           <GameInfoModalCoreInfo game={game} />
         </Tab.Pane>,
       },
       {
-        menuItem: { key: '2', icon: 'shopping basket', content: 'Purchase' },
+        menuItem: { key: '2', icon: 'shopping basket', content: 'Receipt' },
         render: () => <Tab.Pane attached={true}>
-          <GameInfoModalOrderInfo game={game} />
+          <GameInfoModalReceipt game={game} />
         </Tab.Pane>,
       },
       {
-        menuItem: { key: '3', icon: 'picture', content: 'Media' },
+        menuItem: { key: '3', icon: 'picture', content: 'Images' },
         render: () => <Tab.Pane attached={true}>
           <GameInfoModalImages game={game} />
         </Tab.Pane>,
