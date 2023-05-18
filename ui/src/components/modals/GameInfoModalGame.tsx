@@ -34,28 +34,21 @@ export class GameInfoModalCoreInfo extends React.Component<GameInfoModalCoreInfo
     const dirty = this.state.dirty;
     const saving = this.state.saving;
 
-    return (<div>
+    return (<React.Fragment>
       {this.state.saving && <p>Saving changes...</p>}
       <Form>
-        <Form.Field>
-          <label>Game Name</label>
-          <Input placeholder='Game Name' value={gameName} onChange={this._onNameChange} />
-        </Form.Field>
-        <Form.Field>
-          <label>Location</label>
-          <Input placeholder='Case' value={gameCaseLocation} onChange={this._onGameCaseChange} />
-        </Form.Field>
-        <Form.Field>
-          <label>Price</label>
-          <Input placeholder='Price' value={gamePrice} type="number" onChange={this._onGamePriceChanged} />
-        </Form.Field>
-        <Form.Field>
-          <label>Has Protection</label>
-          <Checkbox toggle checked={hasProtection} onChange={this._onProtectionChanged} />
-        </Form.Field>
-        <Button type='button' disabled={!dirty && !saving} onClick={this._saveChanges}>Save Changes</Button>
+        <Form.Input value={gameName} onChange={this._onNameChange} label='Game Name' />
+
+        <Form.Group widths='equal'>
+          <Form.Input fluid value={gameCaseLocation} onChange={this._onGameCaseChange} label='Case Location' />
+          <Form.Input fluid value={gamePrice} type="number" onChange={this._onGamePriceChanged} label='Price' />
+        </Form.Group>
+
+        <Form.Checkbox toggle checked={hasProtection} onChange={this._onProtectionChanged} label='Has Protection' />
+        
+        <Form.Button type='button' disabled={!dirty && !saving} onClick={this._saveChanges} content='Save Changes' />
       </Form>
-    </div>);
+    </React.Fragment>);
   }
 
   _onNameChange = (_: any, data: InputOnChangeData) => {

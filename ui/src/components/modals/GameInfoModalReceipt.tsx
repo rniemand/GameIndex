@@ -1,6 +1,6 @@
 import React from "react";
 import { BasicGameInfoDto, ReceiptClient, ReceiptDto } from "../../api";
-import { Button, Checkbox, CheckboxProps, Input, InputOnChangeData } from "semantic-ui-react";
+import { Button, Checkbox, CheckboxProps, Form, Input, InputOnChangeData } from "semantic-ui-react";
 import { FindReceiptModal } from "../../modals/FindReceiptModal";
 
 interface GameInfoModalReceiptProps {
@@ -55,30 +55,22 @@ export class GameInfoModalReceipt extends React.Component<GameInfoModalReceiptPr
     const dirty = this.state.dirty;
     const saving = this.state.saving;
 
-    return (<React.Fragment>
-      <div className="order-toggle">
-        <span>Receipt Scanned:</span>
-        <Checkbox toggle checked={receiptScanned} onChange={this._toggleReceiptScanned} />
-      </div>
-      <div>
-        <Input placeholder='Store' value={store} onChange={this._setStoreName} />
-      </div>
-      <div>
-        <Input placeholder='Order #' value={receiptNumber} onChange={this._setReceiptNumber} />
-      </div>
-      <div>
-        <Input placeholder='Receipt Name' value={receiptName} onChange={this._setReceiptName} />
-      </div>
-      <div>
-        <Input placeholder='Order URL' value={receiptUrl} onChange={this._setReceiptUrl} />
-      </div>
-      <div>
-        <Input placeholder='Order Date' value={receiptDate} type="string" onChange={this._setReceiptDate} />
-      </div>
-      <div>
-        <Button content='Save Changes' disabled={!dirty && !saving} onClick={this._saveReceipt} />
-      </div>
-    </React.Fragment>);
+    return (<Form>
+      <Form.Group widths='equal'>
+        <Form.Input fluid value={store} onChange={this._setStoreName} label='Store' />
+        <Form.Input fluid value={receiptNumber} onChange={this._setReceiptNumber} label='Order #' />
+        <Form.Input fluid value={receiptDate} type="string" onChange={this._setReceiptDate} label='Date' />
+      </Form.Group>
+
+      <Form.Group widths='equal'>
+        <Form.Input fluid value={receiptName} onChange={this._setReceiptName} label='Name' width={4} />
+        <Form.Input fluid value={receiptUrl} onChange={this._setReceiptUrl} label='URL' width={12} />
+      </Form.Group>
+
+      <Form.Checkbox toggle checked={receiptScanned} onChange={this._toggleReceiptScanned} label='Receipt Scanned' />
+      
+      <Form.Button content='Save Changes' disabled={!dirty && !saving} onClick={this._saveReceipt} />
+    </Form>);
   }
 
   _refreshReceipt = () => (new ReceiptClient()).getOrderInformation(this.props.game.receiptID).then(this._syncUIReceipt);
