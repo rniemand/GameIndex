@@ -9,6 +9,7 @@ public interface IGamesRepo
   Task<List<BasicGameInfoEntity>> GetAllAsync(int platformId);
   Task<int> UpdateAsync(BasicGameInfoEntity game);
   Task<BasicGameInfoEntity?> GetByIDAsync(long gameId);
+  Task<int> AddGameAsync(BasicGameInfoEntity gameInfo);
 }
 
 public class GamesRepo : IGamesRepo
@@ -79,5 +80,15 @@ public class GamesRepo : IGamesRepo
 	    `GameID` = @GameID";
     await using var connection = _connectionHelper.GetCoreConnection();
     return await connection.QuerySingleOrDefaultAsync<BasicGameInfoEntity>(query, new{ GameID = gameId });
+  }
+
+  public async Task<int> AddGameAsync(BasicGameInfoEntity gameInfo)
+  {
+    const string query = @$"INSERT INTO `{TableName}`
+      (`PlatformID`, `LocationID`, `HasGameBox`, `HasProtection`, `GameRating`, `GamePrice`, `GameName`, `GameCaseLocation`)
+    VALUES
+      (@PlatformID, @LocationID, @HasGameBox, @HasProtection, @GameRating, @GamePrice, @GameName, @GameCaseLocation)";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, gameInfo);
   }
 }

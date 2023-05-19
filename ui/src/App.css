@@ -52,3 +52,6 @@
 .receipt-selector-row span.name { width: 90px; color: #3197ff; }
 .receipt-selector-row span.number { flex: auto; }
 .receipt-selector-row button { width: 80px; }
+.game-list-title { display: flex; margin-bottom: 12px; }
+.game-list-title h3 { flex: auto; }
+.pad-left { margin-left: 12px; }

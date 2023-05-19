@@ -5,6 +5,7 @@ import { GameListControls } from "./game-list-entry/GameListControls";
 import { storageHelper } from "../helpers/StorageHelper";
 import { BasicGameInfoDto, GamesClient, PlatformDto } from "../api";
 import ISearchableGame from "../models/ISearchableGame";
+import { AddGameModal } from "../modals/AddGameModal";
 
 interface GamesListProps {
   platform?: PlatformDto;
@@ -44,13 +45,17 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
     const games = this._getFilteredGames();
     const itemsPerPage = this.state.itemsPerPage || 3;
     const searchValue = this.state.searchValue;
+    const platform = this.props.platform;
 
     return (<React.Fragment>
       <GameListControls itemsPerPage={itemsPerPage} onSetItemsPerPage={this._setItemsPerPage} onSearchChanged={this._onSearchChanged} searchTerm={searchValue} />
       <br style={{ marginBottom: '6px' }} />
       <Container className="game-list">
         {games.length === 0 && <p className="center">No games found.</p>}
-        {games.length > 0 && <h3>Showing {games.length} Games</h3>}
+        <div className="game-list-title">
+          <h3>Showing {games.length} Games</h3>
+          <AddGameModal platform={platform} onGameAdded={() => this._refreshGames(true)} />
+        </div>
         <Card.Group itemsPerRow={itemsPerPage as SemanticWIDTHSNUMBER}>
           {games.map(game => {
             return (<GameListEntry key={game.gameID} game={game} onGameLocationChange={this._runModalGamesRefresh} gamesInfoModalClosed={this._runModalGamesRefresh} />);

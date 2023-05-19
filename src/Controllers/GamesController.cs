@@ -22,4 +22,8 @@ public class GamesController : ControllerBase
   [HttpPost("update")]
   public async Task<BasicGameInfoDto?> Update([FromBody] BasicGameInfoDto game) =>
     await _gamesService.UpdateGameInfoAsync(game);
+
+  [HttpPost("add")]
+  public async Task<bool> AddGame([FromBody] BasicGameInfoDto game) =>
+    await _gamesService.AddGameAsync(game);
 }
