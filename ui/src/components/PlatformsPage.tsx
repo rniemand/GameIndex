@@ -66,7 +66,9 @@ export class PlatformsPage extends React.Component<PlatformsPageProps, Platforms
       return(<React.Fragment>
         <h2><a href="#" onClick={() => this._setView('platforms')}>Platforms</a> / {platform.platformName}</h2>
         <div className="bottom-spacing">
-          <AddLocationModal platform={platform} />
+          <AddLocationModal platform={platform} onLocationAdded={() => {
+            this._refreshLocations();
+          }} />
         </div>
         <Card.Group itemsPerRow={3}>
           {locations.map(location => <LocationListEntry key={location.locationID} location={location} />)}

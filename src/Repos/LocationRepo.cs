@@ -8,6 +8,8 @@ public interface ILocationRepo
 {
   Task<List<LocationEntity>> GetLocationsAsync(int platformId);
   Task<int> SetGameLocationAsync(long gameId, int locationID);
+  Task<int> AddLocationAsync(LocationEntity entity);
+  Task<LocationEntity?> GetLocationByNameAsync(int platformId, string name);
 }
 
 public class LocationRepo : ILocationRepo
@@ -54,6 +56,31 @@ public class LocationRepo : ILocationRepo
     {
       GameID = gameId,
       LocationID = locationID,
+    });
+  }
+
+  public async Task<int> AddLocationAsync(LocationEntity entity)
+  {
+    const string query = $@"INSERT INTO `{TableName}`
+      (`PlatformID`, `LocationName`)
+    VALUES
+      (@PlatformID, @LocationName)";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.ExecuteAsync(query, entity);
+  }
+
+  public async Task<LocationEntity?> GetLocationByNameAsync(int platformId, string name)
+  {
+    const string query = $@"SELECT *
+    FROM `{TableName}`
+    WHERE
+      `PlatformID` = @PlatformID
+      AND `LocationName` = @LocationName";
+    await using var connection = _connectionHelper.GetCoreConnection();
+    return await connection.QueryFirstOrDefaultAsync<LocationEntity>(query, new
+    {
+      PlatformID = platformId,
+      LocationName = name
     });
   }
 }

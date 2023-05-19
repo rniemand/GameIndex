@@ -22,4 +22,8 @@ public class LocationsController : ControllerBase
   [HttpPut("set-location/game-id/{gameId:long}/location-id/{locationId:int}")]
   public async Task<int> SetGameLocation([FromRoute] long gameId, [FromRoute] int locationId) =>
     await _locationService.SetGameLocationAsync(gameId, locationId);
+
+  [HttpPost("add")]
+  public async Task<LocationDto> AddLocation([FromBody] LocationDto location) =>
+    await _locationService.AddLocationAsync(location);
 }
