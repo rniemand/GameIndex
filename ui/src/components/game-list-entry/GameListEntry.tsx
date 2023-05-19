@@ -38,6 +38,7 @@ export class GameListEntry extends React.Component<GameListEntryProps, GameListE
           {game.hasProtection && <Icon name='copy outline' title='Has Protection' />}
           {game.gameSold && <Icon name='dollar sign' title='Sold' />}
           {game.hasGameBox && <Icon name='box' title='Has Cover' />}
+          {game.gameRating > 0 && <span>({game.gameRating} / 10)</span>}
         </div>
       </Card.Content>
       {!game.gameSold && <Card.Content extra>

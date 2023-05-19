@@ -55,3 +55,5 @@
 .game-list-title { display: flex; margin-bottom: 12px; }
 .game-list-title h3 { flex: auto; }
 .pad-left { margin-left: 12px; }
+.flex-toggles { display: flex; }
+.flex-toggles div.field { flex: auto; }
