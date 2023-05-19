@@ -57,7 +57,7 @@ export class GameInfoModal extends React.Component<GameInfoModalProps, GameInfoM
       open={open}
       trigger={<Icon name='info circle' className="modal-trigger" color="green" />}
     >
-      <Modal.Header>{game.gameName} ({game.platformName})</Modal.Header>
+      <Modal.Header>#{game.gameID} - {game.gameName} ({game.platformName})</Modal.Header>
       <Modal.Content>
         <Tab panes={panes} />
       </Modal.Content>
