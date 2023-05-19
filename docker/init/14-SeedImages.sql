@@ -1,6 +1,4 @@
-INSERT INTO `Images`
-	(`GameID`, `ImageType`, `ImageOrder`, `ImagePath`)
-VALUES
+INSERT INTO `Images` (`GameID`, `ImageType`, `ImageOrder`, `ImagePath`) VALUES
 	(1, 'cover', 1, 'covers/switch/c/civ-vi.jpg'),
 	(2, 'cover', 1, 'covers/switch/h/hello-neighbor.jpg'),
 	(3, 'cover', 1, 'covers/switch/m/mario-bowser-fury.jpg'),
@@ -96,4 +94,9 @@ VALUES
 	(93, 'cover', 1, 'covers/switch/i/it-takes-two.jpg'),
 	(94, 'cover', 1, 'covers/switch/h/hyrule-warriors.jpg'),
 	(95, 'cover', 1, 'covers/switch/s/super-mario-maker-2.jpg'),
-	(96, 'cover', 1, 'covers/switch/y/yoshis-crafted-world.jpg');
+	(96, 'cover', 1, 'covers/switch/y/yoshis-crafted-world.jpg'),
+	(97, 'cover', 1, 'covers/switch/i/immortals-fenyx-rising.jpg'),
+	(98, 'cover', 1, 'covers/switch/o/overcooked-special-edition.jpg'),
+	(99, 'cover', 1, 'covers/switch/z/zelda-skyward-sword-hd.jpg'),
+	(100, 'cover', 1, 'covers/ps4/c/cod-mw.jpg'),
+	(101, 'cover', 1, 'covers/ps4/c/cod-infinate-warefare.jpg');
