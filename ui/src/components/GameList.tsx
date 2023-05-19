@@ -50,6 +50,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
       <br style={{ marginBottom: '6px' }} />
       <Container className="game-list">
         {games.length === 0 && <p className="center">No games found.</p>}
+        {games.length > 0 && <h3>Showing {games.length} Games</h3>}
         <Card.Group itemsPerRow={itemsPerPage as SemanticWIDTHSNUMBER}>
           {games.map(game => {
             return (<GameListEntry key={game.gameID} game={game} onGameLocationChange={this._runModalGamesRefresh} gamesInfoModalClosed={this._runModalGamesRefresh} />);
