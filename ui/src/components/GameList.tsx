@@ -65,7 +65,7 @@ export class GameList extends React.Component<GamesListProps, GamesListState> {
   }
 
   _getFilteredGames = () => {
-    const searchTerm = this.state.searchValue || '';
+    const searchTerm = (this.state.searchValue || '').toLowerCase();
     const runSearch = searchTerm.length > 0;
     return this.state.games.reduce((pv: BasicGameInfoDto[], cv) => {
       if (runSearch && cv.searchString.indexOf(searchTerm) === -1) return pv;
